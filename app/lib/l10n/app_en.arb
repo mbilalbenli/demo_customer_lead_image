@@ -1,0 +1,192 @@
+{
+  "@@locale": "en",
+  "appTitle": "System Monitor",
+  "@appTitle": {
+    "description": "Application title"
+  },
+
+  "systemMonitorTitle": "System Monitor",
+  "@systemMonitorTitle": {
+    "description": "System monitor page title"
+  },
+
+  "systemMonitorSubtitle": "Monitor backend health status",
+  "@systemMonitorSubtitle": {
+    "description": "System monitor page subtitle"
+  },
+
+  "healthStatus": "Health Status",
+  "@healthStatus": {
+    "description": "Health status label"
+  },
+
+  "overallHealth": "Overall Health",
+  "@overallHealth": {
+    "description": "Overall health label"
+  },
+
+  "liveStatus": "Live Status",
+  "@liveStatus": {
+    "description": "Live status label"
+  },
+
+  "readyStatus": "Ready Status",
+  "@readyStatus": {
+    "description": "Ready status label"
+  },
+
+  "healthy": "Healthy",
+  "@healthy": {
+    "description": "Healthy status"
+  },
+
+  "unhealthy": "Unhealthy",
+  "@unhealthy": {
+    "description": "Unhealthy status"
+  },
+
+  "degraded": "Degraded",
+  "@degraded": {
+    "description": "Degraded status"
+  },
+
+  "checking": "Checking...",
+  "@checking": {
+    "description": "Checking status"
+  },
+
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Unknown status"
+  },
+
+  "lastUpdated": "Last updated: {time}",
+  "@lastUpdated": {
+    "description": "Last updated time",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+
+  "refreshing": "Refreshing...",
+  "@refreshing": {
+    "description": "Refreshing message"
+  },
+
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh button"
+  },
+
+  "autoRefresh": "Auto Refresh",
+  "@autoRefresh": {
+    "description": "Auto refresh toggle"
+  },
+
+  "autoRefreshInterval": "Refresh every {seconds} seconds",
+  "@autoRefreshInterval": {
+    "description": "Auto refresh interval",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+
+  "connectionError": "Connection Error",
+  "@connectionError": {
+    "description": "Connection error title"
+  },
+
+  "connectionErrorMessage": "Unable to connect to backend service",
+  "@connectionErrorMessage": {
+    "description": "Connection error message"
+  },
+
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button"
+  },
+
+  "details": "Details",
+  "@details": {
+    "description": "Details button/label"
+  },
+
+  "serviceName": "Service Name",
+  "@serviceName": {
+    "description": "Service name label"
+  },
+
+  "serviceStatus": "Service Status",
+  "@serviceStatus": {
+    "description": "Service status label"
+  },
+
+  "responseTime": "Response Time",
+  "@responseTime": {
+    "description": "Response time label"
+  },
+
+  "responseTimeMs": "{ms} ms",
+  "@responseTimeMs": {
+    "description": "Response time in milliseconds",
+    "placeholders": {
+      "ms": {
+        "type": "int"
+      }
+    }
+  },
+
+  "database": "Database",
+  "@database": {
+    "description": "Database service"
+  },
+
+  "api": "API",
+  "@api": {
+    "description": "API service"
+  },
+
+  "cache": "Cache",
+  "@cache": {
+    "description": "Cache service"
+  },
+
+  "noDataAvailable": "No data available",
+  "@noDataAvailable": {
+    "description": "No data available message"
+  },
+
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading message"
+  },
+
+  "error": "Error",
+  "@error": {
+    "description": "Error title"
+  },
+
+  "errorOccurred": "An error occurred",
+  "@errorOccurred": {
+    "description": "Generic error message"
+  },
+
+  "close": "Close",
+  "@close": {
+    "description": "Close button"
+  },
+
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  }
+}

@@ -37,3 +37,5 @@ desktop.ini
 # The subdirectory .gitignore files will handle:
 # - /backend/.gitignore -> .NET specific files
 # - /app/.gitignore -> Flutter specific files
+
+CLAUDE.md
