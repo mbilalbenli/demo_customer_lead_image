@@ -13,9 +13,7 @@ public class HealthCheckModule : ICarterModule
         app.MapGet("/api/health", async (IMediator mediator) =>
         {
             var query = new GetHealthCheckQuery();
-            var result = await mediator.Send(query); 
-
-            await Task.Delay(TimeSpan.FromSeconds(20)); // Simulate some processing delay
+            var result = await mediator.Send(query);  
 
             // Always return 200 in API response to avoid client errors in dev,
             // while still surfacing the aggregated status in the payload.
