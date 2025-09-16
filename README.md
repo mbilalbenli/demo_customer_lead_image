@@ -46,3 +46,7 @@ Notes
 
 - Response shapes are defined by the Application layer DTOs (e.g., LeadListResponse, LeadDetailResponse, UploadImageResponse).
 - Health endpoints are unauthenticated and intended for probes; others follow standard JSON request/response bodies.
+ 
+
+
+ 
