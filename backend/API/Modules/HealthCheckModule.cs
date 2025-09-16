@@ -13,16 +13,17 @@ public class HealthCheckModule : ICarterModule
         app.MapGet("/api/health", async (IMediator mediator) =>
         {
             var query = new GetHealthCheckQuery();
-            var result = await mediator.Send(query);
+            var result = await mediator.Send(query); 
 
-            return result.IsHealthy
-                ? Results.Ok(result)
-                : Results.Json(result, statusCode: 503);
+            await Task.Delay(TimeSpan.FromSeconds(20)); // Simulate some processing delay
+
+            // Always return 200 in API response to avoid client errors in dev,
+            // while still surfacing the aggregated status in the payload.
+            return Results.Ok(result);
         })
         .WithName("GetHealthCheck")
         .WithTags("Health")
-        .Produces<GetHealthCheckResponse>(200)
-        .Produces<GetHealthCheckResponse>(503);
+        .Produces<GetHealthCheckResponse>(200);
 
         app.MapGet("/api/health/live", () => Results.Ok(new { status = "alive" }))
             .WithName("Liveness")

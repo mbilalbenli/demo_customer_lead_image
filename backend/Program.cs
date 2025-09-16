@@ -42,8 +42,7 @@ builder.Services.AddMarten(options =>
 
 // Add Health Checks with PostgreSQL
 builder.Services.AddHealthChecks()
-    .AddNpgSql(connectionString, name: "postgresql", tags: new[] { "db", "sql" })
-    .AddCheck<DatabaseHealthCheck>("marten", tags: new[] { "db", "marten" });
+    .AddNpgSql(connectionString, name: "postgresql", tags: new[] { "db", "sql" }, timeout: TimeSpan.FromSeconds(2));
 
 var app = builder.Build();
 

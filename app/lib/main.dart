@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/di/injection_container.dart' as di;
 import 'core/theme/app_theme.dart';
+import 'core/utils/temp_l10n.dart';
 import 'features/splash/presentation/pages/splash_page.dart';
 
 void main() async {
@@ -25,7 +26,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      title: 'Demo App',
+      title: TempL10n.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       localizationsDelegates: const [

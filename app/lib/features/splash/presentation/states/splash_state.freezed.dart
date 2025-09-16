@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SplashState {
 
- bool get systemDone; bool get liveDone; bool get readyDone; bool get systemOk; bool get liveOk; bool get readyOk; String get message; bool get completed;
+ String get message; bool get isLoading; bool get allResponsesReceived; int get responsesCount; bool get shouldNavigate; bool get shouldRetry;
 /// Create a copy of SplashState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $SplashStateCopyWith<SplashState> get copyWith => _$SplashStateCopyWithImpl<Spla
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SplashState&&(identical(other.systemDone, systemDone) || other.systemDone == systemDone)&&(identical(other.liveDone, liveDone) || other.liveDone == liveDone)&&(identical(other.readyDone, readyDone) || other.readyDone == readyDone)&&(identical(other.systemOk, systemOk) || other.systemOk == systemOk)&&(identical(other.liveOk, liveOk) || other.liveOk == liveOk)&&(identical(other.readyOk, readyOk) || other.readyOk == readyOk)&&(identical(other.message, message) || other.message == message)&&(identical(other.completed, completed) || other.completed == completed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SplashState&&(identical(other.message, message) || other.message == message)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.allResponsesReceived, allResponsesReceived) || other.allResponsesReceived == allResponsesReceived)&&(identical(other.responsesCount, responsesCount) || other.responsesCount == responsesCount)&&(identical(other.shouldNavigate, shouldNavigate) || other.shouldNavigate == shouldNavigate)&&(identical(other.shouldRetry, shouldRetry) || other.shouldRetry == shouldRetry));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,systemDone,liveDone,readyDone,systemOk,liveOk,readyOk,message,completed);
+int get hashCode => Object.hash(runtimeType,message,isLoading,allResponsesReceived,responsesCount,shouldNavigate,shouldRetry);
 
 @override
 String toString() {
-  return 'SplashState(systemDone: $systemDone, liveDone: $liveDone, readyDone: $readyDone, systemOk: $systemOk, liveOk: $liveOk, readyOk: $readyOk, message: $message, completed: $completed)';
+  return 'SplashState(message: $message, isLoading: $isLoading, allResponsesReceived: $allResponsesReceived, responsesCount: $responsesCount, shouldNavigate: $shouldNavigate, shouldRetry: $shouldRetry)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $SplashStateCopyWith<$Res>  {
   factory $SplashStateCopyWith(SplashState value, $Res Function(SplashState) _then) = _$SplashStateCopyWithImpl;
 @useResult
 $Res call({
- bool systemDone, bool liveDone, bool readyDone, bool systemOk, bool liveOk, bool readyOk, String message, bool completed
+ String message, bool isLoading, bool allResponsesReceived, int responsesCount, bool shouldNavigate, bool shouldRetry
 });
 
 
@@ -62,16 +62,14 @@ class _$SplashStateCopyWithImpl<$Res>
 
 /// Create a copy of SplashState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? systemDone = null,Object? liveDone = null,Object? readyDone = null,Object? systemOk = null,Object? liveOk = null,Object? readyOk = null,Object? message = null,Object? completed = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? isLoading = null,Object? allResponsesReceived = null,Object? responsesCount = null,Object? shouldNavigate = null,Object? shouldRetry = null,}) {
   return _then(_self.copyWith(
-systemDone: null == systemDone ? _self.systemDone : systemDone // ignore: cast_nullable_to_non_nullable
-as bool,liveDone: null == liveDone ? _self.liveDone : liveDone // ignore: cast_nullable_to_non_nullable
-as bool,readyDone: null == readyDone ? _self.readyDone : readyDone // ignore: cast_nullable_to_non_nullable
-as bool,systemOk: null == systemOk ? _self.systemOk : systemOk // ignore: cast_nullable_to_non_nullable
-as bool,liveOk: null == liveOk ? _self.liveOk : liveOk // ignore: cast_nullable_to_non_nullable
-as bool,readyOk: null == readyOk ? _self.readyOk : readyOk // ignore: cast_nullable_to_non_nullable
-as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,completed: null == completed ? _self.completed : completed // ignore: cast_nullable_to_non_nullable
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,allResponsesReceived: null == allResponsesReceived ? _self.allResponsesReceived : allResponsesReceived // ignore: cast_nullable_to_non_nullable
+as bool,responsesCount: null == responsesCount ? _self.responsesCount : responsesCount // ignore: cast_nullable_to_non_nullable
+as int,shouldNavigate: null == shouldNavigate ? _self.shouldNavigate : shouldNavigate // ignore: cast_nullable_to_non_nullable
+as bool,shouldRetry: null == shouldRetry ? _self.shouldRetry : shouldRetry // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
@@ -157,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool systemDone,  bool liveDone,  bool readyDone,  bool systemOk,  bool liveOk,  bool readyOk,  String message,  bool completed)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String message,  bool isLoading,  bool allResponsesReceived,  int responsesCount,  bool shouldNavigate,  bool shouldRetry)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SplashState() when $default != null:
-return $default(_that.systemDone,_that.liveDone,_that.readyDone,_that.systemOk,_that.liveOk,_that.readyOk,_that.message,_that.completed);case _:
+return $default(_that.message,_that.isLoading,_that.allResponsesReceived,_that.responsesCount,_that.shouldNavigate,_that.shouldRetry);case _:
   return orElse();
 
 }
@@ -178,10 +176,10 @@ return $default(_that.systemDone,_that.liveDone,_that.readyDone,_that.systemOk,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool systemDone,  bool liveDone,  bool readyDone,  bool systemOk,  bool liveOk,  bool readyOk,  String message,  bool completed)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String message,  bool isLoading,  bool allResponsesReceived,  int responsesCount,  bool shouldNavigate,  bool shouldRetry)  $default,) {final _that = this;
 switch (_that) {
 case _SplashState():
-return $default(_that.systemDone,_that.liveDone,_that.readyDone,_that.systemOk,_that.liveOk,_that.readyOk,_that.message,_that.completed);case _:
+return $default(_that.message,_that.isLoading,_that.allResponsesReceived,_that.responsesCount,_that.shouldNavigate,_that.shouldRetry);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +196,10 @@ return $default(_that.systemDone,_that.liveDone,_that.readyDone,_that.systemOk,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool systemDone,  bool liveDone,  bool readyDone,  bool systemOk,  bool liveOk,  bool readyOk,  String message,  bool completed)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String message,  bool isLoading,  bool allResponsesReceived,  int responsesCount,  bool shouldNavigate,  bool shouldRetry)?  $default,) {final _that = this;
 switch (_that) {
 case _SplashState() when $default != null:
-return $default(_that.systemDone,_that.liveDone,_that.readyDone,_that.systemOk,_that.liveOk,_that.readyOk,_that.message,_that.completed);case _:
+return $default(_that.message,_that.isLoading,_that.allResponsesReceived,_that.responsesCount,_that.shouldNavigate,_that.shouldRetry);case _:
   return null;
 
 }
@@ -213,17 +211,15 @@ return $default(_that.systemDone,_that.liveDone,_that.readyDone,_that.systemOk,_
 
 
 class _SplashState implements SplashState {
-  const _SplashState({this.systemDone = false, this.liveDone = false, this.readyDone = false, this.systemOk = false, this.liveOk = false, this.readyOk = false, this.message = '', this.completed = false});
+  const _SplashState({this.message = TempL10n.loading, this.isLoading = true, this.allResponsesReceived = false, this.responsesCount = 0, this.shouldNavigate = false, this.shouldRetry = false});
   
 
-@override@JsonKey() final  bool systemDone;
-@override@JsonKey() final  bool liveDone;
-@override@JsonKey() final  bool readyDone;
-@override@JsonKey() final  bool systemOk;
-@override@JsonKey() final  bool liveOk;
-@override@JsonKey() final  bool readyOk;
 @override@JsonKey() final  String message;
-@override@JsonKey() final  bool completed;
+@override@JsonKey() final  bool isLoading;
+@override@JsonKey() final  bool allResponsesReceived;
+@override@JsonKey() final  int responsesCount;
+@override@JsonKey() final  bool shouldNavigate;
+@override@JsonKey() final  bool shouldRetry;
 
 /// Create a copy of SplashState
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +231,16 @@ _$SplashStateCopyWith<_SplashState> get copyWith => __$SplashStateCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SplashState&&(identical(other.systemDone, systemDone) || other.systemDone == systemDone)&&(identical(other.liveDone, liveDone) || other.liveDone == liveDone)&&(identical(other.readyDone, readyDone) || other.readyDone == readyDone)&&(identical(other.systemOk, systemOk) || other.systemOk == systemOk)&&(identical(other.liveOk, liveOk) || other.liveOk == liveOk)&&(identical(other.readyOk, readyOk) || other.readyOk == readyOk)&&(identical(other.message, message) || other.message == message)&&(identical(other.completed, completed) || other.completed == completed));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SplashState&&(identical(other.message, message) || other.message == message)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.allResponsesReceived, allResponsesReceived) || other.allResponsesReceived == allResponsesReceived)&&(identical(other.responsesCount, responsesCount) || other.responsesCount == responsesCount)&&(identical(other.shouldNavigate, shouldNavigate) || other.shouldNavigate == shouldNavigate)&&(identical(other.shouldRetry, shouldRetry) || other.shouldRetry == shouldRetry));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,systemDone,liveDone,readyDone,systemOk,liveOk,readyOk,message,completed);
+int get hashCode => Object.hash(runtimeType,message,isLoading,allResponsesReceived,responsesCount,shouldNavigate,shouldRetry);
 
 @override
 String toString() {
-  return 'SplashState(systemDone: $systemDone, liveDone: $liveDone, readyDone: $readyDone, systemOk: $systemOk, liveOk: $liveOk, readyOk: $readyOk, message: $message, completed: $completed)';
+  return 'SplashState(message: $message, isLoading: $isLoading, allResponsesReceived: $allResponsesReceived, responsesCount: $responsesCount, shouldNavigate: $shouldNavigate, shouldRetry: $shouldRetry)';
 }
 
 
@@ -255,7 +251,7 @@ abstract mixin class _$SplashStateCopyWith<$Res> implements $SplashStateCopyWith
   factory _$SplashStateCopyWith(_SplashState value, $Res Function(_SplashState) _then) = __$SplashStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool systemDone, bool liveDone, bool readyDone, bool systemOk, bool liveOk, bool readyOk, String message, bool completed
+ String message, bool isLoading, bool allResponsesReceived, int responsesCount, bool shouldNavigate, bool shouldRetry
 });
 
 
@@ -272,16 +268,14 @@ class __$SplashStateCopyWithImpl<$Res>
 
 /// Create a copy of SplashState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? systemDone = null,Object? liveDone = null,Object? readyDone = null,Object? systemOk = null,Object? liveOk = null,Object? readyOk = null,Object? message = null,Object? completed = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = null,Object? isLoading = null,Object? allResponsesReceived = null,Object? responsesCount = null,Object? shouldNavigate = null,Object? shouldRetry = null,}) {
   return _then(_SplashState(
-systemDone: null == systemDone ? _self.systemDone : systemDone // ignore: cast_nullable_to_non_nullable
-as bool,liveDone: null == liveDone ? _self.liveDone : liveDone // ignore: cast_nullable_to_non_nullable
-as bool,readyDone: null == readyDone ? _self.readyDone : readyDone // ignore: cast_nullable_to_non_nullable
-as bool,systemOk: null == systemOk ? _self.systemOk : systemOk // ignore: cast_nullable_to_non_nullable
-as bool,liveOk: null == liveOk ? _self.liveOk : liveOk // ignore: cast_nullable_to_non_nullable
-as bool,readyOk: null == readyOk ? _self.readyOk : readyOk // ignore: cast_nullable_to_non_nullable
-as bool,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,completed: null == completed ? _self.completed : completed // ignore: cast_nullable_to_non_nullable
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,allResponsesReceived: null == allResponsesReceived ? _self.allResponsesReceived : allResponsesReceived // ignore: cast_nullable_to_non_nullable
+as bool,responsesCount: null == responsesCount ? _self.responsesCount : responsesCount // ignore: cast_nullable_to_non_nullable
+as int,shouldNavigate: null == shouldNavigate ? _self.shouldNavigate : shouldNavigate // ignore: cast_nullable_to_non_nullable
+as bool,shouldRetry: null == shouldRetry ? _self.shouldRetry : shouldRetry // ignore: cast_nullable_to_non_nullable
 as bool,
   ));
 }
