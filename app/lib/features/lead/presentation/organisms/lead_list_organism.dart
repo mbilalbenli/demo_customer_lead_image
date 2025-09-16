@@ -1,66 +1,256 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/lead_entity.dart';
+import '../molecules/lead_card_molecule.dart';
+import '../atoms/lead_status_chip_atom.dart';
+import '../../../../core/widgets/molecules/app_empty_state_molecule.dart';
+import '../../../../core/widgets/molecules/app_loading_overlay_molecule.dart';
 
+/// A feature-specific organism for displaying a list of leads
+/// Shows lead cards with image counts
+/// Following atomic design principles - composed from molecules and atoms
 class LeadListOrganism extends StatelessWidget {
-  final List<LeadEntity> leads;
-  final Function(LeadEntity) onLeadTap;
-  final VoidCallback? onLoadMore;
-  final bool isLoadingMore;
+  final List<LeadItemData> leads;
+  final bool isLoading;
+  final String? searchQuery;
+  final Set<String> selectedIds;
+  final ValueChanged<LeadItemData>? onLeadTap;
+  final ValueChanged<LeadItemData>? onLeadImagesTap;
+  final ValueChanged<String>? onSelectionChanged;
+  final bool selectionMode;
+  final ScrollController? scrollController;
+  final bool compact;
 
   const LeadListOrganism({
     super.key,
     required this.leads,
-    required this.onLeadTap,
-    this.onLoadMore,
-    this.isLoadingMore = false,
+    this.isLoading = false,
+    this.searchQuery,
+    this.selectedIds = const {},
+    this.onLeadTap,
+    this.onLeadImagesTap,
+    this.onSelectionChanged,
+    this.selectionMode = false,
+    this.scrollController,
+    this.compact = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: leads.length + (onLoadMore != null ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index == leads.length && onLoadMore != null) {
-          if (isLoadingMore) {
-            return const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
-          // Load more trigger
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            onLoadMore?.call();
-          });
-          return const SizedBox.shrink();
-        }
+    if (isLoading && leads.isEmpty) {
+      return _buildLoadingState(context);
+    }
 
-        final lead = leads[index];
-        return Card(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              child: Text(
-                lead.customerName.value.substring(0, 1).toUpperCase(),
-                style: const TextStyle(color: Colors.white),
+    if (leads.isEmpty) {
+      return _buildEmptyState(context);
+    }
+
+    return Stack(
+      children: [
+        ListView.separated(
+          controller: scrollController,
+          padding: const EdgeInsets.all(16),
+          itemCount: leads.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
+          itemBuilder: (context, index) {
+            final lead = leads[index];
+            final isSelected = selectedIds.contains(lead.id);
+
+            return LeadCardMolecule(
+              leadName: lead.name,
+              company: lead.company,
+              email: lead.email,
+              phone: lead.phone,
+              status: lead.status,
+              imageCount: lead.imageCount,
+              selected: isSelected,
+              compact: compact,
+              onTap: () {
+                if (selectionMode) {
+                  onSelectionChanged?.call(lead.id);
+                } else {
+                  onLeadTap?.call(lead);
+                }
+              },
+              onImagesTap: lead.imageCount > 0 || lead.imageCount < 10
+                  ? () => onLeadImagesTap?.call(lead)
+                  : null,
+              showImageCount: true,
+            );
+          },
+        ),
+        if (isLoading)
+          Positioned(
+            bottom: 16,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Loading more leads...',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
               ),
             ),
-            title: Text(
-              lead.customerName.value,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(lead.email.value),
-                Text(lead.phone.value),
-              ],
-            ),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () => onLeadTap(lead),
           ),
+      ],
+    );
+  }
+
+  Widget _buildLoadingState(BuildContext context) {
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
+      itemCount: 5,
+      separatorBuilder: (context, index) => const SizedBox(height: 8),
+      itemBuilder: (context, index) {
+        return AppSkeletonLoadingMolecule.card(
+          height: compact ? 80 : 160,
         );
       },
     );
   }
+
+  Widget _buildEmptyState(BuildContext context) {
+    if (searchQuery != null && searchQuery!.isNotEmpty) {
+      return Center(
+        child: AppEmptyStateMolecule.noResults(
+          message: 'No leads found for "$searchQuery"',
+        ),
+      );
+    }
+
+    return Center(
+      child: AppEmptyStateMolecule(
+        icon: Icons.people_outline,
+        title: 'No Leads Yet',
+        message: 'Start adding leads to manage customer relationships',
+      ),
+    );
+  }
+}
+
+/// A grid variant of the lead list organism
+class LeadGridOrganism extends StatelessWidget {
+  final List<LeadItemData> leads;
+  final bool isLoading;
+  final ValueChanged<LeadItemData>? onLeadTap;
+  final ValueChanged<LeadItemData>? onLeadImagesTap;
+  final ScrollController? scrollController;
+  final int crossAxisCount;
+
+  const LeadGridOrganism({
+    super.key,
+    required this.leads,
+    this.isLoading = false,
+    this.onLeadTap,
+    this.onLeadImagesTap,
+    this.scrollController,
+    this.crossAxisCount = 2,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading && leads.isEmpty) {
+      return _buildLoadingState(context);
+    }
+
+    if (leads.isEmpty) {
+      return Center(
+        child: AppEmptyStateMolecule(
+          icon: Icons.grid_view,
+          title: 'No Leads',
+          message: 'Your leads will appear here',
+        ),
+      );
+    }
+
+    return GridView.builder(
+      controller: scrollController,
+      padding: const EdgeInsets.all(16),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: 0.85,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: leads.length,
+      itemBuilder: (context, index) {
+        final lead = leads[index];
+
+        return LeadGridCardMolecule(
+          leadName: lead.name,
+          company: lead.company,
+          status: lead.status,
+          imageCount: lead.imageCount,
+          onTap: () => onLeadTap?.call(lead),
+          onImagesTap: lead.imageCount > 0 || lead.imageCount < 10
+              ? () => onLeadImagesTap?.call(lead)
+              : null,
+        );
+      },
+    );
+  }
+
+  Widget _buildLoadingState(BuildContext context) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: 0.85,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: 6,
+      itemBuilder: (context, index) {
+        return AppSkeletonLoadingMolecule.card();
+      },
+    );
+  }
+}
+
+/// Data model for lead items
+class LeadItemData {
+  final String id;
+  final String name;
+  final String? company;
+  final String? email;
+  final String? phone;
+  final LeadStatus status;
+  final int imageCount;
+
+  const LeadItemData({
+    required this.id,
+    required this.name,
+    this.company,
+    this.email,
+    this.phone,
+    required this.status,
+    required this.imageCount,
+  });
 }

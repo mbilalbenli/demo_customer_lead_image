@@ -163,7 +163,6 @@ class LeadImageCountBadgeAtom extends StatelessWidget {
     IconData? icon,
   }) {
     final slotsRemaining = maxCount - currentCount;
-    final percentage = (currentCount / maxCount * 100).round();
 
     return Container(
       padding: const EdgeInsets.all(8),
@@ -285,7 +284,6 @@ class LeadImageSlotsIndicatorAtom extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(totalSlots, (index) {
         final isFilled = index < filledSlots;
-        final isLastFilled = index == filledSlots - 1;
 
         Color dotColor;
         if (isFilled) {

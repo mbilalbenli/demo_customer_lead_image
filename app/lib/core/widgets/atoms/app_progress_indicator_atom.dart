@@ -76,6 +76,26 @@ class AppProgressIndicatorAtom extends StatelessWidget {
     );
   }
 
+  /// Factory constructor for circular progress
+  factory AppProgressIndicatorAtom.circular({
+    Key? key,
+    double? value,
+    double size = 24,
+    double strokeWidth = 2,
+    Color? color,
+    Color? backgroundColor,
+  }) {
+    return AppProgressIndicatorAtom(
+      key: key,
+      value: value,
+      size: size,
+      strokeWidth: strokeWidth,
+      color: color,
+      backgroundColor: backgroundColor,
+      type: ProgressIndicatorType.circular,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

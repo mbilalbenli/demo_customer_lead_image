@@ -30,6 +30,7 @@ class LeadActionButtonAtom extends StatelessWidget {
     required VoidCallback? onPressed,
     bool isLoading = false,
     ButtonSize size = ButtonSize.medium,
+    bool showLabel = true,
   }) {
     return LeadActionButtonAtom(
       key: key,
@@ -37,6 +38,7 @@ class LeadActionButtonAtom extends StatelessWidget {
       onPressed: onPressed,
       isLoading: isLoading,
       size: size,
+      showLabel: showLabel,
     );
   }
 
@@ -46,6 +48,7 @@ class LeadActionButtonAtom extends StatelessWidget {
     required VoidCallback? onPressed,
     bool isLoading = false,
     ButtonSize size = ButtonSize.medium,
+    bool showLabel = true,
   }) {
     return LeadActionButtonAtom(
       key: key,
@@ -53,6 +56,7 @@ class LeadActionButtonAtom extends StatelessWidget {
       onPressed: onPressed,
       isLoading: isLoading,
       size: size,
+      showLabel: showLabel,
     );
   }
 
@@ -62,6 +66,7 @@ class LeadActionButtonAtom extends StatelessWidget {
     required VoidCallback? onPressed,
     bool isLoading = false,
     ButtonSize size = ButtonSize.medium,
+    bool showLabel = true,
   }) {
     return LeadActionButtonAtom(
       key: key,
@@ -69,6 +74,7 @@ class LeadActionButtonAtom extends StatelessWidget {
       onPressed: onPressed,
       isLoading: isLoading,
       size: size,
+      showLabel: showLabel,
     );
   }
 
