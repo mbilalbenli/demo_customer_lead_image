@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../domain/entities/lead_entity.dart';
 
 /// A feature-specific atom for displaying lead status as a chip
 /// Following atomic design principles - smallest lead-specific component
@@ -71,29 +72,21 @@ class LeadStatusChipAtom extends StatelessWidget {
 
   _StatusConfig _getStatusConfig(LeadStatus status, ColorScheme colorScheme) {
     switch (status) {
-      case LeadStatus.newLead:
+      case LeadStatus.active:
         return _StatusConfig(
-          label: 'New',
-          icon: Icons.fiber_new,
+          label: 'Active',
+          icon: Icons.verified,
           backgroundColor: colorScheme.primaryContainer,
           borderColor: colorScheme.primary.withValues(alpha: 0.3),
           textColor: colorScheme.onPrimaryContainer,
         );
-      case LeadStatus.contacted:
+      case LeadStatus.inactive:
         return _StatusConfig(
-          label: 'Contacted',
-          icon: Icons.phone_in_talk,
+          label: 'Inactive',
+          icon: Icons.pause_circle,
           backgroundColor: colorScheme.secondaryContainer,
           borderColor: colorScheme.secondary.withValues(alpha: 0.3),
           textColor: colorScheme.onSecondaryContainer,
-        );
-      case LeadStatus.qualified:
-        return _StatusConfig(
-          label: 'Qualified',
-          icon: Icons.verified,
-          backgroundColor: colorScheme.tertiaryContainer,
-          borderColor: colorScheme.tertiary.withValues(alpha: 0.3),
-          textColor: colorScheme.onTertiaryContainer,
         );
       case LeadStatus.converted:
         return _StatusConfig(
@@ -113,15 +106,6 @@ class LeadStatusChipAtom extends StatelessWidget {
         );
     }
   }
-}
-
-/// Enum for lead status
-enum LeadStatus {
-  newLead,
-  contacted,
-  qualified,
-  converted,
-  lost,
 }
 
 class _StatusConfig {
@@ -179,12 +163,10 @@ class LeadStatusDotAtom extends StatelessWidget {
 
   Color _getStatusColor(LeadStatus status, ColorScheme colorScheme) {
     switch (status) {
-      case LeadStatus.newLead:
+      case LeadStatus.active:
         return colorScheme.primary;
-      case LeadStatus.contacted:
+      case LeadStatus.inactive:
         return colorScheme.secondary;
-      case LeadStatus.qualified:
-        return colorScheme.tertiary;
       case LeadStatus.converted:
         return const Color(0xFF4CAF50);
       case LeadStatus.lost:
@@ -194,12 +176,10 @@ class LeadStatusDotAtom extends StatelessWidget {
 
   String _getStatusLabel(LeadStatus status) {
     switch (status) {
-      case LeadStatus.newLead:
-        return 'New Lead';
-      case LeadStatus.contacted:
-        return 'Contacted';
-      case LeadStatus.qualified:
-        return 'Qualified';
+      case LeadStatus.active:
+        return 'Active';
+      case LeadStatus.inactive:
+        return 'Inactive';
       case LeadStatus.converted:
         return 'Converted';
       case LeadStatus.lost:

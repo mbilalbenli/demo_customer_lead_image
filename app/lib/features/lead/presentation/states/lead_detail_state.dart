@@ -14,7 +14,7 @@ abstract class LeadDetailState with _$LeadDetailState implements BaseState {
     LeadEntity? lead,
     @Default(false) bool canAddImage,
     @Default(0) int imageCount,
-    @Default(10) int maxImages,
+    @Default(10) int maxImageCount,
     String? errorMessage,
   }) = _LeadDetailState;
 
@@ -33,9 +33,9 @@ abstract class LeadDetailState with _$LeadDetailState implements BaseState {
   @override
   GlobalKey? get widgetKeyForLoadingPosition => core.widgetKeyForLoadingPosition;
 
-  int get remainingImageSlots => maxImages - imageCount;
+  int get remainingImageSlots => maxImageCount - imageCount;
 
-  String get imageStatusText => '$imageCount of $maxImages images';
+  String get imageStatusText => '$imageCount of $maxImageCount images';
 
-  bool get isAtImageLimit => imageCount >= maxImages;
+  bool get isAtImageLimit => imageCount >= maxImageCount;
 }

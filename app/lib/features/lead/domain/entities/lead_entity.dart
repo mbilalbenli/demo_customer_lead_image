@@ -1,9 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../constants/lead_constants.dart';
+import '../converters/lead_converters.dart';
 import '../value_objects/customer_name.dart';
 import '../value_objects/email_address.dart';
 import '../value_objects/phone_number.dart';
-import '../constants/lead_constants.dart';
-import '../converters/lead_converters.dart';
 
 part 'lead_entity.freezed.dart';
 part 'lead_entity.g.dart';
@@ -29,8 +30,7 @@ abstract class LeadEntity with _$LeadEntity {
 
   bool get canAddImage => imageCount < LeadConstants.maxImagesPerLead;
 
-  int get remainingImageSlots =>
-      LeadConstants.maxImagesPerLead - imageCount;
+  int get remainingImageSlots => LeadConstants.maxImagesPerLead - imageCount;
 
   double get imageCapacityPercentage =>
       (imageCount / LeadConstants.maxImagesPerLead) * 100;

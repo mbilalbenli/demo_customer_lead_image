@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../atoms/camera_button_atom.dart' as camera;
 import '../atoms/add_image_button_atom.dart';
 import '../atoms/limit_warning_atom.dart';
 import '../atoms/slot_indicator_atom.dart';
@@ -80,11 +79,10 @@ class ImagePickerOptionMolecule extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: camera.CameraButtonAtom(
+                    child: OutlinedButton.icon(
                       onPressed: onCamera,
-                      isAtLimit: false,
-                      style: camera.ButtonStyle.outlined,
-                      label: 'Camera',
+                      icon: const Icon(Icons.camera_alt),
+                      label: const Text('Camera'),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -239,9 +237,11 @@ class ImagePickerOptionMolecule extends StatelessWidget {
             children: [
               if (!isAtLimit) ...[
                 Expanded(
-                  child: camera.CameraButtonAtom.icon(
+                  child: IconButton(
                     onPressed: onCamera,
-                    isAtLimit: false,
+                    icon: const Icon(Icons.camera_alt),
+                    iconSize: 32,
+                    color: colorScheme.primary,
                   ),
                 ),
                 const SizedBox(width: 8),

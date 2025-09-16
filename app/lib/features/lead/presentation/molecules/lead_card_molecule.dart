@@ -4,6 +4,7 @@ import '../atoms/lead_status_chip_atom.dart';
 import '../atoms/lead_info_text_atom.dart';
 import '../atoms/lead_image_count_badge_atom.dart';
 import '../../../../core/widgets/atoms/app_divider_atom.dart';
+import '../../domain/entities/lead_entity.dart';
 
 /// A feature-specific molecule for displaying lead information in a card
 /// Composed from lead atoms and shows image count

@@ -32,6 +32,63 @@ class AppButtonAtom extends StatelessWidget {
     this.borderRadius,
   });
 
+  /// Primary button factory
+  factory AppButtonAtom.primary({
+    Key? key,
+    required String text,
+    required VoidCallback? onPressed,
+    bool isLoading = false,
+    IconData? icon,
+  }) {
+    return AppButtonAtom(
+      key: key,
+      text: text,
+      onPressed: onPressed,
+      isLoading: isLoading,
+      icon: icon != null ? Icon(icon, size: 18) : null,
+    );
+  }
+
+  /// Secondary button factory
+  factory AppButtonAtom.secondary({
+    Key? key,
+    required String text,
+    required VoidCallback? onPressed,
+    bool isLoading = false,
+    IconData? icon,
+  }) {
+    return AppButtonAtom(
+      key: key,
+      text: text,
+      onPressed: onPressed,
+      isLoading: isLoading,
+      icon: icon != null ? Icon(icon, size: 18) : null,
+      backgroundColor: Colors.transparent,
+      style: OutlinedButton.styleFrom().copyWith(
+        backgroundColor: WidgetStateProperty.all(Colors.transparent),
+      ),
+    );
+  }
+
+  /// Danger button factory
+  factory AppButtonAtom.danger({
+    Key? key,
+    required String text,
+    required VoidCallback? onPressed,
+    bool isLoading = false,
+    IconData? icon,
+  }) {
+    return AppButtonAtom(
+      key: key,
+      text: text,
+      onPressed: onPressed,
+      isLoading: isLoading,
+      icon: icon != null ? Icon(icon, size: 18) : null,
+      backgroundColor: Colors.red.shade600,
+      foregroundColor: Colors.white,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

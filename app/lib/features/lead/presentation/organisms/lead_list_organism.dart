@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../molecules/lead_card_molecule.dart';
-import '../atoms/lead_status_chip_atom.dart';
 import '../../../../core/widgets/molecules/app_empty_state_molecule.dart';
 import '../../../../core/widgets/molecules/app_loading_overlay_molecule.dart';
+import '../../domain/entities/lead_entity.dart';
 
 /// A feature-specific organism for displaying a list of leads
 /// Shows lead cards with image counts
@@ -59,7 +59,7 @@ class LeadListOrganism extends StatelessWidget {
               company: lead.company,
               email: lead.email,
               phone: lead.phone,
-              status: lead.status,
+              status: _convertListStatusToLeadStatus(lead.status),
               imageCount: lead.imageCount,
               selected: isSelected,
               compact: compact,
@@ -153,6 +153,19 @@ class LeadListOrganism extends StatelessWidget {
       ),
     );
   }
+
+  LeadStatus _convertListStatusToLeadStatus(LeadListStatus status) {
+    switch (status) {
+      case LeadListStatus.active:
+        return LeadStatus.active;
+      case LeadListStatus.inactive:
+        return LeadStatus.inactive;
+      case LeadListStatus.converted:
+        return LeadStatus.converted;
+      case LeadListStatus.lost:
+        return LeadStatus.lost;
+    }
+  }
 }
 
 /// A grid variant of the lead list organism
@@ -206,7 +219,7 @@ class LeadGridOrganism extends StatelessWidget {
         return LeadGridCardMolecule(
           leadName: lead.name,
           company: lead.company,
-          status: lead.status,
+          status: _convertListStatusToLeadStatus(lead.status),
           imageCount: lead.imageCount,
           onTap: () => onLeadTap?.call(lead),
           onImagesTap: lead.imageCount > 0 || lead.imageCount < 10
@@ -232,6 +245,19 @@ class LeadGridOrganism extends StatelessWidget {
       },
     );
   }
+
+  LeadStatus _convertListStatusToLeadStatus(LeadListStatus status) {
+    switch (status) {
+      case LeadListStatus.active:
+        return LeadStatus.active;
+      case LeadListStatus.inactive:
+        return LeadStatus.inactive;
+      case LeadListStatus.converted:
+        return LeadStatus.converted;
+      case LeadListStatus.lost:
+        return LeadStatus.lost;
+    }
+  }
 }
 
 /// Data model for lead items
@@ -241,7 +267,7 @@ class LeadItemData {
   final String? company;
   final String? email;
   final String? phone;
-  final LeadStatus status;
+  final LeadListStatus status;
   final int imageCount;
 
   const LeadItemData({
@@ -253,4 +279,12 @@ class LeadItemData {
     required this.status,
     required this.imageCount,
   });
+}
+
+/// Enum for lead status in list display
+enum LeadListStatus {
+  active,
+  inactive,
+  converted,
+  lost,
 }

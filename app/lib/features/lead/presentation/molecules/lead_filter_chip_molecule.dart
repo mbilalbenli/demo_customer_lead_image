@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import '../atoms/lead_status_chip_atom.dart';
 import '../../../../core/widgets/atoms/app_badge_atom.dart';
+import '../../domain/entities/lead_entity.dart';
 
 /// A feature-specific molecule for lead filtering chips
 /// Following atomic design principles - composed from atoms
 class LeadFilterChipMolecule extends StatelessWidget {
-  final LeadFilterType filterType;
+  final FilterType filterType;
   final String label;
   final bool selected;
   final ValueChanged<bool>? onChanged;
+  final VoidCallback? onRemove;
   final int? count;
   final Color? selectedColor;
   final IconData? icon;
@@ -19,6 +20,7 @@ class LeadFilterChipMolecule extends StatelessWidget {
     required this.label,
     required this.selected,
     this.onChanged,
+    this.onRemove,
     this.count,
     this.selectedColor,
     this.icon,
@@ -34,7 +36,7 @@ class LeadFilterChipMolecule extends StatelessWidget {
   }) {
     return LeadFilterChipMolecule(
       key: key,
-      filterType: LeadFilterType.status,
+      filterType: FilterType.status,
       label: _getStatusLabel(status),
       selected: selected,
       onChanged: onChanged,
@@ -54,7 +56,7 @@ class LeadFilterChipMolecule extends StatelessWidget {
   }) {
     return LeadFilterChipMolecule(
       key: key,
-      filterType: LeadFilterType.imageCount,
+      filterType: FilterType.imageCount,
       label: label,
       selected: selected,
       onChanged: onChanged,
@@ -73,7 +75,7 @@ class LeadFilterChipMolecule extends StatelessWidget {
   }) {
     return LeadFilterChipMolecule(
       key: key,
-      filterType: LeadFilterType.dateRange,
+      filterType: FilterType.dateRange,
       label: label,
       selected: selected,
       onChanged: onChanged,
@@ -120,18 +122,16 @@ class LeadFilterChipMolecule extends StatelessWidget {
       onSelected: onChanged,
       selectedColor: effectiveSelectedColor.withValues(alpha: 0.2),
       checkmarkColor: effectiveSelectedColor,
-      showCheckmark: filterType != LeadFilterType.imageCount,
+      showCheckmark: filterType != FilterType.imageCount,
     );
   }
 
   static String _getStatusLabel(LeadStatus status) {
     switch (status) {
-      case LeadStatus.newLead:
-        return 'New';
-      case LeadStatus.contacted:
-        return 'Contacted';
-      case LeadStatus.qualified:
-        return 'Qualified';
+      case LeadStatus.active:
+        return 'Active';
+      case LeadStatus.inactive:
+        return 'Inactive';
       case LeadStatus.converted:
         return 'Converted';
       case LeadStatus.lost:
@@ -141,12 +141,10 @@ class LeadFilterChipMolecule extends StatelessWidget {
 
   static IconData _getStatusIcon(LeadStatus status) {
     switch (status) {
-      case LeadStatus.newLead:
-        return Icons.fiber_new;
-      case LeadStatus.contacted:
-        return Icons.phone_in_talk;
-      case LeadStatus.qualified:
+      case LeadStatus.active:
         return Icons.verified;
+      case LeadStatus.inactive:
+        return Icons.pause_circle;
       case LeadStatus.converted:
         return Icons.check_circle;
       case LeadStatus.lost:
@@ -155,7 +153,7 @@ class LeadFilterChipMolecule extends StatelessWidget {
   }
 }
 
-enum LeadFilterType {
+enum FilterType {
   status,
   imageCount,
   dateRange,

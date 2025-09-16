@@ -4,7 +4,7 @@ import '../utils/app_logger.dart';
 import 'base_state.dart';
 
 abstract class BaseViewModel<T extends BaseState> extends StateNotifier<T> {
-  BaseViewModel(T initialState) : super(initialState) {
+  BaseViewModel(super.initialState) {
     onInit();
   }
 

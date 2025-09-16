@@ -4,10 +4,10 @@ import '../states/lead_detail_state.dart';
 import '../../application/use_cases/get_lead_by_id_use_case.dart';
 
 class LeadDetailViewModel extends BaseViewModel<LeadDetailState> {
-  final GetLeadByIdUseCase _getLeadByIdUseCase;
-  String? _leadId;
+  final GetLeadByIdUseCase getLeadByIdUseCase;
+  String? leadId;
 
-  LeadDetailViewModel(this._getLeadByIdUseCase)
+  LeadDetailViewModel(this.getLeadByIdUseCase)
       : super(const LeadDetailState());
 
   @override
@@ -15,21 +15,26 @@ class LeadDetailViewModel extends BaseViewModel<LeadDetailState> {
     AppLogger.info('LeadDetailViewModel initialized');
   }
 
-  void setLeadId(String leadId) {
-    _leadId = leadId;
+  void setLeadId(String id) {
+    leadId = id;
     fetchLeadDetail();
   }
 
+  Future<void> loadLeadDetails({bool refresh = false}) async {
+    if (leadId != null) {
+      await fetchLeadDetail();
+    }
+  }
+
   Future<void> fetchLeadDetail() async {
-    if (_leadId == null) {
+    if (leadId == null) {
       AppLogger.error('Lead ID is null');
-      state = state.copyWith(errorMessage: 'No lead ID provided');
       return;
     }
-
     await executeWithLoading(
       operation: () async {
-        final result = await _getLeadByIdUseCase.execute(_leadId!);
+        // Use actual use case when available
+        final result = await getLeadByIdUseCase.execute(leadId!);
         return result.fold(
           (error) => throw error,
           (lead) => lead,
@@ -41,6 +46,7 @@ class LeadDetailViewModel extends BaseViewModel<LeadDetailState> {
           lead: lead,
           imageCount: lead.imageCount,
           canAddImage: lead.canAddImage,
+          maxImageCount: 10,
         );
         setTitle(lead.customerName.value);
         setShowAppBar(true);
@@ -57,11 +63,20 @@ class LeadDetailViewModel extends BaseViewModel<LeadDetailState> {
     );
   }
 
-  void navigateToImageGallery() {
-    if (_leadId != null) {
-      // Navigation will be handled by the UI
-      AppLogger.info('Navigating to image gallery for lead: $_leadId');
-    }
+  Future<void> deleteLead() async {
+    await executeWithLoading(
+      operation: () async {
+        await Future.delayed(const Duration(seconds: 1));
+        // Mock delete - replace with actual API call
+      },
+      operationName: 'Deleting lead',
+      onSuccess: (_) {
+        AppLogger.info('Lead deleted successfully');
+      },
+      onError: (error) {
+        AppLogger.error('Failed to delete lead', error);
+      },
+    );
   }
 
   void refreshImageCount(int newCount) {
@@ -70,7 +85,7 @@ class LeadDetailViewModel extends BaseViewModel<LeadDetailState> {
       state = state.copyWith(
         lead: updatedLead,
         imageCount: newCount,
-        canAddImage: newCount < state.maxImages,
+        canAddImage: newCount < state.maxImageCount,
       );
     }
   }
@@ -85,3 +100,4 @@ class LeadDetailViewModel extends BaseViewModel<LeadDetailState> {
     }
   }
 }
+

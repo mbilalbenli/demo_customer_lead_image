@@ -6,6 +6,7 @@ import '../providers/lead_providers.dart';
 import '../states/lead_list_state.dart';
 import '../organisms/lead_list_organism.dart';
 import '../atoms/empty_state_atom.dart';
+import '../../domain/entities/lead_entity.dart' as domain;
 
 class LeadListPage extends BasePage<LeadListState> {
   const LeadListPage({super.key}) : super(
@@ -101,18 +102,43 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
               await ref.read(leadListViewModelProvider.notifier).fetchLeads(refresh: true);
             },
             child: LeadListOrganism(
-              leads: state.leads,
+              leads: state.leads.map((lead) => _convertToLeadItemData(lead)).toList(),
+              isLoading: state.isLoadingMore,
               onLeadTap: (lead) {
                 context.go('/leads/${lead.id}');
               },
-              onLoadMore: state.hasMorePages && !state.isLoadingMore
-                  ? () => ref.read(leadListViewModelProvider.notifier).loadMore()
-                  : null,
-              isLoadingMore: state.isLoadingMore,
+              onLeadImagesTap: (lead) {
+                context.go('/leads/${lead.id}/images');
+              },
             ),
           ),
         ),
       ],
     );
+  }
+
+  LeadItemData _convertToLeadItemData(domain.LeadEntity lead) {
+    return LeadItemData(
+      id: lead.id,
+      name: lead.customerName.value,
+      company: null, // Add company field to LeadEntity if needed
+      email: lead.email.value,
+      phone: lead.phone.value,
+      status: _convertLeadStatus(lead.status),
+      imageCount: lead.imageCount,
+    );
+  }
+
+  LeadListStatus _convertLeadStatus(domain.LeadStatus status) {
+    switch (status) {
+      case domain.LeadStatus.active:
+        return LeadListStatus.active;
+      case domain.LeadStatus.inactive:
+        return LeadListStatus.inactive;
+      case domain.LeadStatus.converted:
+        return LeadListStatus.converted;
+      case domain.LeadStatus.lost:
+        return LeadListStatus.lost;
+    }
   }
 }

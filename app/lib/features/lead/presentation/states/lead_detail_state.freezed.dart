@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LeadDetailState {
 
- CoreState get core; LeadEntity? get lead; bool get canAddImage; int get imageCount; int get maxImages; String? get errorMessage;
+ CoreState get core; LeadEntity? get lead; bool get canAddImage; int get imageCount; int get maxImageCount; String? get errorMessage;
 /// Create a copy of LeadDetailState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $LeadDetailStateCopyWith<LeadDetailState> get copyWith => _$LeadDetailStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LeadDetailState&&(identical(other.core, core) || other.core == core)&&(identical(other.lead, lead) || other.lead == lead)&&(identical(other.canAddImage, canAddImage) || other.canAddImage == canAddImage)&&(identical(other.imageCount, imageCount) || other.imageCount == imageCount)&&(identical(other.maxImages, maxImages) || other.maxImages == maxImages)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LeadDetailState&&(identical(other.core, core) || other.core == core)&&(identical(other.lead, lead) || other.lead == lead)&&(identical(other.canAddImage, canAddImage) || other.canAddImage == canAddImage)&&(identical(other.imageCount, imageCount) || other.imageCount == imageCount)&&(identical(other.maxImageCount, maxImageCount) || other.maxImageCount == maxImageCount)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,core,lead,canAddImage,imageCount,maxImages,errorMessage);
+int get hashCode => Object.hash(runtimeType,core,lead,canAddImage,imageCount,maxImageCount,errorMessage);
 
 @override
 String toString() {
-  return 'LeadDetailState(core: $core, lead: $lead, canAddImage: $canAddImage, imageCount: $imageCount, maxImages: $maxImages, errorMessage: $errorMessage)';
+  return 'LeadDetailState(core: $core, lead: $lead, canAddImage: $canAddImage, imageCount: $imageCount, maxImageCount: $maxImageCount, errorMessage: $errorMessage)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $LeadDetailStateCopyWith<$Res>  {
   factory $LeadDetailStateCopyWith(LeadDetailState value, $Res Function(LeadDetailState) _then) = _$LeadDetailStateCopyWithImpl;
 @useResult
 $Res call({
- CoreState core, LeadEntity? lead, bool canAddImage, int imageCount, int maxImages, String? errorMessage
+ CoreState core, LeadEntity? lead, bool canAddImage, int imageCount, int maxImageCount, String? errorMessage
 });
 
 
@@ -62,13 +62,13 @@ class _$LeadDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of LeadDetailState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? lead = freezed,Object? canAddImage = null,Object? imageCount = null,Object? maxImages = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? lead = freezed,Object? canAddImage = null,Object? imageCount = null,Object? maxImageCount = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as CoreState,lead: freezed == lead ? _self.lead : lead // ignore: cast_nullable_to_non_nullable
 as LeadEntity?,canAddImage: null == canAddImage ? _self.canAddImage : canAddImage // ignore: cast_nullable_to_non_nullable
 as bool,imageCount: null == imageCount ? _self.imageCount : imageCount // ignore: cast_nullable_to_non_nullable
-as int,maxImages: null == maxImages ? _self.maxImages : maxImages // ignore: cast_nullable_to_non_nullable
+as int,maxImageCount: null == maxImageCount ? _self.maxImageCount : maxImageCount // ignore: cast_nullable_to_non_nullable
 as int,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -176,10 +176,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CoreState core,  LeadEntity? lead,  bool canAddImage,  int imageCount,  int maxImages,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CoreState core,  LeadEntity? lead,  bool canAddImage,  int imageCount,  int maxImageCount,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LeadDetailState() when $default != null:
-return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.maxImages,_that.errorMessage);case _:
+return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.maxImageCount,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -197,10 +197,10 @@ return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.m
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CoreState core,  LeadEntity? lead,  bool canAddImage,  int imageCount,  int maxImages,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CoreState core,  LeadEntity? lead,  bool canAddImage,  int imageCount,  int maxImageCount,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _LeadDetailState():
-return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.maxImages,_that.errorMessage);case _:
+return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.maxImageCount,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -217,10 +217,10 @@ return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.m
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CoreState core,  LeadEntity? lead,  bool canAddImage,  int imageCount,  int maxImages,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CoreState core,  LeadEntity? lead,  bool canAddImage,  int imageCount,  int maxImageCount,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _LeadDetailState() when $default != null:
-return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.maxImages,_that.errorMessage);case _:
+return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.maxImageCount,_that.errorMessage);case _:
   return null;
 
 }
@@ -232,14 +232,14 @@ return $default(_that.core,_that.lead,_that.canAddImage,_that.imageCount,_that.m
 
 
 class _LeadDetailState extends LeadDetailState {
-  const _LeadDetailState({this.core = const CoreState(), this.lead, this.canAddImage = false, this.imageCount = 0, this.maxImages = 10, this.errorMessage}): super._();
+  const _LeadDetailState({this.core = const CoreState(), this.lead, this.canAddImage = false, this.imageCount = 0, this.maxImageCount = 10, this.errorMessage}): super._();
   
 
 @override@JsonKey() final  CoreState core;
 @override final  LeadEntity? lead;
 @override@JsonKey() final  bool canAddImage;
 @override@JsonKey() final  int imageCount;
-@override@JsonKey() final  int maxImages;
+@override@JsonKey() final  int maxImageCount;
 @override final  String? errorMessage;
 
 /// Create a copy of LeadDetailState
@@ -252,16 +252,16 @@ _$LeadDetailStateCopyWith<_LeadDetailState> get copyWith => __$LeadDetailStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LeadDetailState&&(identical(other.core, core) || other.core == core)&&(identical(other.lead, lead) || other.lead == lead)&&(identical(other.canAddImage, canAddImage) || other.canAddImage == canAddImage)&&(identical(other.imageCount, imageCount) || other.imageCount == imageCount)&&(identical(other.maxImages, maxImages) || other.maxImages == maxImages)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LeadDetailState&&(identical(other.core, core) || other.core == core)&&(identical(other.lead, lead) || other.lead == lead)&&(identical(other.canAddImage, canAddImage) || other.canAddImage == canAddImage)&&(identical(other.imageCount, imageCount) || other.imageCount == imageCount)&&(identical(other.maxImageCount, maxImageCount) || other.maxImageCount == maxImageCount)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,core,lead,canAddImage,imageCount,maxImages,errorMessage);
+int get hashCode => Object.hash(runtimeType,core,lead,canAddImage,imageCount,maxImageCount,errorMessage);
 
 @override
 String toString() {
-  return 'LeadDetailState(core: $core, lead: $lead, canAddImage: $canAddImage, imageCount: $imageCount, maxImages: $maxImages, errorMessage: $errorMessage)';
+  return 'LeadDetailState(core: $core, lead: $lead, canAddImage: $canAddImage, imageCount: $imageCount, maxImageCount: $maxImageCount, errorMessage: $errorMessage)';
 }
 
 
@@ -272,7 +272,7 @@ abstract mixin class _$LeadDetailStateCopyWith<$Res> implements $LeadDetailState
   factory _$LeadDetailStateCopyWith(_LeadDetailState value, $Res Function(_LeadDetailState) _then) = __$LeadDetailStateCopyWithImpl;
 @override @useResult
 $Res call({
- CoreState core, LeadEntity? lead, bool canAddImage, int imageCount, int maxImages, String? errorMessage
+ CoreState core, LeadEntity? lead, bool canAddImage, int imageCount, int maxImageCount, String? errorMessage
 });
 
 
@@ -289,13 +289,13 @@ class __$LeadDetailStateCopyWithImpl<$Res>
 
 /// Create a copy of LeadDetailState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? core = null,Object? lead = freezed,Object? canAddImage = null,Object? imageCount = null,Object? maxImages = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? core = null,Object? lead = freezed,Object? canAddImage = null,Object? imageCount = null,Object? maxImageCount = null,Object? errorMessage = freezed,}) {
   return _then(_LeadDetailState(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as CoreState,lead: freezed == lead ? _self.lead : lead // ignore: cast_nullable_to_non_nullable
 as LeadEntity?,canAddImage: null == canAddImage ? _self.canAddImage : canAddImage // ignore: cast_nullable_to_non_nullable
 as bool,imageCount: null == imageCount ? _self.imageCount : imageCount // ignore: cast_nullable_to_non_nullable
-as int,maxImages: null == maxImages ? _self.maxImages : maxImages // ignore: cast_nullable_to_non_nullable
+as int,maxImageCount: null == maxImageCount ? _self.maxImageCount : maxImageCount // ignore: cast_nullable_to_non_nullable
 as int,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
