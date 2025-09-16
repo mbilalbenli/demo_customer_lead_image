@@ -13,18 +13,14 @@ public class HealthCheckModule : ICarterModule
         app.MapGet("/api/health", async (IMediator mediator) =>
         {
             var query = new GetHealthCheckQuery();
-            var result = await mediator.Send(query);  
+            var result = await mediator.Send(query);
 
-            // Always return 200 in API response to avoid client errors in dev,
-            // while still surfacing the aggregated status in the payload.
             return Results.Ok(result);
         })
-        .WithName("GetHealthCheck")
-        .WithTags("Health")
-        .Produces<GetHealthCheckResponse>(200);
+    .WithTags("Health")
+    .Produces<GetHealthCheckResponse>(200);
 
         app.MapGet("/api/health/live", () => Results.Ok(new { status = "alive" }))
-            .WithName("Liveness")
             .WithTags("Health")
             .ExcludeFromDescription();
 
@@ -35,8 +31,7 @@ public class HealthCheckModule : ICarterModule
                 ? Results.Ok(new { status = "ready" })
                 : Results.Json(new { status = "not ready" }, statusCode: 503);
         })
-        .WithName("Readiness")
-        .WithTags("Health")
-        .ExcludeFromDescription();
+    .WithTags("Health")
+    .ExcludeFromDescription();
     }
 }

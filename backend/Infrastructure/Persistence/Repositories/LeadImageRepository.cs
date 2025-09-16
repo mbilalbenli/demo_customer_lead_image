@@ -5,6 +5,7 @@ using Domain.Image.ValueObjects;
 using Domain.Lead.ValueObjects;
 using Infrastructure.Persistence.Entities;
 using Marten;
+using Mapster;
 
 namespace Infrastructure.Persistence.Repositories;
 
@@ -17,33 +18,33 @@ public class LeadImageRepository : ILeadImageRepository
         _session = session;
     }
 
+    // Basic CRUD operations
     public async Task<LeadImage?> GetByIdAsync(ImageId id, CancellationToken cancellationToken = default)
     {
         var document = await _session.LoadAsync<LeadImageDocument>(id.Value, cancellationToken);
-        return document != null ? MapToDomain(document) : null;
+        return document?.Adapt<LeadImage>();
     }
 
     public async Task<IReadOnlyList<LeadImage>> GetByLeadIdAsync(LeadId leadId, CancellationToken cancellationToken = default)
     {
         var documents = await _session.Query<LeadImageDocument>()
             .Where(x => x.LeadId == leadId.Value)
-            .OrderBy(x => x.CreatedAt)
             .ToListAsync(cancellationToken);
 
-        return documents.Select(MapToDomain).ToList();
+        return documents.Select(d => d.Adapt<LeadImage>()).ToList();
     }
 
     public async Task<LeadImage> AddAsync(LeadImage image, CancellationToken cancellationToken = default)
     {
-        var document = MapToDocument(image);
+        var document = image.Adapt<LeadImageDocument>();
         _session.Store(document);
         await _session.SaveChangesAsync(cancellationToken);
-        return image;
+        return document.Adapt<LeadImage>();
     }
 
     public async Task UpdateAsync(LeadImage image, CancellationToken cancellationToken = default)
     {
-        var document = MapToDocument(image);
+        var document = image.Adapt<LeadImageDocument>();
         _session.Update(document);
         await _session.SaveChangesAsync(cancellationToken);
     }
@@ -54,16 +55,16 @@ public class LeadImageRepository : ILeadImageRepository
         await _session.SaveChangesAsync(cancellationToken);
     }
 
+    // Batch operations support
     public async Task<IReadOnlyList<LeadImage>> AddRangeAsync(IEnumerable<LeadImage> images, CancellationToken cancellationToken = default)
     {
-        var imageList = images.ToList();
-        foreach (var image in imageList)
+        var documents = images.Select(i => i.Adapt<LeadImageDocument>()).ToList();
+        foreach (var document in documents)
         {
-            var document = MapToDocument(image);
             _session.Store(document);
         }
         await _session.SaveChangesAsync(cancellationToken);
-        return imageList;
+        return documents.Select(d => d.Adapt<LeadImage>()).ToList();
     }
 
     public async Task DeleteRangeAsync(IEnumerable<ImageId> imageIds, CancellationToken cancellationToken = default)
@@ -81,13 +82,15 @@ public class LeadImageRepository : ILeadImageRepository
             .Where(x => x.LeadId == leadId.Value)
             .ToListAsync(cancellationToken);
 
-        foreach (var doc in documents)
+        foreach (var document in documents)
         {
-            _session.Delete<LeadImageDocument>(doc.Id);
+            _session.Delete(document);
         }
+
         await _session.SaveChangesAsync(cancellationToken);
     }
 
+    // Count and validation methods
     public async Task<int> GetCountByLeadIdAsync(LeadId leadId, CancellationToken cancellationToken = default)
     {
         return await _session.Query<LeadImageDocument>()
@@ -97,16 +100,17 @@ public class LeadImageRepository : ILeadImageRepository
 
     public async Task<bool> ExistsAsync(ImageId id, CancellationToken cancellationToken = default)
     {
-        return await _session.Query<LeadImageDocument>()
-            .AnyAsync(x => x.Id == id.Value, cancellationToken);
+        var document = await _session.LoadAsync<LeadImageDocument>(id.Value, cancellationToken);
+        return document != null;
     }
 
     public async Task<bool> BelongsToLeadAsync(ImageId imageId, LeadId leadId, CancellationToken cancellationToken = default)
     {
-        return await _session.Query<LeadImageDocument>()
-            .AnyAsync(x => x.Id == imageId.Value && x.LeadId == leadId.Value, cancellationToken);
+        var document = await _session.LoadAsync<LeadImageDocument>(imageId.Value, cancellationToken);
+        return document != null && document.LeadId == leadId.Value;
     }
 
+    // Query methods
     public async Task<IReadOnlyList<LeadImage>> GetPagedByLeadIdAsync(
         LeadId leadId,
         int pageNumber,
@@ -115,187 +119,142 @@ public class LeadImageRepository : ILeadImageRepository
     {
         var documents = await _session.Query<LeadImageDocument>()
             .Where(x => x.LeadId == leadId.Value)
-            .OrderBy(x => x.CreatedAt)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
 
-        return documents.Select(MapToDomain).ToList();
+        return documents.Select(d => d.Adapt<LeadImage>()).ToList();
     }
 
     public async Task<long> GetTotalSizeByLeadIdAsync(LeadId leadId, CancellationToken cancellationToken = default)
     {
         var documents = await _session.Query<LeadImageDocument>()
             .Where(x => x.LeadId == leadId.Value)
-            .Select(x => x.SizeInBytes)
             .ToListAsync(cancellationToken);
 
-        return documents.Sum();
+        return documents.Sum(d => d.SizeInBytes);
     }
 
     public async Task<Dictionary<LeadId, int>> GetImageCountsAsync(IEnumerable<LeadId> leadIds, CancellationToken cancellationToken = default)
     {
-        var guidIds = leadIds.Select(id => id.Value).ToList();
-        var counts = await _session.Query<LeadImageDocument>()
-            .Where(x => guidIds.Contains(x.LeadId))
-            .GroupBy(x => x.LeadId)
-            .Select(g => new { LeadId = g.Key, Count = g.Count() })
-            .ToListAsync(cancellationToken);
-
-        return counts.ToDictionary(
-            x => LeadId.From(x.LeadId),
-            x => x.Count
-        );
+        var result = new Dictionary<LeadId, int>();
+        foreach (var leadId in leadIds)
+        {
+            var count = await GetCountByLeadIdAsync(leadId, cancellationToken);
+            result[leadId] = count;
+        }
+        return result;
     }
 
+    // Specification pattern support
     public async Task<LeadImage?> GetBySpecAsync(ISpecification<LeadImage> spec, CancellationToken cancellationToken = default)
     {
-        var all = await GetAllAsync(cancellationToken);
-        return spec.Criteria != null
-            ? all.AsQueryable().FirstOrDefault(spec.Criteria.Compile())
-            : all.FirstOrDefault();
+        var documents = await _session.Query<LeadImageDocument>().ToListAsync(cancellationToken);
+        var images = documents.Select(d => d.Adapt<LeadImage>());
+
+        if (spec.Criteria != null)
+        {
+            var compiledCriteria = spec.Criteria.Compile();
+            return images.FirstOrDefault(compiledCriteria);
+        }
+
+        return images.FirstOrDefault();
     }
 
     public async Task<IReadOnlyList<LeadImage>> ListAsync(ISpecification<LeadImage> spec, CancellationToken cancellationToken = default)
     {
-        var all = await GetAllAsync(cancellationToken);
-        var query = all.AsQueryable();
+        var documents = await _session.Query<LeadImageDocument>().ToListAsync(cancellationToken);
+        var images = documents.Select(d => d.Adapt<LeadImage>());
 
         if (spec.Criteria != null)
-            query = query.Where(spec.Criteria.Compile());
+        {
+            var compiledCriteria = spec.Criteria.Compile();
+            images = images.Where(compiledCriteria);
+        }
 
-        if (spec.OrderBy != null)
-            query = query.OrderBy(spec.OrderBy.Compile());
-        else if (spec.OrderByDescending != null)
-            query = query.OrderByDescending(spec.OrderByDescending.Compile());
-
-        if (spec.IsPagingEnabled)
-            query = query.Skip(spec.Skip ?? 0).Take(spec.Take ?? 10);
-
-        return query.ToList();
+        return images.ToList();
     }
 
     public async Task<int> CountAsync(ISpecification<LeadImage> spec, CancellationToken cancellationToken = default)
     {
-        var all = await GetAllAsync(cancellationToken);
-        return spec.Criteria != null
-            ? all.AsQueryable().Count(spec.Criteria.Compile())
-            : all.Count;
+        var documents = await _session.Query<LeadImageDocument>().ToListAsync(cancellationToken);
+        var images = documents.Select(d => d.Adapt<LeadImage>());
+
+        if (spec.Criteria != null)
+        {
+            var compiledCriteria = spec.Criteria.Compile();
+            return images.Count(compiledCriteria);
+        }
+
+        return images.Count();
     }
 
+    // Replace operation for 11th image scenario
     public async Task<LeadImage> ReplaceAsync(ImageId oldImageId, LeadImage newImage, CancellationToken cancellationToken = default)
     {
         // Delete old image
         await DeleteAsync(oldImageId, cancellationToken);
-
         // Add new image
         return await AddAsync(newImage, cancellationToken);
     }
 
+    // Metadata operations
     public async Task<IReadOnlyList<LeadImage>> GetByContentTypeAsync(string contentType, CancellationToken cancellationToken = default)
     {
         var documents = await _session.Query<LeadImageDocument>()
-            .Where(x => x.ContentType == contentType.ToLowerInvariant())
+            .Where(x => x.ContentType == contentType)
             .ToListAsync(cancellationToken);
 
-        return documents.Select(MapToDomain).ToList();
+        return documents.Select(d => d.Adapt<LeadImage>()).ToList();
     }
 
     public async Task<IReadOnlyList<LeadImage>> GetRecentImagesAsync(int count, CancellationToken cancellationToken = default)
     {
         var documents = await _session.Query<LeadImageDocument>()
-            .OrderByDescending(x => x.CreatedAt)
+            .OrderByDescending(x => x.UploadedAt)
             .Take(count)
             .ToListAsync(cancellationToken);
 
-        return documents.Select(MapToDomain).ToList();
+        return documents.Select(d => d.Adapt<LeadImage>()).ToList();
     }
 
+    // Base64 specific operations
     public async Task<string?> GetBase64DataAsync(ImageId id, CancellationToken cancellationToken = default)
     {
-        var document = await _session.Query<LeadImageDocument>()
-            .Where(x => x.Id == id.Value)
-            .Select(x => x.Base64Data)
-            .FirstOrDefaultAsync(cancellationToken);
-
-        return document;
+        var document = await _session.LoadAsync<LeadImageDocument>(id.Value, cancellationToken);
+        return document?.Base64Data;
     }
 
     public async Task<Dictionary<ImageId, string>> GetBase64DataBatchAsync(IEnumerable<ImageId> imageIds, CancellationToken cancellationToken = default)
     {
-        var guidIds = imageIds.Select(id => id.Value).ToList();
-        var documents = await _session.Query<LeadImageDocument>()
-            .Where(x => guidIds.Contains(x.Id))
-            .Select(x => new { x.Id, x.Base64Data })
-            .ToListAsync(cancellationToken);
-
-        return documents.ToDictionary(
-            x => ImageId.From(x.Id),
-            x => x.Base64Data
-        );
+        var result = new Dictionary<ImageId, string>();
+        foreach (var id in imageIds)
+        {
+            var data = await GetBase64DataAsync(id, cancellationToken);
+            if (data != null)
+            {
+                result[id] = data;
+            }
+        }
+        return result;
     }
 
+    // Statistics and analytics
     public async Task<(int TotalImages, long TotalSizeBytes, double AverageSize)> GetStatisticsAsync(CancellationToken cancellationToken = default)
     {
-        var documents = await _session.Query<LeadImageDocument>()
-            .Select(x => x.SizeInBytes)
-            .ToListAsync(cancellationToken);
-
+        var documents = await _session.Query<LeadImageDocument>().ToListAsync(cancellationToken);
         var totalImages = documents.Count;
-        var totalSize = documents.Sum(x => (long)x);
-        var avgSize = totalImages > 0 ? totalSize / (double)totalImages : 0;
+        var totalSizeBytes = documents.Sum(d => d.SizeInBytes);
+        var averageSize = totalImages > 0 ? (double)totalSizeBytes / totalImages : 0;
 
-        return (totalImages, totalSize, avgSize);
+        return (totalImages, totalSizeBytes, averageSize);
     }
 
     public async Task<Dictionary<string, int>> GetContentTypeDistributionAsync(CancellationToken cancellationToken = default)
     {
-        var distribution = await _session.Query<LeadImageDocument>()
-            .GroupBy(x => x.ContentType)
-            .Select(g => new { ContentType = g.Key, Count = g.Count() })
-            .ToListAsync(cancellationToken);
-
-        return distribution.ToDictionary(x => x.ContentType, x => x.Count);
-    }
-
-    private async Task<IReadOnlyList<LeadImage>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        var documents = await _session.Query<LeadImageDocument>()
-            .ToListAsync(cancellationToken);
-
-        return documents.Select(MapToDomain).ToList();
-    }
-
-    private static LeadImage MapToDomain(LeadImageDocument document)
-    {
-        return LeadImage.Reconstitute(
-            document.Id,
-            document.LeadId,
-            document.Base64Data,
-            document.FileName,
-            document.ContentType,
-            document.SizeInBytes,
-            document.UploadedAt,
-            document.CreatedAt,
-            document.ModifiedAt,
-            document.Description
-        );
-    }
-
-    private static LeadImageDocument MapToDocument(LeadImage image)
-    {
-        return new LeadImageDocument
-        {
-            Id = image.Id.Value,
-            LeadId = image.LeadId.Value,
-            Base64Data = image.Base64Data.Value,
-            FileName = image.Metadata.FileName,
-            ContentType = image.Metadata.ContentType,
-            SizeInBytes = image.Size.SizeInBytes,
-            Description = image.Metadata.Description,
-            CreatedAt = image.CreatedAt,
-            UploadedAt = image.Metadata.UploadedAt,
-            ModifiedAt = image.ModifiedAt
-        };
+        var documents = await _session.Query<LeadImageDocument>().ToListAsync(cancellationToken);
+        return documents
+            .GroupBy(d => d.ContentType)
+            .ToDictionary(g => g.Key, g => g.Count());
     }
 }

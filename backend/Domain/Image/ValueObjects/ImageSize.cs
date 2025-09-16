@@ -22,7 +22,6 @@ public sealed class ImageSize : IEquatable<ImageSize>
     public static ImageSize FromBase64Length(int base64Length)
     {
         // Calculate byte size from Base64 string length
-        var padding = 0;
 
         // This is approximate since we don't have the actual string to check padding
         // Base64 encoding increases size by approximately 33%

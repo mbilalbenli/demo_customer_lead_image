@@ -28,6 +28,13 @@ public sealed class UploadImageCommandHandler : IRequestHandler<UploadImageComma
     {
         var leadId = LeadId.From(request.LeadId);
 
+        // Check if lead exists first
+        var leadExists = await _leadRepository.ExistsAsync(leadId, cancellationToken);
+        if (!leadExists)
+        {
+            throw new KeyNotFoundException($"Lead with ID '{request.LeadId}' not found.");
+        }
+
         // CRITICAL: Double-check image count before proceeding
         var currentImageCount = await _leadRepository.GetImageCountAsync(leadId, cancellationToken);
 

@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: lead_images_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -17,6 +17,27 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - backend_network
+
+  backend-api:
+    build: .
+    container_name: backend_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__PostgreSQL=Host=postgres;Port=5432;Database=lead_images_db;Username=postgres;Password=postgres
+    ports:
+      - "5001:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
 
 volumes:
   postgres_data:

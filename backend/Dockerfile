@@ -1,13 +1,22 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# Copy project file and restore
-COPY *.csproj ./
-RUN dotnet restore
+# Copy solution and all project files
+COPY *.sln ./
+COPY backend.csproj ./
+COPY API/API.csproj ./API/
+COPY Application/Application.csproj ./Application/
+COPY Domain/Domain.csproj ./Domain/
+COPY Infrastructure/Infrastructure.csproj ./Infrastructure/
 
-# Copy everything and build
+# Restore dependencies
+RUN dotnet restore backend.csproj
+
+# Copy source code
 COPY . ./
-RUN dotnet publish -c Release -o out
+
+# Build and publish
+RUN dotnet publish backend.csproj -c Release -o out --no-restore -nowarn:CS0436
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
