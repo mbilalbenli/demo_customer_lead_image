@@ -12,6 +12,9 @@ class SplashViewModel extends StateNotifier<SplashState> {
   final CheckReadinessUseCase _ready;
   Timer? _messageTimer;
 
+  // Navigation callback - properly decoupled from UI
+  void Function()? onNavigateToMain;
+
   SplashViewModel({
     required CheckSystemHealthUseCase system,
     required CheckLivenessUseCase live,
@@ -85,7 +88,12 @@ class SplashViewModel extends StateNotifier<SplashState> {
             : 'Only $successCount/3 health checks passed',
       );
 
-      if (successCount < 3) {
+      if (successCount == 3) {
+        // All checks passed - trigger navigation callback
+        // Small delay for UI feedback
+        await Future.delayed(const Duration(milliseconds: 500));
+        onNavigateToMain?.call();
+      } else {
         AppLogger.error('Not all health checks passed. Will retry.');
         AppLogger.info('Required: 3 responses, Received: $successCount responses');
         // Schedule retry after delay

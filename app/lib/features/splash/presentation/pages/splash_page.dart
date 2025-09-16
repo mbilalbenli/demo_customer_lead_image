@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/presentation/base/base_page.dart';
 import '../providers/splash_providers.dart';
-import '../../../main/presentation/pages/main_page.dart';
 import '../organisms/splash_loading_organism.dart';
 
 class SplashPage extends BasePage {
@@ -17,20 +17,16 @@ class SplashPageState extends BasePageState<SplashPage> {
     super.onInit();
     Future.microtask(() async {
       final vm = ref.read(splashViewModelProvider.notifier);
-      await vm.start();
-    });
-  }
 
-  @override
-  void initState() {
-    super.initState();
-    // Listen to state changes for navigation
-    ref.listenManual(splashViewModelProvider, (previous, next) {
-      if (next.shouldNavigate && mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const MainPage()),
-        );
-      }
+      // Set the navigation callback using GoRouter
+      vm.onNavigateToMain = () {
+        if (mounted) {
+          // Use GoRouter to navigate to the leads page
+          context.go('/leads');
+        }
+      };
+
+      await vm.start();
     });
   }
 
