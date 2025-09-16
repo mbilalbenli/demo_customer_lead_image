@@ -16,13 +16,6 @@ abstract class ImageRemoteDataSource {
     required List<Map<String, String>> images,
   });
   Future<void> deleteImage(String leadId, String imageId);
-  Future<LeadImageModel> replaceImage({
-    required String leadId,
-    required String imageId,
-    required String base64Data,
-    required String fileName,
-    required String contentType,
-  });
   Future<Map<String, dynamic>> getImageStatus(String leadId);
   Future<int> getImageCount(String leadId);
 }
@@ -197,38 +190,6 @@ class ImageRemoteDataSourceImpl implements ImageRemoteDataSource {
       AppLogger.info('Successfully deleted image: $imageId');
     } on DioException catch (e) {
       AppLogger.error('Failed to delete image', e);
-      throw _handleDioError(e);
-    }
-  }
-
-  @override
-  Future<LeadImageModel> replaceImage({
-    required String leadId,
-    required String imageId,
-    required String base64Data,
-    required String fileName,
-    required String contentType,
-  }) async {
-    try {
-      AppLogger.info('Replacing image $imageId for lead: $leadId');
-
-      final response = await _dio.put(
-        '$_baseUrl/$leadId/images/$imageId/replace',
-        data: {
-          'base64Image': base64Data,
-          'fileName': fileName,
-          'contentType': contentType,
-        },
-        options: Options(
-          sendTimeout: const Duration(seconds: 60),
-          receiveTimeout: const Duration(seconds: 60),
-        ),
-      );
-
-      AppLogger.info('Successfully replaced image: $imageId');
-      return LeadImageModel.fromJson(response.data);
-    } on DioException catch (e) {
-      AppLogger.error('Failed to replace image', e);
       throw _handleDioError(e);
     }
   }

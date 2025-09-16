@@ -7,8 +7,8 @@ import '../atoms/limit_warning_atom.dart';
 import '../atoms/add_image_button_atom.dart';
 import '../../../../core/widgets/molecules/app_empty_state_molecule.dart';
 
-/// An organism for comprehensive image limit management
-/// Handles all limit UI including visual indicators, warnings, and actions
+/// An organism for simple image limit management
+/// Shows count, visual indicators, and delete functionality
 /// Following atomic design principles - composed from molecules and atoms
 class ImageLimitManagementOrganism extends StatefulWidget {
   final List<ManagedImage> images;
@@ -17,10 +17,7 @@ class ImageLimitManagementOrganism extends StatefulWidget {
   final ValueChanged<String>? onImageSelect;
   final ValueChanged<String>? onImageDelete;
   final VoidCallback? onAddImage;
-  final VoidCallback? onReplaceImage;
-  final ValueChanged<String>? onReplaceSpecific;
   final VoidCallback? onManageStorage;
-  final VoidCallback? onUpgradeStorage;
 
   const ImageLimitManagementOrganism({
     super.key,
@@ -30,10 +27,7 @@ class ImageLimitManagementOrganism extends StatefulWidget {
     this.onImageSelect,
     this.onImageDelete,
     this.onAddImage,
-    this.onReplaceImage,
-    this.onReplaceSpecific,
     this.onManageStorage,
-    this.onUpgradeStorage,
   });
 
   @override
@@ -339,12 +333,6 @@ class _ImageLimitManagementOrganismState
                   ),
                 ),
               ] else ...[
-                if (isAtLimit && widget.onReplaceImage != null)
-                  TextButton.icon(
-                    onPressed: () => setState(() => _showReplacementMode = true),
-                    icon: const Icon(Icons.swap_horiz, size: 18),
-                    label: const Text('Replace Mode'),
-                  ),
                 const Spacer(),
                 Text(
                   '${widget.images.length} images',
@@ -448,13 +436,16 @@ class _ImageLimitManagementOrganismState
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    widget.onReplaceSpecific?.call(_selectedImageId!);
+                    // Delete the selected image
+                    if (_selectedImageId != null) {
+                      widget.onImageDelete?.call(_selectedImageId!);
+                    }
                     setState(() {
                       _showReplacementMode = false;
                       _selectedImageId = null;
                     });
                   },
-                  icon: const Icon(Icons.add_photo_alternate, size: 18),
+                  icon: const Icon(Icons.delete_outline, size: 18),
                   label: const Text('Choose New'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: colorScheme.primary,
@@ -622,55 +613,6 @@ class _ImageLimitManagementOrganismState
               ),
             ),
           ),
-
-          // Upgrade option (if available)
-          if (widget.onUpgradeStorage != null) ...[
-            const SizedBox(height: 16),
-            Card(
-              color: colorScheme.primaryContainer.withValues(alpha: 0.3),
-              child: InkWell(
-                onTap: widget.onUpgradeStorage,
-                borderRadius: BorderRadius.circular(12),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.rocket_launch,
-                        color: colorScheme.primary,
-                        size: 32,
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Need More Space?',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Upgrade to get more image slots',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Icon(
-                        Icons.chevron_right,
-                        color: colorScheme.primary,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
         ],
       ),
     );
@@ -703,7 +645,7 @@ class _ImageLimitManagementOrganismState
           Expanded(
             child: AddImageButtonAtom(
               onAdd: isAtLimit ? null : widget.onAddImage,
-              onReplace: isAtLimit ? widget.onReplaceImage : null,
+              onReplace: null,
               currentCount: widget.images.length,
               maxCount: widget.maxImages,
               variant: ButtonVariant.filled,

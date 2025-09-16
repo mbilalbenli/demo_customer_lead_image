@@ -239,53 +239,6 @@ class LeadImageRepositoryImpl implements LeadImageRepository {
   }
 
   @override
-  Future<Either<Exception, LeadImageEntity>> replaceImage({
-    required String imageId,
-    required String base64Data,
-    required String fileName,
-    required String contentType,
-  }) async {
-    try {
-      final connectivityResult = await _connectivity.checkConnectivity();
-
-      if (connectivityResult .contains(ConnectivityResult.none) || connectivityResult.isEmpty) {
-        return Left(Exception('Cannot replace image while offline'));
-      }
-
-      // Get the existing image to extract leadId
-      final existingImage = await _cacheDataSource.getCachedImage(imageId);
-      if (existingImage == null) {
-        return Left(Exception('Image not found'));
-      }
-
-      // Process the image if needed
-      String processedBase64 = base64Data;
-      if (Base64EncoderService.calculateBase64Size(base64Data) > 1024 * 1024) {
-        final imageBytes = Base64EncoderService.decodeBase64ToImage(base64Data);
-        final compressedBytes = await ImageCompressorService.compressImage(imageBytes);
-        processedBase64 = await Base64EncoderService.encodeImageToBase64(compressedBytes);
-      }
-
-      final replacedImage = await _remoteDataSource.replaceImage(
-        leadId: existingImage.leadId,
-        imageId: imageId,
-        base64Data: processedBase64,
-        fileName: fileName,
-        contentType: contentType,
-      );
-
-      // Update cache
-      await _cacheDataSource.removeCachedImage(imageId);
-      await _cacheDataSource.cacheImage(replacedImage);
-
-      return Right(replacedImage.toEntity());
-    } catch (e) {
-      AppLogger.error('Failed to replace image', e);
-      return Left(Exception(e.toString()));
-    }
-  }
-
-  @override
   Future<Either<Exception, int>> getImageCount(String leadId) async {
     try {
       final connectivityResult = await _connectivity.checkConnectivity();

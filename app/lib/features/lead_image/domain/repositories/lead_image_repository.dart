@@ -24,13 +24,6 @@ abstract class LeadImageRepository {
 
   Future<Either<Exception, void>> deleteImage(String imageId);
 
-  Future<Either<Exception, LeadImageEntity>> replaceImage({
-    required String imageId,
-    required String base64Data,
-    required String fileName,
-    required String contentType,
-  });
-
   Future<Either<Exception, int>> getImageCount(String leadId);
 
   Future<Either<Exception, bool>> canAddImage(String leadId);
