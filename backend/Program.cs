@@ -3,7 +3,7 @@ using Carter;
 using Domain.Image.Repositories;
 using Domain.Lead.Repositories;
 using FluentValidation;
-using Infrastructure.ImageProcessing.Interfaces;
+using Application.Image.Interfaces;
 using Infrastructure.ImageProcessing.Services;
 using Infrastructure.Persistence.Repositories;
 using Mapster;

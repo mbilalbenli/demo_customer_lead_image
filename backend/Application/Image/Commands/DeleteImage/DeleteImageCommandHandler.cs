@@ -29,37 +29,35 @@ public sealed class DeleteImageCommandHandler : IRequestHandler<DeleteImageComma
         var leadId = LeadId.From(request.LeadId);
         var imageId = ImageId.From(request.ImageId);
 
-        // Verify image belongs to lead
-        if (!await _imageRepository.BelongsToLeadAsync(imageId, leadId, cancellationToken))
+        // If the image doesn't exist at all, surface 404 (idempotent delete semantics)
+        if (!await _imageRepository.ExistsAsync(imageId, cancellationToken))
         {
-            throw new InvalidOperationException($"Image {request.ImageId} does not belong to lead {request.LeadId}");
+            throw new KeyNotFoundException($"Image with ID '{request.ImageId}' not found.");
         }
 
-        // Get lead with images
-        var lead = await _leadRepository.GetByIdWithImagesAsync(leadId, cancellationToken);
-        if (lead == null)
+        // Ensure lead exists (avoid 500 when lead is missing)
+        var leadExists = await _leadRepository.ExistsAsync(leadId, cancellationToken);
+        if (!leadExists)
         {
             throw new KeyNotFoundException($"Lead with ID '{request.LeadId}' not found.");
         }
 
-        // Remove image from lead
-        var result = lead.RemoveImage(request.ImageId);
-        if (!result.IsSuccess)
+        // Verify image belongs to lead (avoid leaking existence across leads)
+        if (!await _imageRepository.BelongsToLeadAsync(imageId, leadId, cancellationToken))
         {
-            throw new InvalidOperationException(result.Error ?? "Failed to remove image.");
+            // Treat as NotFound to avoid exposing cross‑lead existence
+            throw new KeyNotFoundException($"Image with ID '{request.ImageId}' not found.");
         }
 
-        // Delete from repository
+        // Delete image document from repository
         await _imageRepository.DeleteAsync(imageId, cancellationToken);
 
-        // Update lead
-        await _leadRepository.UpdateAsync(lead, cancellationToken);
-
-        // Save changes
+        // Persist changes
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var remainingCount = lead.GetImageCount();
-        var availableSlots = lead.GetAvailableImageSlots();
+        // Recompute counts from repository (source of truth)
+        var remainingCount = await _imageRepository.GetCountByLeadIdAsync(leadId, cancellationToken);
+        var availableSlots = LeadConstants.MAX_IMAGES_PER_LEAD - remainingCount;
 
         return new DeleteImageResponse
         {

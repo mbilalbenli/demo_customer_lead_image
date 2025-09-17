@@ -1,4 +1,4 @@
-namespace Infrastructure.ImageProcessing.Interfaces;
+namespace Application.Image.Interfaces;
 
 public interface IBase64ImageProcessor
 {
@@ -9,3 +9,4 @@ public interface IBase64ImageProcessor
     string GetImageFormatFromBase64(string base64String);
     int CalculateBase64Size(string base64String);
 }
+

@@ -1,6 +1,8 @@
 using Application.Image.Commands.DeleteImage;
 using Application.Image.Commands.ReplaceImage;
 using Application.Image.Commands.UploadImage;
+using Application.Image.Commands.BatchUploadImages;
+using Application.Image.Commands.ValidateImage;
 using Application.Image.Queries.GetImageCount;
 using Application.Image.Queries.GetImagesByLeadId;
 using Carter;
@@ -26,6 +28,16 @@ public class LeadImageModule : ICarterModule
             .Produces<UploadImageResponse>(201)
             .Produces(400);
 
+        // Batch upload
+        group.MapPost("/batch", BatchUploadImages)
+            .Produces<BatchUploadImagesResponse>(201)
+            .Produces(400);
+
+        // Validate image pre-upload
+        group.MapPost("/validate", ValidateImage)
+            .Produces<ValidateImageResponse>()
+            .Produces(400);
+
         group.MapPut("/{imageId:guid}", ReplaceImage)
             .Produces<ReplaceImageResponse>()
             .Produces(404)
@@ -33,7 +45,8 @@ public class LeadImageModule : ICarterModule
 
         group.MapDelete("/{imageId:guid}", DeleteImage)
             .Produces<DeleteImageResponse>()
-            .Produces(404);
+            .Produces(404)
+            .Produces(400);
     }
 
     private static async Task<Results<Ok<LeadImagesResponse>, NotFound>> GetImagesByLeadId(
@@ -68,6 +81,28 @@ public class LeadImageModule : ICarterModule
         return TypedResults.Created($"/api/leads/{leadId}/images/{result.ImageId}", result);
     }
 
+    private static async Task<Results<Created<BatchUploadImagesResponse>, BadRequest<string>>> BatchUploadImages(
+        Guid leadId,
+        BatchUploadImagesCommand command,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var withLead = command with { LeadId = leadId };
+        var result = await sender.Send(withLead, cancellationToken);
+        return TypedResults.Created($"/api/leads/{leadId}/images", result);
+    }
+
+    private static async Task<Results<Ok<ValidateImageResponse>, BadRequest<string>>> ValidateImage(
+        Guid leadId,
+        ValidateImageCommand command,
+        ISender sender,
+        CancellationToken cancellationToken)
+    {
+        // leadId unused but kept for consistent route shape
+        var result = await sender.Send(command, cancellationToken);
+        return TypedResults.Ok(result);
+    }
+
     private static async Task<Results<Ok<ReplaceImageResponse>, NotFound, BadRequest<string>>> ReplaceImage(
         Guid leadId,
         Guid imageId,
@@ -81,14 +116,27 @@ public class LeadImageModule : ICarterModule
         return TypedResults.Ok(result);
     }
 
-    private static async Task<Results<Ok<DeleteImageResponse>, NotFound>> DeleteImage(
+    private static async Task<Results<Ok<DeleteImageResponse>, NotFound<string>, BadRequest<string>>> DeleteImage(
         Guid leadId,
         Guid imageId,
         ISender sender,
         CancellationToken cancellationToken)
     {
-        var command = new DeleteImageCommand { LeadId = leadId, ImageId = imageId };
-        var result = await sender.Send(command, cancellationToken);
-        return TypedResults.Ok(result);
+        try
+        {
+            var command = new DeleteImageCommand { LeadId = leadId, ImageId = imageId };
+            var result = await sender.Send(command, cancellationToken);
+            return TypedResults.Ok(result);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return TypedResults.NotFound(ex.Message);
+        }
+        catch (InvalidOperationException ex)
+        {
+            // For delete, treat invalid state (e.g., image not belonging to lead)
+            // as NotFound to avoid leaking existence and to keep DELETE idempotent
+            return TypedResults.NotFound(ex.Message);
+        }
     }
 }

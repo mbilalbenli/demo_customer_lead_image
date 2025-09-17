@@ -1,4 +1,4 @@
-using Infrastructure.ImageProcessing.Interfaces;
+using Application.Image.Interfaces;
 
 namespace Infrastructure.ImageProcessing.Services;
 

@@ -7,6 +7,7 @@ using Application.Lead.Queries.SearchLeads;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Domain.Lead.Enums;
 
 namespace API.Modules;
 
@@ -41,9 +42,31 @@ public class LeadModule : ICarterModule
 
     private static async Task<Results<Ok<LeadListResponse>, BadRequest>> GetLeadsList(
         ISender sender,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        int? skip = null,
+        int? take = null,
+        string? sortBy = null,
+        bool? sortDescending = null,
+        LeadStatus? status = null)
     {
-        var query = new GetLeadsListQuery();
+        // Map skip/take to page/pageSize if provided
+        int pageSize = take ?? 10;
+        int pageNumber = 1;
+        if (skip.HasValue && pageSize > 0)
+        {
+            pageNumber = (skip.Value / pageSize) + 1;
+        }
+
+        var query = new GetLeadsListQuery
+        {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            SortBy = string.IsNullOrWhiteSpace(sortBy) ? null : sortBy,
+            SortDescending = sortDescending ?? true,
+            StatusFilter = status,
+            IncludeImageCounts = true
+        };
+
         var result = await sender.Send(query, cancellationToken);
         return TypedResults.Ok(result);
     }

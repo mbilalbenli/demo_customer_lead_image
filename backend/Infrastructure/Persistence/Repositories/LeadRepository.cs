@@ -169,23 +169,41 @@ public class LeadRepository : ILeadRepository
         ISpecification<Lead>? spec = null,
         CancellationToken cancellationToken = default)
     {
-        var query = _session.Query<LeadDocument>();
-        var totalCount = await query.CountAsync(cancellationToken);
+        // Load all documents then apply specification in-memory to ensure
+        // filtering and ordering are applied BEFORE paging. While this isn't
+        // the most efficient for very large datasets, it guarantees correct
+        // pagination and sorting for the current domain specification model.
+        var documents = await _session.Query<LeadDocument>().ToListAsync(cancellationToken);
+        IEnumerable<Lead> leads = documents.Select(d => d.Adapt<Lead>());
 
-        var documents = await query
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync(cancellationToken);
-
-        var leads = documents.Select(d => d.Adapt<Lead>()).ToList();
-
-        if (spec != null && spec.Criteria != null)
+        // Apply filters
+        if (spec?.Criteria != null)
         {
             var compiledCriteria = spec.Criteria.Compile();
-            leads = leads.Where(compiledCriteria).ToList();
+            leads = leads.Where(compiledCriteria);
         }
 
-        return (leads, totalCount);
+        // Apply ordering
+        if (spec?.OrderBy != null)
+        {
+            var compiledOrderBy = spec.OrderBy.Compile();
+            leads = leads.OrderBy(compiledOrderBy);
+        }
+        else if (spec?.OrderByDescending != null)
+        {
+            var compiledOrderByDesc = spec.OrderByDescending.Compile();
+            leads = leads.OrderByDescending(compiledOrderByDesc);
+        }
+
+        // Compute total AFTER filtering, BEFORE paging
+        var totalCount = leads.Count();
+
+        // Apply paging
+        leads = leads
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize);
+
+        return (leads.ToList(), totalCount);
     }
 
     // Batch operations
