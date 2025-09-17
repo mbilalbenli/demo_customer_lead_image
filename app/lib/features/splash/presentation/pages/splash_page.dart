@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../app/router/route_names.dart';
 import '../../../../core/presentation/base/base_page.dart';
 import '../providers/splash_providers.dart';
 import '../organisms/splash_loading_organism.dart';
@@ -22,7 +23,7 @@ class SplashPageState extends BasePageState<SplashPage> {
       vm.onNavigateToMain = () {
         if (mounted) {
           // Use GoRouter to navigate to the leads page
-          context.go('/leads');
+          context.go(RouteNames.leadListPath);
         }
       };
 

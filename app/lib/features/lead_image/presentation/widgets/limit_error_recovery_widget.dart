@@ -151,13 +151,10 @@ class LimitErrorRecoveryWidget extends ConsumerWidget {
   }
 
   void _handleReplaceImage(BuildContext context) {
-    context.go(
-      RouteNames.getImageGalleryPath(leadId),
-      extra: {'mode': 'replace'},
-    );
+    context.go(RouteNames.getLeadDetailPath(leadId));
   }
 
   void _handleViewGallery(BuildContext context) {
-    context.go(RouteNames.getImageGalleryPath(leadId));
+    context.go(RouteNames.getLeadDetailPath(leadId));
   }
 }

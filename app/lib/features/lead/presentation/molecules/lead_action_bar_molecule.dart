@@ -70,7 +70,7 @@ class LeadActionBarMolecule extends StatelessWidget {
             const SizedBox(height: 12),
 
             // Status Actions
-            if (lead.status != LeadStatus.converted) ...[
+            if (lead.status != LeadStatus.closed) ...[
               Row(
                 children: [
                   Expanded(
@@ -78,7 +78,7 @@ class LeadActionBarMolecule extends StatelessWidget {
                       context,
                       'Mark Active',
                       Icons.check_circle,
-                      LeadStatus.active,
+                      LeadStatus.newLead,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -87,7 +87,7 @@ class LeadActionBarMolecule extends StatelessWidget {
                       context,
                       'Mark Converted',
                       Icons.star,
-                      LeadStatus.converted,
+                      LeadStatus.closed,
                     ),
                   ),
                 ],
@@ -254,12 +254,18 @@ class LeadActionBarMolecule extends StatelessWidget {
 
   String _getStatusName(LeadStatus status) {
     switch (status) {
-      case LeadStatus.active:
-        return 'Active';
-      case LeadStatus.inactive:
-        return 'Inactive';
-      case LeadStatus.converted:
-        return 'Converted';
+      case LeadStatus.newLead:
+        return 'New';
+      case LeadStatus.contacted:
+        return 'Contacted';
+      case LeadStatus.qualified:
+        return 'Qualified';
+      case LeadStatus.proposal:
+        return 'Proposal';
+      case LeadStatus.negotiation:
+        return 'Negotiation';
+      case LeadStatus.closed:
+        return 'Closed';
       case LeadStatus.lost:
         return 'Lost';
     }

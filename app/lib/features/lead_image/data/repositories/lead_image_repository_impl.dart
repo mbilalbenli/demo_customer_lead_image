@@ -209,7 +209,7 @@ class LeadImageRepositoryImpl implements LeadImageRepository {
   }
 
   @override
-  Future<Either<Exception, void>> deleteImage(String imageId) async {
+  Future<Either<Exception, void>> deleteImage({required String leadId, required String imageId}) async {
     try {
       final connectivityResult = await _connectivity.checkConnectivity();
 
@@ -217,16 +217,7 @@ class LeadImageRepositoryImpl implements LeadImageRepository {
         return Left(Exception('Cannot delete image while offline'));
       }
 
-      // Extract leadId from the image (assuming we have it cached)
-      final cachedImage = await _cacheDataSource.getCachedImage(imageId);
-      final leadId = cachedImage?.leadId;
-
-      if (leadId != null) {
-        await _remoteDataSource.deleteImage(leadId, imageId);
-      } else {
-        // Fallback: try to delete without leadId (assuming API supports it)
-        await _remoteDataSource.deleteImage('', imageId);
-      }
+      await _remoteDataSource.deleteImage(leadId, imageId);
 
       // Remove from cache
       await _cacheDataSource.removeCachedImage(imageId);

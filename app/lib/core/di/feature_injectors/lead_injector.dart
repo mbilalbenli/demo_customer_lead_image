@@ -10,6 +10,7 @@ import '../../../features/lead/data/datasources/lead_local_datasource.dart';
 import '../../../features/lead/infrastructure/services/lead_api_service.dart';
 import '../../../features/lead/application/use_cases/get_lead_by_id_use_case.dart';
 import '../../../features/lead/application/use_cases/get_leads_list_use_case.dart';
+import '../../../features/lead/application/use_cases/create_lead_use_case.dart';
 
 class LeadInjector {
   static void initialize(GetIt sl) {
@@ -39,9 +40,9 @@ class LeadInjector {
     // Use cases
     sl.registerLazySingleton(() => GetLeadByIdUseCase(sl<LeadRepository>()));
     sl.registerLazySingleton(() => GetLeadsListUseCase(sl<LeadRepository>()));
+    sl.registerLazySingleton(() => CreateLeadUseCase(sl<LeadRepository>()));
 
     // TODO: Add additional use cases as they are created:
-    // - CreateLeadUseCase
     // - UpdateLeadUseCase
     // - DeleteLeadUseCase
     // - SearchLeadsUseCase

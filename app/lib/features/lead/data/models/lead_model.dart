@@ -13,12 +13,15 @@ abstract class LeadModel with _$LeadModel {
 
   const factory LeadModel({
     required String id,
+    @JsonKey(name: 'name') // ignore: invalid_annotation_target
     required String customerName,
     required String email,
     required String phone,
-    required String description,
+    @Default('') String description,
     required LeadStatus status,
     required int imageCount,
+    @Default(10) int availableImageSlots,
+    @Default(true) bool canAddMoreImages,
     required DateTime createdAt,
     DateTime? updatedAt,
   }) = _LeadModel;
@@ -32,7 +35,7 @@ abstract class LeadModel with _$LeadModel {
       customerName: CustomerName(customerName),
       email: EmailAddress(email),
       phone: PhoneNumber(phone),
-      description: description,
+      description: description.isEmpty ? '' : description,
       status: status,
       imageCount: imageCount,
       createdAt: createdAt,
@@ -46,11 +49,25 @@ abstract class LeadModel with _$LeadModel {
       customerName: entity.customerName.value,
       email: entity.email.value,
       phone: entity.phone.value,
-      description: entity.description,
+      description: entity.description ?? '',
       status: entity.status,
       imageCount: entity.imageCount,
+      availableImageSlots: entity.remainingImageSlots,
+      canAddMoreImages: entity.canAddImage,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
     );
+  }
+
+  // Create JSON for API requests with proper casing
+  Map<String, dynamic> toApiJson() {
+    return {
+      if (id.isNotEmpty) 'id': id,
+      'Name': customerName,
+      'Email': email,
+      'Phone': phone,
+      'Status': status.index + 1, // Backend expects 1-based enum values
+      if (description.isNotEmpty) 'Description': description,
+    };
   }
 }

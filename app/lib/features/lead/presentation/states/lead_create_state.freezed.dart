@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LeadCreateState {
 
- CoreState get core; String get name; String get email; String get phone; String get company; String get notes; LeadStatus get status; bool get isFormValid; String? get errorMessage;
+ CoreState get core; String get name; String get email; String get phone; String get company; String get notes; LeadStatus get status; bool get isFormValid; bool get hasChanges; bool get leadCreatedSuccessfully; String? get errorMessage;
 /// Create a copy of LeadCreateState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $LeadCreateStateCopyWith<LeadCreateState> get copyWith => _$LeadCreateStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LeadCreateState&&(identical(other.core, core) || other.core == core)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.company, company) || other.company == company)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.status, status) || other.status == status)&&(identical(other.isFormValid, isFormValid) || other.isFormValid == isFormValid)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LeadCreateState&&(identical(other.core, core) || other.core == core)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.company, company) || other.company == company)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.status, status) || other.status == status)&&(identical(other.isFormValid, isFormValid) || other.isFormValid == isFormValid)&&(identical(other.hasChanges, hasChanges) || other.hasChanges == hasChanges)&&(identical(other.leadCreatedSuccessfully, leadCreatedSuccessfully) || other.leadCreatedSuccessfully == leadCreatedSuccessfully)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,core,name,email,phone,company,notes,status,isFormValid,errorMessage);
+int get hashCode => Object.hash(runtimeType,core,name,email,phone,company,notes,status,isFormValid,hasChanges,leadCreatedSuccessfully,errorMessage);
 
 @override
 String toString() {
-  return 'LeadCreateState(core: $core, name: $name, email: $email, phone: $phone, company: $company, notes: $notes, status: $status, isFormValid: $isFormValid, errorMessage: $errorMessage)';
+  return 'LeadCreateState(core: $core, name: $name, email: $email, phone: $phone, company: $company, notes: $notes, status: $status, isFormValid: $isFormValid, hasChanges: $hasChanges, leadCreatedSuccessfully: $leadCreatedSuccessfully, errorMessage: $errorMessage)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $LeadCreateStateCopyWith<$Res>  {
   factory $LeadCreateStateCopyWith(LeadCreateState value, $Res Function(LeadCreateState) _then) = _$LeadCreateStateCopyWithImpl;
 @useResult
 $Res call({
- CoreState core, String name, String email, String phone, String company, String notes, LeadStatus status, bool isFormValid, String? errorMessage
+ CoreState core, String name, String email, String phone, String company, String notes, LeadStatus status, bool isFormValid, bool hasChanges, bool leadCreatedSuccessfully, String? errorMessage
 });
 
 
@@ -62,7 +62,7 @@ class _$LeadCreateStateCopyWithImpl<$Res>
 
 /// Create a copy of LeadCreateState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? name = null,Object? email = null,Object? phone = null,Object? company = null,Object? notes = null,Object? status = null,Object? isFormValid = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? name = null,Object? email = null,Object? phone = null,Object? company = null,Object? notes = null,Object? status = null,Object? isFormValid = null,Object? hasChanges = null,Object? leadCreatedSuccessfully = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as CoreState,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -72,6 +72,8 @@ as String,company: null == company ? _self.company : company // ignore: cast_nul
 as String,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as LeadStatus,isFormValid: null == isFormValid ? _self.isFormValid : isFormValid // ignore: cast_nullable_to_non_nullable
+as bool,hasChanges: null == hasChanges ? _self.hasChanges : hasChanges // ignore: cast_nullable_to_non_nullable
+as bool,leadCreatedSuccessfully: null == leadCreatedSuccessfully ? _self.leadCreatedSuccessfully : leadCreatedSuccessfully // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -167,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CoreState core,  String name,  String email,  String phone,  String company,  String notes,  LeadStatus status,  bool isFormValid,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CoreState core,  String name,  String email,  String phone,  String company,  String notes,  LeadStatus status,  bool isFormValid,  bool hasChanges,  bool leadCreatedSuccessfully,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LeadCreateState() when $default != null:
-return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_that.notes,_that.status,_that.isFormValid,_that.errorMessage);case _:
+return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_that.notes,_that.status,_that.isFormValid,_that.hasChanges,_that.leadCreatedSuccessfully,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -188,10 +190,10 @@ return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CoreState core,  String name,  String email,  String phone,  String company,  String notes,  LeadStatus status,  bool isFormValid,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CoreState core,  String name,  String email,  String phone,  String company,  String notes,  LeadStatus status,  bool isFormValid,  bool hasChanges,  bool leadCreatedSuccessfully,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _LeadCreateState():
-return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_that.notes,_that.status,_that.isFormValid,_that.errorMessage);case _:
+return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_that.notes,_that.status,_that.isFormValid,_that.hasChanges,_that.leadCreatedSuccessfully,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -208,10 +210,10 @@ return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CoreState core,  String name,  String email,  String phone,  String company,  String notes,  LeadStatus status,  bool isFormValid,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CoreState core,  String name,  String email,  String phone,  String company,  String notes,  LeadStatus status,  bool isFormValid,  bool hasChanges,  bool leadCreatedSuccessfully,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _LeadCreateState() when $default != null:
-return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_that.notes,_that.status,_that.isFormValid,_that.errorMessage);case _:
+return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_that.notes,_that.status,_that.isFormValid,_that.hasChanges,_that.leadCreatedSuccessfully,_that.errorMessage);case _:
   return null;
 
 }
@@ -223,7 +225,7 @@ return $default(_that.core,_that.name,_that.email,_that.phone,_that.company,_tha
 
 
 class _LeadCreateState extends LeadCreateState {
-  const _LeadCreateState({this.core = const CoreState(), this.name = '', this.email = '', this.phone = '', this.company = '', this.notes = '', this.status = LeadStatus.active, this.isFormValid = false, this.errorMessage}): super._();
+  const _LeadCreateState({this.core = const CoreState(), this.name = '', this.email = '', this.phone = '', this.company = '', this.notes = '', this.status = LeadStatus.newLead, this.isFormValid = false, this.hasChanges = false, this.leadCreatedSuccessfully = false, this.errorMessage}): super._();
   
 
 @override@JsonKey() final  CoreState core;
@@ -234,6 +236,8 @@ class _LeadCreateState extends LeadCreateState {
 @override@JsonKey() final  String notes;
 @override@JsonKey() final  LeadStatus status;
 @override@JsonKey() final  bool isFormValid;
+@override@JsonKey() final  bool hasChanges;
+@override@JsonKey() final  bool leadCreatedSuccessfully;
 @override final  String? errorMessage;
 
 /// Create a copy of LeadCreateState
@@ -246,16 +250,16 @@ _$LeadCreateStateCopyWith<_LeadCreateState> get copyWith => __$LeadCreateStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LeadCreateState&&(identical(other.core, core) || other.core == core)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.company, company) || other.company == company)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.status, status) || other.status == status)&&(identical(other.isFormValid, isFormValid) || other.isFormValid == isFormValid)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LeadCreateState&&(identical(other.core, core) || other.core == core)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.company, company) || other.company == company)&&(identical(other.notes, notes) || other.notes == notes)&&(identical(other.status, status) || other.status == status)&&(identical(other.isFormValid, isFormValid) || other.isFormValid == isFormValid)&&(identical(other.hasChanges, hasChanges) || other.hasChanges == hasChanges)&&(identical(other.leadCreatedSuccessfully, leadCreatedSuccessfully) || other.leadCreatedSuccessfully == leadCreatedSuccessfully)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,core,name,email,phone,company,notes,status,isFormValid,errorMessage);
+int get hashCode => Object.hash(runtimeType,core,name,email,phone,company,notes,status,isFormValid,hasChanges,leadCreatedSuccessfully,errorMessage);
 
 @override
 String toString() {
-  return 'LeadCreateState(core: $core, name: $name, email: $email, phone: $phone, company: $company, notes: $notes, status: $status, isFormValid: $isFormValid, errorMessage: $errorMessage)';
+  return 'LeadCreateState(core: $core, name: $name, email: $email, phone: $phone, company: $company, notes: $notes, status: $status, isFormValid: $isFormValid, hasChanges: $hasChanges, leadCreatedSuccessfully: $leadCreatedSuccessfully, errorMessage: $errorMessage)';
 }
 
 
@@ -266,7 +270,7 @@ abstract mixin class _$LeadCreateStateCopyWith<$Res> implements $LeadCreateState
   factory _$LeadCreateStateCopyWith(_LeadCreateState value, $Res Function(_LeadCreateState) _then) = __$LeadCreateStateCopyWithImpl;
 @override @useResult
 $Res call({
- CoreState core, String name, String email, String phone, String company, String notes, LeadStatus status, bool isFormValid, String? errorMessage
+ CoreState core, String name, String email, String phone, String company, String notes, LeadStatus status, bool isFormValid, bool hasChanges, bool leadCreatedSuccessfully, String? errorMessage
 });
 
 
@@ -283,7 +287,7 @@ class __$LeadCreateStateCopyWithImpl<$Res>
 
 /// Create a copy of LeadCreateState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? core = null,Object? name = null,Object? email = null,Object? phone = null,Object? company = null,Object? notes = null,Object? status = null,Object? isFormValid = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? core = null,Object? name = null,Object? email = null,Object? phone = null,Object? company = null,Object? notes = null,Object? status = null,Object? isFormValid = null,Object? hasChanges = null,Object? leadCreatedSuccessfully = null,Object? errorMessage = freezed,}) {
   return _then(_LeadCreateState(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as CoreState,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -293,6 +297,8 @@ as String,company: null == company ? _self.company : company // ignore: cast_nul
 as String,notes: null == notes ? _self.notes : notes // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as LeadStatus,isFormValid: null == isFormValid ? _self.isFormValid : isFormValid // ignore: cast_nullable_to_non_nullable
+as bool,hasChanges: null == hasChanges ? _self.hasChanges : hasChanges // ignore: cast_nullable_to_non_nullable
+as bool,leadCreatedSuccessfully: null == leadCreatedSuccessfully ? _self.leadCreatedSuccessfully : leadCreatedSuccessfully // ignore: cast_nullable_to_non_nullable
 as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

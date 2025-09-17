@@ -2,6 +2,7 @@ import '../models/lead_model.dart';
 import '../../../../core/utils/app_logger.dart';
 import '../../infrastructure/services/lead_api_service.dart';
 import '../../../../core/infrastructure/services/api_interceptors.dart';
+import '../../domain/exceptions/lead_exceptions.dart';
 
 abstract class LeadRemoteDataSource {
   Future<LeadModel> getLeadById(String id);
@@ -25,10 +26,20 @@ class LeadRemoteDataSourceImpl implements LeadRemoteDataSource {
       return await _apiService.getLeadById(id);
     } on ApiException catch (e) {
       AppLogger.error('Failed to fetch lead: ${e.message}');
-      throw Exception(e.message);
+      if (e.statusCode == 404) {
+        throw LeadNotFoundException(leadId: id, originalError: e);
+      }
+      throw LeadSearchException(
+        message: e.message,
+        originalError: e,
+      );
     } catch (e) {
+      if (e is LeadException) rethrow;
       AppLogger.error('Unexpected error fetching lead: $e');
-      throw Exception('Failed to fetch lead');
+      throw LeadSearchException(
+        message: 'Failed to fetch lead',
+        originalError: e,
+      );
     }
   }
 
@@ -42,10 +53,17 @@ class LeadRemoteDataSourceImpl implements LeadRemoteDataSource {
       );
     } on ApiException catch (e) {
       AppLogger.error('Failed to fetch leads list: ${e.message}');
-      throw Exception(e.message);
+      throw LeadSearchException(
+        message: e.message,
+        originalError: e,
+      );
     } catch (e) {
+      if (e is LeadException) rethrow;
       AppLogger.error('Unexpected error fetching leads list: $e');
-      throw Exception('Failed to fetch leads');
+      throw LeadSearchException(
+        message: 'Failed to fetch leads',
+        originalError: e,
+      );
     }
   }
 
@@ -64,10 +82,17 @@ class LeadRemoteDataSourceImpl implements LeadRemoteDataSource {
       );
     } on ApiException catch (e) {
       AppLogger.error('Failed to search leads: ${e.message}');
-      throw Exception(e.message);
+      throw LeadSearchException(
+        message: e.message,
+        originalError: e,
+      );
     } catch (e) {
+      if (e is LeadException) rethrow;
       AppLogger.error('Unexpected error searching leads: $e');
-      throw Exception('Failed to search leads');
+      throw LeadSearchException(
+        message: 'Failed to search leads',
+        originalError: e,
+      );
     }
   }
 
@@ -77,10 +102,24 @@ class LeadRemoteDataSourceImpl implements LeadRemoteDataSource {
       return await _apiService.createLead(lead);
     } on ApiException catch (e) {
       AppLogger.error('Failed to create lead: ${e.message}');
-      throw Exception(e.message);
+      if (e.statusCode == 400) {
+        throw LeadValidationException(
+          message: e.message,
+          validationErrors: e.validationErrors ?? {},
+          originalError: e,
+        );
+      }
+      throw LeadCreationException(
+        message: e.message,
+        originalError: e,
+      );
     } catch (e) {
+      if (e is LeadException) rethrow;
       AppLogger.error('Unexpected error creating lead: $e');
-      throw Exception('Failed to create lead');
+      throw LeadCreationException(
+        message: 'Failed to create lead',
+        originalError: e,
+      );
     }
   }
 
@@ -90,10 +129,27 @@ class LeadRemoteDataSourceImpl implements LeadRemoteDataSource {
       return await _apiService.updateLead(lead.id, lead);
     } on ApiException catch (e) {
       AppLogger.error('Failed to update lead: ${e.message}');
-      throw Exception(e.message);
+      if (e.statusCode == 404) {
+        throw LeadNotFoundException(leadId: lead.id, originalError: e);
+      }
+      if (e.statusCode == 400) {
+        throw LeadValidationException(
+          message: e.message,
+          validationErrors: e.validationErrors ?? {},
+          originalError: e,
+        );
+      }
+      throw LeadUpdateException(
+        message: e.message,
+        originalError: e,
+      );
     } catch (e) {
+      if (e is LeadException) rethrow;
       AppLogger.error('Unexpected error updating lead: $e');
-      throw Exception('Failed to update lead');
+      throw LeadUpdateException(
+        message: 'Failed to update lead',
+        originalError: e,
+      );
     }
   }
 
@@ -103,10 +159,20 @@ class LeadRemoteDataSourceImpl implements LeadRemoteDataSource {
       await _apiService.deleteLead(id);
     } on ApiException catch (e) {
       AppLogger.error('Failed to delete lead: ${e.message}');
-      throw Exception(e.message);
+      if (e.statusCode == 404) {
+        throw LeadNotFoundException(leadId: id, originalError: e);
+      }
+      throw LeadDeletionException(
+        message: e.message,
+        originalError: e,
+      );
     } catch (e) {
+      if (e is LeadException) rethrow;
       AppLogger.error('Unexpected error deleting lead: $e');
-      throw Exception('Failed to delete lead');
+      throw LeadDeletionException(
+        message: 'Failed to delete lead',
+        originalError: e,
+      );
     }
   }
 

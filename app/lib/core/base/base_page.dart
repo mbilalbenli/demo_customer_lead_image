@@ -43,6 +43,12 @@ abstract class BasePageState<P extends BasePage<T>, T extends BaseState> extends
   /// Optional: Override to provide custom FloatingActionButton
   Widget? buildFloatingActionButton(BuildContext context, WidgetRef ref) => null;
 
+  /// Optional: Override to provide a navigation drawer
+  Widget? buildDrawer(BuildContext context, WidgetRef ref) => null;
+
+  /// Optional: Override to provide an end/right drawer
+  Widget? buildEndDrawer(BuildContext context, WidgetRef ref) => null;
+
   /// Optional: Override to change content placement
   ContentPlacement get contentPlacement => ContentPlacement.center;
 
@@ -94,6 +100,8 @@ abstract class BasePageState<P extends BasePage<T>, T extends BaseState> extends
           ],
         ),
       ),
+      drawer: buildDrawer(context, ref),
+      endDrawer: buildEndDrawer(context, ref),
       floatingActionButton: buildFloatingActionButton(context, ref),
     );
   }

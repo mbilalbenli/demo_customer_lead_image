@@ -14,8 +14,10 @@ abstract class LeadCreateState with _$LeadCreateState implements BaseState {
     @Default('') String phone,
     @Default('') String company,
     @Default('') String notes,
-    @Default(LeadStatus.active) LeadStatus status,
+    @Default(LeadStatus.newLead) LeadStatus status,
     @Default(false) bool isFormValid,
+    @Default(false) bool hasChanges,
+    @Default(false) bool leadCreatedSuccessfully,
     String? errorMessage,
   }) = _LeadCreateState;
 

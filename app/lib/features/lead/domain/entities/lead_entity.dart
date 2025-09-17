@@ -18,7 +18,7 @@ abstract class LeadEntity with _$LeadEntity {
     @CustomerNameConverter() required CustomerName customerName,
     @EmailAddressConverter() required EmailAddress email,
     @PhoneNumberConverter() required PhoneNumber phone,
-    required String description,
+    String? description,
     required LeadStatus status,
     required int imageCount,
     required DateTime createdAt,
@@ -45,8 +45,8 @@ abstract class LeadEntity with _$LeadEntity {
     required String customerName,
     required String email,
     required String phone,
-    required String description,
-    LeadStatus status = LeadStatus.active,
+    String? description,
+    LeadStatus status = LeadStatus.newLead,
     int imageCount = 0,
   }) {
     if (imageCount < 0 || imageCount > LeadConstants.maxImagesPerLead) {
@@ -60,7 +60,7 @@ abstract class LeadEntity with _$LeadEntity {
       customerName: CustomerName(customerName),
       email: EmailAddress(email),
       phone: PhoneNumber(phone),
-      description: description,
+      description: description ?? '',
       status: status,
       imageCount: imageCount,
       createdAt: DateTime.now(),
@@ -69,12 +69,18 @@ abstract class LeadEntity with _$LeadEntity {
 }
 
 enum LeadStatus {
-  @JsonValue('active')
-  active,
-  @JsonValue('inactive')
-  inactive,
-  @JsonValue('converted')
-  converted,
-  @JsonValue('lost')
+  @JsonValue(1)
+  newLead,
+  @JsonValue(2)
+  contacted,
+  @JsonValue(3)
+  qualified,
+  @JsonValue(4)
+  proposal,
+  @JsonValue(5)
+  negotiation,
+  @JsonValue(6)
+  closed,
+  @JsonValue(7)
   lost,
 }

@@ -106,8 +106,15 @@ class RetryInterceptor extends Interceptor {
 class ApiException implements Exception {
   final String message;
   final RequestOptions requestOptions;
+  final int? statusCode;
+  final Map<String, List<String>>? validationErrors;
 
-  ApiException(this.message, this.requestOptions);
+  ApiException(
+    this.message,
+    this.requestOptions, {
+    this.statusCode,
+    this.validationErrors,
+  });
 
   @override
   String toString() => message;
@@ -120,36 +127,59 @@ class TimeoutException extends ApiException {
 class BadRequestException extends ApiException {
   final Response? response;
   BadRequestException(RequestOptions r, this.response)
-      : super(_extractMessage(response) ?? 'Bad request', r);
+      : super(
+          _extractMessage(response) ?? 'Bad request',
+          r,
+          statusCode: 400,
+          validationErrors: _extractValidationErrors(response),
+        );
 
   static String? _extractMessage(Response? response) {
     if (response?.data is Map) {
       return response?.data['message'] ?? response?.data['error'];
+    }
+    return null;
+  }
+
+  static Map<String, List<String>>? _extractValidationErrors(Response? response) {
+    if (response?.data is Map && response?.data['errors'] is Map) {
+      final errors = response!.data['errors'] as Map;
+      return errors.map((key, value) {
+        if (value is List) {
+          return MapEntry(key.toString(), value.map((e) => e.toString()).toList());
+        }
+        return MapEntry(key.toString(), [value.toString()]);
+      });
     }
     return null;
   }
 }
 
 class UnauthorizedException extends ApiException {
-  UnauthorizedException(RequestOptions r) : super('Unauthorized', r);
+  UnauthorizedException(RequestOptions r) : super('Unauthorized', r, statusCode: 401);
 }
 
 class ForbiddenException extends ApiException {
-  ForbiddenException(RequestOptions r) : super('Forbidden', r);
+  ForbiddenException(RequestOptions r) : super('Forbidden', r, statusCode: 403);
 }
 
 class NotFoundException extends ApiException {
-  NotFoundException(RequestOptions r) : super('Not found', r);
+  NotFoundException(RequestOptions r) : super('Not found', r, statusCode: 404);
 }
 
 class ConflictException extends ApiException {
-  ConflictException(RequestOptions r) : super('Conflict', r);
+  ConflictException(RequestOptions r) : super('Conflict', r, statusCode: 409);
 }
 
 class UnprocessableEntityException extends ApiException {
   final Response? response;
   UnprocessableEntityException(RequestOptions r, this.response)
-      : super(_extractMessage(response) ?? 'Unprocessable entity', r);
+      : super(
+          _extractMessage(response) ?? 'Unprocessable entity',
+          r,
+          statusCode: 422,
+          validationErrors: _extractValidationErrors(response),
+        );
 
   static String? _extractMessage(Response? response) {
     if (response?.data is Map) {
@@ -157,10 +187,23 @@ class UnprocessableEntityException extends ApiException {
     }
     return null;
   }
+
+  static Map<String, List<String>>? _extractValidationErrors(Response? response) {
+    if (response?.data is Map && response?.data['errors'] is Map) {
+      final errors = response!.data['errors'] as Map;
+      return errors.map((key, value) {
+        if (value is List) {
+          return MapEntry(key.toString(), value.map((e) => e.toString()).toList());
+        }
+        return MapEntry(key.toString(), [value.toString()]);
+      });
+    }
+    return null;
+  }
 }
 
 class InternalServerException extends ApiException {
-  InternalServerException(RequestOptions r) : super('Internal server error', r);
+  InternalServerException(RequestOptions r) : super('Internal server error', r, statusCode: 500);
 }
 
 class ServerException extends ApiException {

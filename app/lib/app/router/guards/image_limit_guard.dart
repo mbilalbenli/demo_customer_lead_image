@@ -21,24 +21,24 @@ class ImageLimitGuard {
 
       // Check current image count for the lead
       final imageStatusAsync = ref.read(imageStatusProvider(leadId));
+      AppLogger.info('ImageLimitGuard.check | leadId=$leadId | status=$imageStatusAsync');
 
       await imageStatusAsync.when(
         data: (status) async {
+          AppLogger.info('ImageLimitGuard.status | data received: current=${status?.currentCount}, max=${status?.maxCount}');
           if (status != null) {
             final currentCount = status.currentCount;
             final maxCount = ImageConstants.maxImagesPerLead;
 
             if (currentCount >= maxCount) {
-              AppLogger.info(
-                'Image limit reached ($currentCount/$maxCount), redirecting to replacement flow',
-              );
+              AppLogger.info('Image limit reached ($currentCount/$maxCount)');
 
               // Show dialog to user
               final shouldReplace = await _showLimitReachedDialog(context);
 
               if (shouldReplace) {
-                // Redirect to image gallery to select image for replacement
-                return RouteNames.getImageGalleryPath(leadId);
+                // Redirect to lead detail for managing images inline
+                return RouteNames.getLeadDetailPath(leadId);
               } else {
                 // Go back to previous route
                 return null;
@@ -47,10 +47,11 @@ class ImageLimitGuard {
           }
         },
         loading: () {
+          AppLogger.info('ImageLimitGuard.status | loading');
           // Allow navigation while loading
         },
         error: (error, stack) {
-          AppLogger.error('Error checking image limit', error);
+          AppLogger.error('ImageLimitGuard.status | error checking image limit', error, stack);
         },
       );
 

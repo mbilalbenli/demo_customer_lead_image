@@ -138,13 +138,22 @@ class MockLeadImageRepository extends _i1.Mock
           as _i4.Future<_i2.Either<Exception, List<_i5.LeadImageEntity>>>);
 
   @override
-  _i4.Future<_i2.Either<Exception, void>> deleteImage(String? imageId) =>
+  _i4.Future<_i2.Either<Exception, void>> deleteImage({
+    required String? leadId,
+    required String? imageId,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#deleteImage, [imageId]),
+            Invocation.method(#deleteImage, [], {
+              #leadId: leadId,
+              #imageId: imageId,
+            }),
             returnValue: _i4.Future<_i2.Either<Exception, void>>.value(
               _FakeEither_0<Exception, void>(
                 this,
-                Invocation.method(#deleteImage, [imageId]),
+                Invocation.method(#deleteImage, [], {
+                  #leadId: leadId,
+                  #imageId: imageId,
+                }),
               ),
             ),
           )

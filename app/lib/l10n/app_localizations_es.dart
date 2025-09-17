@@ -125,6 +125,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get leads => 'Clientes Potenciales';
 
   @override
+  String get customerLeads => 'Clientes potenciales';
+
+  @override
+  String get searchLeadsPlaceholder => 'Buscar leads...';
+
+  @override
+  String get emptyNoLeadsMessage => 'Pulsa + para crear tu primer lead';
+
+  @override
+  String get addLead => 'Añadir lead';
+
+  @override
   String get leadManagement => 'Gestión de Clientes Potenciales';
 
   @override
@@ -395,7 +407,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteImageToAddMore => 'Elimina una imagen para agregar más';
 
   @override
-  String slotsAvailable(int count) {
+  String slotsAvailable(int count, int max) {
     return '$count espacios disponibles';
   }
 
@@ -443,4 +455,106 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dismiss => 'Descartar';
+
+  @override
+  String get imageLimitManager => 'Image Limit Manager';
+
+  @override
+  String get maximumCapacityReached => 'Maximum capacity reached';
+
+  @override
+  String storageLabel(String size) {
+    return 'Storage: $size';
+  }
+
+  @override
+  String averagePerImage(String size) {
+    return 'Avg: $size/image';
+  }
+
+  @override
+  String get overview => 'Overview';
+
+  @override
+  String get manage => 'Manage';
+
+  @override
+  String get storage => 'Storage';
+
+  @override
+  String get noImagesYet => 'No Images Yet';
+
+  @override
+  String get addFirstImage => 'Add your first image to get started';
+
+  @override
+  String get limitReached => 'Limit Reached';
+
+  @override
+  String get imageSlots => 'Image Slots';
+
+  @override
+  String get noImagesToManage => 'No Images to Manage';
+
+  @override
+  String get addImagesToManage => 'Add images to manage them here';
+
+  @override
+  String get selectImageToReplace => 'Select image to replace';
+
+  @override
+  String imagesCount(int count) {
+    return '$count images';
+  }
+
+  @override
+  String deleteImageConfirmation(String fileName) {
+    return 'Delete \"$fileName\"?';
+  }
+
+  @override
+  String get setAsMainImage => 'Set as main image';
+
+  @override
+  String get imageReplacementInitiated => 'Image replacement initiated';
+
+  @override
+  String get storageOverview => 'Storage Overview';
+
+  @override
+  String get totalStorageUsed => 'Total Storage Used';
+
+  @override
+  String get largestImage => 'Largest Image';
+
+  @override
+  String get smallestImage => 'Smallest Image';
+
+  @override
+  String get storageDistribution => 'Storage Distribution';
+
+  @override
+  String andMoreImages(int count) {
+    return '... and $count more images';
+  }
+
+  @override
+  String get recommendations => 'Recommendations';
+
+  @override
+  String get considerCompressing =>
+      'Consider compressing images to reduce storage usage';
+
+  @override
+  String get someLargerThanAverage =>
+      'Some images are significantly larger than average';
+
+  @override
+  String get approachingImageLimit => 'You are approaching the image limit';
+
+  @override
+  String get storageOptimal => 'Storage usage is optimal';
+
+  @override
+  String get manageStorageSettings => 'Manage Storage Settings';
 }

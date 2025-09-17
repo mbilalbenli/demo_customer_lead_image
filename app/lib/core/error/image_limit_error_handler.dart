@@ -172,18 +172,12 @@ class ImageLimitErrorHandler {
 
   /// Navigate to replacement flow
   static void _navigateToReplaceFlow(BuildContext context, String leadId) {
-    context.go(
-      RouteNames.getImageGalleryPath(leadId),
-      extra: {'mode': 'replace'},
-    );
+    context.go(RouteNames.getLeadDetailPath(leadId));
   }
 
   /// Navigate to gallery for deletion
   static void _navigateToGalleryForDeletion(BuildContext context, String leadId) {
-    context.go(
-      RouteNames.getImageGalleryPath(leadId),
-      extra: {'mode': 'delete'},
-    );
+    context.go(RouteNames.getLeadDetailPath(leadId));
   }
 
   /// Show near-limit warning

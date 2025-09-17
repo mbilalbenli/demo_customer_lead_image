@@ -72,25 +72,49 @@ class LeadStatusChipAtom extends StatelessWidget {
 
   _StatusConfig _getStatusConfig(LeadStatus status, ColorScheme colorScheme) {
     switch (status) {
-      case LeadStatus.active:
+      case LeadStatus.newLead:
         return _StatusConfig(
-          label: 'Active',
+          label: 'New',
           icon: Icons.verified,
           backgroundColor: colorScheme.primaryContainer,
           borderColor: colorScheme.primary.withValues(alpha: 0.3),
           textColor: colorScheme.onPrimaryContainer,
         );
-      case LeadStatus.inactive:
+      case LeadStatus.contacted:
         return _StatusConfig(
-          label: 'Inactive',
+          label: 'Contacted',
           icon: Icons.pause_circle,
           backgroundColor: colorScheme.secondaryContainer,
           borderColor: colorScheme.secondary.withValues(alpha: 0.3),
           textColor: colorScheme.onSecondaryContainer,
         );
-      case LeadStatus.converted:
+      case LeadStatus.qualified:
         return _StatusConfig(
-          label: 'Converted',
+          label: 'Qualified',
+          icon: Icons.star,
+          backgroundColor: Colors.orange.shade50,
+          borderColor: Colors.orange.shade300,
+          textColor: Colors.orange.shade800,
+        );
+      case LeadStatus.proposal:
+        return _StatusConfig(
+          label: 'Proposal',
+          icon: Icons.description,
+          backgroundColor: Colors.purple.shade50,
+          borderColor: Colors.purple.shade300,
+          textColor: Colors.purple.shade800,
+        );
+      case LeadStatus.negotiation:
+        return _StatusConfig(
+          label: 'Negotiation',
+          icon: Icons.handshake,
+          backgroundColor: Colors.amber.shade50,
+          borderColor: Colors.amber.shade300,
+          textColor: Colors.amber.shade800,
+        );
+      case LeadStatus.closed:
+        return _StatusConfig(
+          label: 'Closed',
           icon: Icons.check_circle,
           backgroundColor: const Color(0xFF4CAF50).withValues(alpha: 0.1),
           borderColor: const Color(0xFF4CAF50).withValues(alpha: 0.3),
@@ -163,11 +187,17 @@ class LeadStatusDotAtom extends StatelessWidget {
 
   Color _getStatusColor(LeadStatus status, ColorScheme colorScheme) {
     switch (status) {
-      case LeadStatus.active:
+      case LeadStatus.newLead:
         return colorScheme.primary;
-      case LeadStatus.inactive:
+      case LeadStatus.contacted:
         return colorScheme.secondary;
-      case LeadStatus.converted:
+      case LeadStatus.qualified:
+        return Colors.orange;
+      case LeadStatus.proposal:
+        return Colors.purple;
+      case LeadStatus.negotiation:
+        return Colors.amber;
+      case LeadStatus.closed:
         return const Color(0xFF4CAF50);
       case LeadStatus.lost:
         return colorScheme.error;
@@ -176,12 +206,18 @@ class LeadStatusDotAtom extends StatelessWidget {
 
   String _getStatusLabel(LeadStatus status) {
     switch (status) {
-      case LeadStatus.active:
-        return 'Active';
-      case LeadStatus.inactive:
-        return 'Inactive';
-      case LeadStatus.converted:
-        return 'Converted';
+      case LeadStatus.newLead:
+        return 'New';
+      case LeadStatus.contacted:
+        return 'Contacted';
+      case LeadStatus.qualified:
+        return 'Qualified';
+      case LeadStatus.proposal:
+        return 'Proposal';
+      case LeadStatus.negotiation:
+        return 'Negotiation';
+      case LeadStatus.closed:
+        return 'Closed';
       case LeadStatus.lost:
         return 'Lost';
     }

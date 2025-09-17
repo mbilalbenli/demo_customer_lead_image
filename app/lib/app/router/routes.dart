@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/lead/lead_route.dart';
-import '../../features/lead_image/lead_image_route.dart';
-import '../../features/lead_image/image_replacement_route.dart';
 import 'route_names.dart';
 import 'guards/auth_guard.dart';
 
@@ -21,26 +19,10 @@ class AppRoutes {
           builder: (context, state) => const SplashPage(),
         ),
 
-        // Lead routes with nested image routes
-        ...LeadRoute.routes.map((route) {
-          if (route is GoRoute && route.name == RouteNames.leadDetail) {
-            // Add image routes as nested routes under lead detail
-            return GoRoute(
-              path: route.path,
-              name: route.name,
-              builder: route.builder,
-              redirect: route.redirect,
-              routes: [
-                ...route.routes,
-                ...LeadImageRoute.getImageRoutes(ref),
-              ],
-            );
-          }
-          return route;
-        }),
+        // Lead routes (includes nested image routes under lead detail)
+        ...LeadRoute.getRoutes(ref),
 
-        // Image replacement flow (standalone route)
-        ImageReplacementRoute.route,
+        // Image replacement flow removed in simplified design
 
         // Error fallback route
         GoRoute(

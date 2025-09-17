@@ -114,7 +114,7 @@ class LeadRepositoryImpl implements LeadRepository {
           return lead.customerName.toLowerCase().contains(searchQuery) ||
                  lead.email.toLowerCase().contains(searchQuery) ||
                  lead.phone.contains(searchQuery) ||
-                 lead.description.toLowerCase().contains(searchQuery);
+                 (lead.description.toLowerCase().contains(searchQuery));
         }).toList();
         return Right(filteredLeads.map((model) => model.toEntity()).toList());
       }

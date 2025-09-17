@@ -316,6 +316,30 @@ abstract class AppLocalizations {
   /// **'Leads'**
   String get leads;
 
+  /// Lead list page title per wireframe
+  ///
+  /// In en, this message translates to:
+  /// **'Customer Leads'**
+  String get customerLeads;
+
+  /// Search field placeholder for lead list
+  ///
+  /// In en, this message translates to:
+  /// **'Search leads...'**
+  String get searchLeadsPlaceholder;
+
+  /// Helper text for empty state on lead list
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to create your first customer lead'**
+  String get emptyNoLeadsMessage;
+
+  /// Add lead CTA label
+  ///
+  /// In en, this message translates to:
+  /// **'Add Lead'**
+  String get addLead;
+
   /// Lead management page title
   ///
   /// In en, this message translates to:
@@ -388,7 +412,7 @@ abstract class AppLocalizations {
   /// **'Image Management'**
   String get imageManagement;
 
-  /// Add image button text
+  /// Add image button
   ///
   /// In en, this message translates to:
   /// **'Add Image'**
@@ -412,7 +436,7 @@ abstract class AppLocalizations {
   /// **'Upload Images'**
   String get uploadImages;
 
-  /// Delete image button text
+  /// Delete image title
   ///
   /// In en, this message translates to:
   /// **'Delete Image'**
@@ -820,11 +844,11 @@ abstract class AppLocalizations {
   /// **'Delete an image to add more'**
   String get deleteImageToAddMore;
 
-  /// Number of slots available for images
+  /// Slots available message
   ///
   /// In en, this message translates to:
-  /// **'{count} slots available'**
-  String slotsAvailable(int count);
+  /// **'{count} of {max} slots available'**
+  String slotsAvailable(int count, int max);
 
   /// Prompt to replace existing image
   ///
@@ -891,6 +915,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get dismiss;
+
+  /// Image limit manager title
+  ///
+  /// In en, this message translates to:
+  /// **'Image Limit Manager'**
+  String get imageLimitManager;
+
+  /// Maximum capacity reached message
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum capacity reached'**
+  String get maximumCapacityReached;
+
+  /// Storage label
+  ///
+  /// In en, this message translates to:
+  /// **'Storage: {size}'**
+  String storageLabel(String size);
+
+  /// Average size per image
+  ///
+  /// In en, this message translates to:
+  /// **'Avg: {size}/image'**
+  String averagePerImage(String size);
+
+  /// Overview tab
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overview;
+
+  /// Manage tab
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get manage;
+
+  /// Storage tab
+  ///
+  /// In en, this message translates to:
+  /// **'Storage'**
+  String get storage;
+
+  /// No images message
+  ///
+  /// In en, this message translates to:
+  /// **'No Images Yet'**
+  String get noImagesYet;
+
+  /// Add first image message
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first image to get started'**
+  String get addFirstImage;
+
+  /// Limit reached message
+  ///
+  /// In en, this message translates to:
+  /// **'Limit Reached'**
+  String get limitReached;
+
+  /// Image slots label
+  ///
+  /// In en, this message translates to:
+  /// **'Image Slots'**
+  String get imageSlots;
+
+  /// No images to manage message
+  ///
+  /// In en, this message translates to:
+  /// **'No Images to Manage'**
+  String get noImagesToManage;
+
+  /// Add images to manage message
+  ///
+  /// In en, this message translates to:
+  /// **'Add images to manage them here'**
+  String get addImagesToManage;
+
+  /// Select image to replace message
+  ///
+  /// In en, this message translates to:
+  /// **'Select image to replace'**
+  String get selectImageToReplace;
+
+  /// Images count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} images'**
+  String imagesCount(int count);
+
+  /// Delete image confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{fileName}\"?'**
+  String deleteImageConfirmation(String fileName);
+
+  /// Set as main image action
+  ///
+  /// In en, this message translates to:
+  /// **'Set as main image'**
+  String get setAsMainImage;
+
+  /// Image replacement initiated message
+  ///
+  /// In en, this message translates to:
+  /// **'Image replacement initiated'**
+  String get imageReplacementInitiated;
+
+  /// Storage overview title
+  ///
+  /// In en, this message translates to:
+  /// **'Storage Overview'**
+  String get storageOverview;
+
+  /// Total storage used label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Storage Used'**
+  String get totalStorageUsed;
+
+  /// Largest image label
+  ///
+  /// In en, this message translates to:
+  /// **'Largest Image'**
+  String get largestImage;
+
+  /// Smallest image label
+  ///
+  /// In en, this message translates to:
+  /// **'Smallest Image'**
+  String get smallestImage;
+
+  /// Storage distribution title
+  ///
+  /// In en, this message translates to:
+  /// **'Storage Distribution'**
+  String get storageDistribution;
+
+  /// And more images message
+  ///
+  /// In en, this message translates to:
+  /// **'... and {count} more images'**
+  String andMoreImages(int count);
+
+  /// Recommendations title
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations'**
+  String get recommendations;
+
+  /// Consider compressing recommendation
+  ///
+  /// In en, this message translates to:
+  /// **'Consider compressing images to reduce storage usage'**
+  String get considerCompressing;
+
+  /// Some images larger than average
+  ///
+  /// In en, this message translates to:
+  /// **'Some images are significantly larger than average'**
+  String get someLargerThanAverage;
+
+  /// Approaching image limit warning
+  ///
+  /// In en, this message translates to:
+  /// **'You are approaching the image limit'**
+  String get approachingImageLimit;
+
+  /// Storage optimal message
+  ///
+  /// In en, this message translates to:
+  /// **'Storage usage is optimal'**
+  String get storageOptimal;
+
+  /// Manage storage settings button
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Storage Settings'**
+  String get manageStorageSettings;
 }
 
 class _AppLocalizationsDelegate

@@ -56,12 +56,18 @@ class LeadStatusBadgeAtom extends StatelessWidget {
 
   String _getStatusText() {
     switch (status) {
-      case LeadStatus.active:
-        return 'Active';
-      case LeadStatus.inactive:
-        return 'Inactive';
-      case LeadStatus.converted:
-        return 'Converted';
+      case LeadStatus.newLead:
+        return 'New';
+      case LeadStatus.contacted:
+        return 'Contacted';
+      case LeadStatus.qualified:
+        return 'Qualified';
+      case LeadStatus.proposal:
+        return 'Proposal';
+      case LeadStatus.negotiation:
+        return 'Negotiation';
+      case LeadStatus.closed:
+        return 'Closed';
       case LeadStatus.lost:
         return 'Lost';
     }
@@ -71,21 +77,42 @@ class LeadStatusBadgeAtom extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     switch (status) {
-      case LeadStatus.active:
+      case LeadStatus.newLead:
         return _StatusColors(
           backgroundColor: Colors.green.shade50,
           borderColor: Colors.green.shade200,
           textColor: Colors.green.shade800,
           dotColor: Colors.green.shade600,
         );
-      case LeadStatus.inactive:
+      case LeadStatus.contacted:
         return _StatusColors(
           backgroundColor: Colors.grey.shade50,
           borderColor: Colors.grey.shade200,
           textColor: Colors.grey.shade800,
           dotColor: Colors.grey.shade600,
         );
-      case LeadStatus.converted:
+      case LeadStatus.qualified:
+        return _StatusColors(
+          backgroundColor: Colors.orange.shade50,
+          borderColor: Colors.orange.shade200,
+          textColor: Colors.orange.shade800,
+          dotColor: Colors.orange.shade600,
+        );
+      case LeadStatus.proposal:
+        return _StatusColors(
+          backgroundColor: Colors.purple.shade50,
+          borderColor: Colors.purple.shade200,
+          textColor: Colors.purple.shade800,
+          dotColor: Colors.purple.shade600,
+        );
+      case LeadStatus.negotiation:
+        return _StatusColors(
+          backgroundColor: Colors.amber.shade50,
+          borderColor: Colors.amber.shade200,
+          textColor: Colors.amber.shade800,
+          dotColor: Colors.amber.shade600,
+        );
+      case LeadStatus.closed:
         return _StatusColors(
           backgroundColor: Colors.blue.shade50,
           borderColor: Colors.blue.shade200,

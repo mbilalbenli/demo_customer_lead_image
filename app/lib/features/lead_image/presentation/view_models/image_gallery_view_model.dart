@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/base/base_view_model.dart';
 import '../../../../core/utils/app_logger.dart';
@@ -44,11 +45,11 @@ class ImageGalleryViewModel extends BaseViewModel<ImageGalleryState> {
         );
       },
       operationName: 'Loading images',
-      onSuccess: (images) {
-        state = state.copyWith(
-          images: images,
-          currentCount: images.length,
-        );
+      onSuccess: (images) async {
+        // Update images list; do not derive count from page-limited list
+        state = state.copyWith(images: images);
+        // Refresh authoritative counts from backend
+        await fetchImageStatus();
         updateTitle();
         checkLimitWarning();
       },
@@ -122,14 +123,15 @@ class ImageGalleryViewModel extends BaseViewModel<ImageGalleryState> {
           );
         },
         operationName: 'Uploading image',
-        onSuccess: (uploadedImage) {
+        onSuccess: (uploadedImage) async {
           final updatedImages = [...state.images, uploadedImage];
           state = state.copyWith(
             images: updatedImages,
-            currentCount: updatedImages.length,
             isUploading: false,
             uploadProgress: null,
           );
+          // Use backend to recalc count to avoid drift
+          await fetchImageStatus();
           updateTitle();
           checkLimitWarning();
           showSuccessMessage();
@@ -162,21 +164,25 @@ class ImageGalleryViewModel extends BaseViewModel<ImageGalleryState> {
 
     await executeWithLoading(
       operation: () async {
-        final result = await _deleteImageUseCase.execute(image.id);
+        final result = await _deleteImageUseCase.execute(
+          leadId: state.leadId,
+          imageId: image.id,
+        );
         return result.fold(
           (error) => throw error,
           (_) => null,
         );
       },
       operationName: 'Deleting image',
-      onSuccess: (_) {
+      onSuccess: (_) async {
         final updatedImages = state.images.where((img) => img.id != image.id).toList();
         state = state.copyWith(
           images: updatedImages,
-          currentCount: updatedImages.length,
           isDeleting: false,
           showLimitWarning: false, // Clear warning after delete
         );
+        // Refresh authoritative counts from backend
+        await fetchImageStatus();
         updateTitle();
         AppLogger.info('Image deleted successfully');
       },
@@ -248,5 +254,114 @@ class ImageGalleryViewModel extends BaseViewModel<ImageGalleryState> {
     if (state.currentCount < state.maxCount) {
       await uploadImage(newImageFile);
     }
+  }
+
+  // New methods for simplified flow
+  Future<void> pickFromGallery() async {
+    await pickAndUploadImage(ImageSource.gallery);
+  }
+
+  Future<void> addImageFromPath(String path) async {
+    if (state.isAtLimit) {
+      state = state.copyWith(
+        errorMessage: 'Image limit reached. Delete an image to add more.',
+        showLimitWarning: true,
+      );
+      return;
+    }
+
+    final file = File(path);
+    if (!file.existsSync()) {
+      state = state.copyWith(errorMessage: 'Image file not found');
+      return;
+    }
+
+    try {
+      // Convert to base64
+      final bytes = await file.readAsBytes();
+      final base64String = base64.encode(bytes);
+      final fileName = path.split('/').last;
+
+      // Create temporary image entity for local storage
+      final tempImage = LeadImageEntity.create(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        leadId: state.leadId,
+        base64String: base64String,
+        fileName: fileName,
+        contentType: _getMimeType(fileName),
+        orderIndex: state.images.length,
+      );
+
+      // Add to local state
+      final updatedImages = [...state.images, tempImage];
+      state = state.copyWith(
+        images: updatedImages,
+        currentCount: updatedImages.length,
+      );
+
+      updateTitle();
+      checkLimitWarning();
+    } catch (e) {
+      AppLogger.error('Failed to add image from path', e);
+      state = state.copyWith(errorMessage: 'Failed to add image');
+    }
+  }
+
+  Future<void> uploadAllImages() async {
+    if (state.images.isEmpty) {
+      state = state.copyWith(errorMessage: 'No images to upload');
+      return;
+    }
+
+    state = state.copyWith(isUploading: true, uploadProgress: 0);
+    int uploadedCount = 0;
+
+    try {
+      for (final image in state.images) {
+        // Extract base64 data
+        final result = await _uploadImageUseCase.execute(
+          leadId: state.leadId,
+          base64Data: image.base64Data.value,
+          fileName: image.metadata.fileName,
+          contentType: image.metadata.contentType,
+        );
+
+        result.fold(
+          (error) => throw error,
+          (_) {
+            uploadedCount++;
+            state = state.copyWith(
+              uploadProgress: uploadedCount / state.images.length,
+            );
+          },
+        );
+      }
+
+      // Refresh images after upload
+      await fetchImages();
+      state = state.copyWith(
+        isUploading: false,
+        uploadProgress: null,
+      );
+
+      AppLogger.info('All images uploaded successfully');
+    } catch (e) {
+      state = state.copyWith(
+        isUploading: false,
+        uploadProgress: null,
+        errorMessage: 'Failed to upload images: ${e.toString()}',
+      );
+      AppLogger.error('Failed to upload all images', e);
+      rethrow;
+    }
+  }
+
+  void clearAllImages() {
+    state = state.copyWith(
+      images: [],
+      currentCount: 0,
+      showLimitWarning: false,
+    );
+    updateTitle();
   }
 }

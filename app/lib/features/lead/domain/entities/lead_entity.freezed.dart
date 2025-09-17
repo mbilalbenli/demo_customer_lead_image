@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LeadEntity {
 
- String get id;@CustomerNameConverter() CustomerName get customerName;@EmailAddressConverter() EmailAddress get email;@PhoneNumberConverter() PhoneNumber get phone; String get description; LeadStatus get status; int get imageCount; DateTime get createdAt; DateTime? get updatedAt;
+ String get id;@CustomerNameConverter() CustomerName get customerName;@EmailAddressConverter() EmailAddress get email;@PhoneNumberConverter() PhoneNumber get phone; String? get description; LeadStatus get status; int get imageCount; DateTime get createdAt; DateTime? get updatedAt;
 /// Create a copy of LeadEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $LeadEntityCopyWith<$Res>  {
   factory $LeadEntityCopyWith(LeadEntity value, $Res Function(LeadEntity) _then) = _$LeadEntityCopyWithImpl;
 @useResult
 $Res call({
- String id,@CustomerNameConverter() CustomerName customerName,@EmailAddressConverter() EmailAddress email,@PhoneNumberConverter() PhoneNumber phone, String description, LeadStatus status, int imageCount, DateTime createdAt, DateTime? updatedAt
+ String id,@CustomerNameConverter() CustomerName customerName,@EmailAddressConverter() EmailAddress email,@PhoneNumberConverter() PhoneNumber phone, String? description, LeadStatus status, int imageCount, DateTime createdAt, DateTime? updatedAt
 });
 
 
@@ -65,14 +65,14 @@ class _$LeadEntityCopyWithImpl<$Res>
 
 /// Create a copy of LeadEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? customerName = null,Object? email = null,Object? phone = null,Object? description = null,Object? status = null,Object? imageCount = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? customerName = null,Object? email = null,Object? phone = null,Object? description = freezed,Object? status = null,Object? imageCount = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,customerName: null == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
 as CustomerName,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as EmailAddress,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as PhoneNumber,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as PhoneNumber,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as LeadStatus,imageCount: null == imageCount ? _self.imageCount : imageCount // ignore: cast_nullable_to_non_nullable
 as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -161,7 +161,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @CustomerNameConverter()  CustomerName customerName, @EmailAddressConverter()  EmailAddress email, @PhoneNumberConverter()  PhoneNumber phone,  String description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @CustomerNameConverter()  CustomerName customerName, @EmailAddressConverter()  EmailAddress email, @PhoneNumberConverter()  PhoneNumber phone,  String? description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LeadEntity() when $default != null:
 return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.createdAt,_that.updatedAt);case _:
@@ -182,7 +182,7 @@ return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.descri
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @CustomerNameConverter()  CustomerName customerName, @EmailAddressConverter()  EmailAddress email, @PhoneNumberConverter()  PhoneNumber phone,  String description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @CustomerNameConverter()  CustomerName customerName, @EmailAddressConverter()  EmailAddress email, @PhoneNumberConverter()  PhoneNumber phone,  String? description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _LeadEntity():
 return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.createdAt,_that.updatedAt);case _:
@@ -202,7 +202,7 @@ return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.descri
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @CustomerNameConverter()  CustomerName customerName, @EmailAddressConverter()  EmailAddress email, @PhoneNumberConverter()  PhoneNumber phone,  String description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @CustomerNameConverter()  CustomerName customerName, @EmailAddressConverter()  EmailAddress email, @PhoneNumberConverter()  PhoneNumber phone,  String? description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _LeadEntity() when $default != null:
 return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.createdAt,_that.updatedAt);case _:
@@ -217,14 +217,14 @@ return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.descri
 @JsonSerializable()
 
 class _LeadEntity extends LeadEntity {
-  const _LeadEntity({required this.id, @CustomerNameConverter() required this.customerName, @EmailAddressConverter() required this.email, @PhoneNumberConverter() required this.phone, required this.description, required this.status, required this.imageCount, required this.createdAt, this.updatedAt}): super._();
+  const _LeadEntity({required this.id, @CustomerNameConverter() required this.customerName, @EmailAddressConverter() required this.email, @PhoneNumberConverter() required this.phone, this.description, required this.status, required this.imageCount, required this.createdAt, this.updatedAt}): super._();
   factory _LeadEntity.fromJson(Map<String, dynamic> json) => _$LeadEntityFromJson(json);
 
 @override final  String id;
 @override@CustomerNameConverter() final  CustomerName customerName;
 @override@EmailAddressConverter() final  EmailAddress email;
 @override@PhoneNumberConverter() final  PhoneNumber phone;
-@override final  String description;
+@override final  String? description;
 @override final  LeadStatus status;
 @override final  int imageCount;
 @override final  DateTime createdAt;
@@ -263,7 +263,7 @@ abstract mixin class _$LeadEntityCopyWith<$Res> implements $LeadEntityCopyWith<$
   factory _$LeadEntityCopyWith(_LeadEntity value, $Res Function(_LeadEntity) _then) = __$LeadEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@CustomerNameConverter() CustomerName customerName,@EmailAddressConverter() EmailAddress email,@PhoneNumberConverter() PhoneNumber phone, String description, LeadStatus status, int imageCount, DateTime createdAt, DateTime? updatedAt
+ String id,@CustomerNameConverter() CustomerName customerName,@EmailAddressConverter() EmailAddress email,@PhoneNumberConverter() PhoneNumber phone, String? description, LeadStatus status, int imageCount, DateTime createdAt, DateTime? updatedAt
 });
 
 
@@ -280,14 +280,14 @@ class __$LeadEntityCopyWithImpl<$Res>
 
 /// Create a copy of LeadEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? customerName = null,Object? email = null,Object? phone = null,Object? description = null,Object? status = null,Object? imageCount = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? customerName = null,Object? email = null,Object? phone = null,Object? description = freezed,Object? status = null,Object? imageCount = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
   return _then(_LeadEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,customerName: null == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
 as CustomerName,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as EmailAddress,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
-as PhoneNumber,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
-as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as PhoneNumber,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as LeadStatus,imageCount: null == imageCount ? _self.imageCount : imageCount // ignore: cast_nullable_to_non_nullable
 as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable

@@ -22,7 +22,10 @@ abstract class LeadImageRepository {
     required List<Map<String, String>> images, // base64Data, fileName, contentType
   });
 
-  Future<Either<Exception, void>> deleteImage(String imageId);
+  Future<Either<Exception, void>> deleteImage({
+    required String leadId,
+    required String imageId,
+  });
 
   Future<Either<Exception, int>> getImageCount(String leadId);
 

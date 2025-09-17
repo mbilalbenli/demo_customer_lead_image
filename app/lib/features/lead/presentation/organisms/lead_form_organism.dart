@@ -252,12 +252,18 @@ class _LeadFormOrganismState extends State<LeadFormOrganism> {
 
   String _getStatusDisplayName(LeadStatus status) {
     switch (status) {
-      case LeadStatus.active:
-        return 'Active';
-      case LeadStatus.inactive:
-        return 'Inactive';
-      case LeadStatus.converted:
-        return 'Converted';
+      case LeadStatus.newLead:
+        return 'New';
+      case LeadStatus.contacted:
+        return 'Contacted';
+      case LeadStatus.qualified:
+        return 'Qualified';
+      case LeadStatus.proposal:
+        return 'Proposal';
+      case LeadStatus.negotiation:
+        return 'Negotiation';
+      case LeadStatus.closed:
+        return 'Closed';
       case LeadStatus.lost:
         return 'Lost';
     }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LeadModel {
 
- String get id; String get customerName; String get email; String get phone; String get description; LeadStatus get status; int get imageCount; DateTime get createdAt; DateTime? get updatedAt;
+ String get id;@JsonKey(name: 'name') String get customerName; String get email; String get phone; String get description; LeadStatus get status; int get imageCount; int get availableImageSlots; bool get canAddMoreImages; DateTime get createdAt; DateTime? get updatedAt;
 /// Create a copy of LeadModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $LeadModelCopyWith<LeadModel> get copyWith => _$LeadModelCopyWithImpl<LeadModel>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LeadModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.description, description) || other.description == description)&&(identical(other.status, status) || other.status == status)&&(identical(other.imageCount, imageCount) || other.imageCount == imageCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LeadModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.description, description) || other.description == description)&&(identical(other.status, status) || other.status == status)&&(identical(other.imageCount, imageCount) || other.imageCount == imageCount)&&(identical(other.availableImageSlots, availableImageSlots) || other.availableImageSlots == availableImageSlots)&&(identical(other.canAddMoreImages, canAddMoreImages) || other.canAddMoreImages == canAddMoreImages)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,customerName,email,phone,description,status,imageCount,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,customerName,email,phone,description,status,imageCount,availableImageSlots,canAddMoreImages,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'LeadModel(id: $id, customerName: $customerName, email: $email, phone: $phone, description: $description, status: $status, imageCount: $imageCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'LeadModel(id: $id, customerName: $customerName, email: $email, phone: $phone, description: $description, status: $status, imageCount: $imageCount, availableImageSlots: $availableImageSlots, canAddMoreImages: $canAddMoreImages, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $LeadModelCopyWith<$Res>  {
   factory $LeadModelCopyWith(LeadModel value, $Res Function(LeadModel) _then) = _$LeadModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String customerName, String email, String phone, String description, LeadStatus status, int imageCount, DateTime createdAt, DateTime? updatedAt
+ String id,@JsonKey(name: 'name') String customerName, String email, String phone, String description, LeadStatus status, int imageCount, int availableImageSlots, bool canAddMoreImages, DateTime createdAt, DateTime? updatedAt
 });
 
 
@@ -65,7 +65,7 @@ class _$LeadModelCopyWithImpl<$Res>
 
 /// Create a copy of LeadModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? customerName = null,Object? email = null,Object? phone = null,Object? description = null,Object? status = null,Object? imageCount = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? customerName = null,Object? email = null,Object? phone = null,Object? description = null,Object? status = null,Object? imageCount = null,Object? availableImageSlots = null,Object? canAddMoreImages = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,customerName: null == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,9 @@ as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as LeadStatus,imageCount: null == imageCount ? _self.imageCount : imageCount // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as int,availableImageSlots: null == availableImageSlots ? _self.availableImageSlots : availableImageSlots // ignore: cast_nullable_to_non_nullable
+as int,canAddMoreImages: null == canAddMoreImages ? _self.canAddMoreImages : canAddMoreImages // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
@@ -161,10 +163,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String customerName,  String email,  String phone,  String description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'name')  String customerName,  String email,  String phone,  String description,  LeadStatus status,  int imageCount,  int availableImageSlots,  bool canAddMoreImages,  DateTime createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LeadModel() when $default != null:
-return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.availableImageSlots,_that.canAddMoreImages,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -182,10 +184,10 @@ return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.descri
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String customerName,  String email,  String phone,  String description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'name')  String customerName,  String email,  String phone,  String description,  LeadStatus status,  int imageCount,  int availableImageSlots,  bool canAddMoreImages,  DateTime createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _LeadModel():
-return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.availableImageSlots,_that.canAddMoreImages,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +204,10 @@ return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.descri
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String customerName,  String email,  String phone,  String description,  LeadStatus status,  int imageCount,  DateTime createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'name')  String customerName,  String email,  String phone,  String description,  LeadStatus status,  int imageCount,  int availableImageSlots,  bool canAddMoreImages,  DateTime createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _LeadModel() when $default != null:
-return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.description,_that.status,_that.imageCount,_that.availableImageSlots,_that.canAddMoreImages,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -217,16 +219,18 @@ return $default(_that.id,_that.customerName,_that.email,_that.phone,_that.descri
 @JsonSerializable()
 
 class _LeadModel extends LeadModel {
-  const _LeadModel({required this.id, required this.customerName, required this.email, required this.phone, required this.description, required this.status, required this.imageCount, required this.createdAt, this.updatedAt}): super._();
+  const _LeadModel({required this.id, @JsonKey(name: 'name') required this.customerName, required this.email, required this.phone, this.description = '', required this.status, required this.imageCount, this.availableImageSlots = 10, this.canAddMoreImages = true, required this.createdAt, this.updatedAt}): super._();
   factory _LeadModel.fromJson(Map<String, dynamic> json) => _$LeadModelFromJson(json);
 
 @override final  String id;
-@override final  String customerName;
+@override@JsonKey(name: 'name') final  String customerName;
 @override final  String email;
 @override final  String phone;
-@override final  String description;
+@override@JsonKey() final  String description;
 @override final  LeadStatus status;
 @override final  int imageCount;
+@override@JsonKey() final  int availableImageSlots;
+@override@JsonKey() final  bool canAddMoreImages;
 @override final  DateTime createdAt;
 @override final  DateTime? updatedAt;
 
@@ -243,16 +247,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LeadModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.description, description) || other.description == description)&&(identical(other.status, status) || other.status == status)&&(identical(other.imageCount, imageCount) || other.imageCount == imageCount)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LeadModel&&(identical(other.id, id) || other.id == id)&&(identical(other.customerName, customerName) || other.customerName == customerName)&&(identical(other.email, email) || other.email == email)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.description, description) || other.description == description)&&(identical(other.status, status) || other.status == status)&&(identical(other.imageCount, imageCount) || other.imageCount == imageCount)&&(identical(other.availableImageSlots, availableImageSlots) || other.availableImageSlots == availableImageSlots)&&(identical(other.canAddMoreImages, canAddMoreImages) || other.canAddMoreImages == canAddMoreImages)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,customerName,email,phone,description,status,imageCount,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,customerName,email,phone,description,status,imageCount,availableImageSlots,canAddMoreImages,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'LeadModel(id: $id, customerName: $customerName, email: $email, phone: $phone, description: $description, status: $status, imageCount: $imageCount, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'LeadModel(id: $id, customerName: $customerName, email: $email, phone: $phone, description: $description, status: $status, imageCount: $imageCount, availableImageSlots: $availableImageSlots, canAddMoreImages: $canAddMoreImages, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -263,7 +267,7 @@ abstract mixin class _$LeadModelCopyWith<$Res> implements $LeadModelCopyWith<$Re
   factory _$LeadModelCopyWith(_LeadModel value, $Res Function(_LeadModel) _then) = __$LeadModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String customerName, String email, String phone, String description, LeadStatus status, int imageCount, DateTime createdAt, DateTime? updatedAt
+ String id,@JsonKey(name: 'name') String customerName, String email, String phone, String description, LeadStatus status, int imageCount, int availableImageSlots, bool canAddMoreImages, DateTime createdAt, DateTime? updatedAt
 });
 
 
@@ -280,7 +284,7 @@ class __$LeadModelCopyWithImpl<$Res>
 
 /// Create a copy of LeadModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? customerName = null,Object? email = null,Object? phone = null,Object? description = null,Object? status = null,Object? imageCount = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? customerName = null,Object? email = null,Object? phone = null,Object? description = null,Object? status = null,Object? imageCount = null,Object? availableImageSlots = null,Object? canAddMoreImages = null,Object? createdAt = null,Object? updatedAt = freezed,}) {
   return _then(_LeadModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,customerName: null == customerName ? _self.customerName : customerName // ignore: cast_nullable_to_non_nullable
@@ -289,7 +293,9 @@ as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as LeadStatus,imageCount: null == imageCount ? _self.imageCount : imageCount // ignore: cast_nullable_to_non_nullable
-as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as int,availableImageSlots: null == availableImageSlots ? _self.availableImageSlots : availableImageSlots // ignore: cast_nullable_to_non_nullable
+as int,canAddMoreImages: null == canAddMoreImages ? _self.canAddMoreImages : canAddMoreImages // ignore: cast_nullable_to_non_nullable
+as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));

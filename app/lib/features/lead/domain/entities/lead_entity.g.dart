@@ -13,7 +13,7 @@ _LeadEntity _$LeadEntityFromJson(Map<String, dynamic> json) => _LeadEntity(
   ),
   email: const EmailAddressConverter().fromJson(json['email'] as String),
   phone: const PhoneNumberConverter().fromJson(json['phone'] as String),
-  description: json['description'] as String,
+  description: json['description'] as String?,
   status: $enumDecode(_$LeadStatusEnumMap, json['status']),
   imageCount: (json['imageCount'] as num).toInt(),
   createdAt: DateTime.parse(json['createdAt'] as String),
@@ -37,8 +37,11 @@ Map<String, dynamic> _$LeadEntityToJson(
 };
 
 const _$LeadStatusEnumMap = {
-  LeadStatus.active: 'active',
-  LeadStatus.inactive: 'inactive',
-  LeadStatus.converted: 'converted',
-  LeadStatus.lost: 'lost',
+  LeadStatus.newLead: 1,
+  LeadStatus.contacted: 2,
+  LeadStatus.qualified: 3,
+  LeadStatus.proposal: 4,
+  LeadStatus.negotiation: 5,
+  LeadStatus.closed: 6,
+  LeadStatus.lost: 7,
 };

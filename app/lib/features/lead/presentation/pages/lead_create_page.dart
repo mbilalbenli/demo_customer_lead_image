@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../app/router/route_names.dart';
 import '../../../../core/base/base_page.dart';
+import '../../../../core/utils/app_logger.dart';
 import '../view_models/lead_create_view_model.dart';
 import '../states/lead_create_state.dart';
 import '../organisms/lead_form_organism.dart';
@@ -11,7 +13,7 @@ import '../organisms/lead_form_organism.dart';
 class LeadCreatePage extends BasePage<LeadCreateState> {
   const LeadCreatePage({super.key}) : super(
     initialShowAppBar: true,
-    wrapWithScroll: true,
+    wrapWithScroll: false,
   );
 
   ProviderListenable<LeadCreateState> get vmProvider => leadCreateViewModelProvider;
@@ -46,24 +48,53 @@ class _LeadCreatePageState extends BasePageState<LeadCreatePage, LeadCreateState
         icon: const Icon(Icons.close),
         onPressed: () => _handleCancel(context, ref),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => _handleSave(context, ref),
-          child: Text(
-            'Save',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ),
-      ],
     );
   }
 
   @override
   Widget buildPage(BuildContext context, WidgetRef ref) {
     final state = ref.watch(vmProvider);
+
+    // Navigate immediately when lead is created
+    if (state.leadCreatedSuccessfully) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Navigate back immediately
+        if (context.mounted) {
+          context.go(RouteNames.leadListPath);
+
+          // Show success message after navigation
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Lead created successfully!'),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    }
+
+    // Show error message if there's an error
+    if (state.errorMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.errorMessage!),
+            backgroundColor: Theme.of(context).colorScheme.error,
+            behavior: SnackBarBehavior.floating,
+            margin: const EdgeInsets.all(16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        );
+      });
+    }
 
     return Column(
       children: [
@@ -78,9 +109,10 @@ class _LeadCreatePageState extends BasePageState<LeadCreatePage, LeadCreateState
 
         // Form
         Expanded(
-          child: Form(
-            key: _formKey,
-            child: LeadFormOrganism(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: LeadFormOrganism(
               name: state.name,
               email: state.email,
               phone: state.phone,
@@ -88,7 +120,7 @@ class _LeadCreatePageState extends BasePageState<LeadCreatePage, LeadCreateState
               notes: state.notes,
               status: state.status,
               isFormValid: state.isFormValid,
-              hasChanges: false,
+              hasChanges: state.hasChanges,
               isLoading: state.core.isBusy,
               onNameChanged: (value) {
                 ref.read(leadCreateViewModelProvider.notifier).updateName(value);
@@ -109,12 +141,14 @@ class _LeadCreatePageState extends BasePageState<LeadCreatePage, LeadCreateState
                 ref.read(leadCreateViewModelProvider.notifier).updateStatus(status);
               },
               onSave: () {
+                AppLogger.info('Save button clicked in LeadCreatePage');
                 ref.read(leadCreateViewModelProvider.notifier).saveLead();
               },
               onCancel: () => context.pop(),
             ),
           ),
         ),
+      ),
 
         // Error message
         if (state.errorMessage != null)
@@ -143,22 +177,6 @@ class _LeadCreatePageState extends BasePageState<LeadCreatePage, LeadCreateState
     );
   }
 
-  void _handleSave(BuildContext context, WidgetRef ref) async {
-    if (_formKey.currentState?.validate() ?? false) {
-      await ref.read(leadCreateViewModelProvider.notifier).saveLead();
-
-      final state = ref.read(leadCreateViewModelProvider);
-      if (state.errorMessage == null && context.mounted) {
-        context.go('/leads');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Lead created successfully'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
-    }
-  }
 
   void _handleCancel(BuildContext context, WidgetRef ref) {
     if (_hasUnsavedChanges()) {
@@ -177,7 +195,7 @@ class _LeadCreatePageState extends BasePageState<LeadCreatePage, LeadCreateState
             TextButton(
               onPressed: () {
                 Navigator.of(dialogContext).pop();
-                context.go('/leads');
+                context.go(RouteNames.leadListPath);
               },
               child: const Text(
                 'Discard',
@@ -188,7 +206,7 @@ class _LeadCreatePageState extends BasePageState<LeadCreatePage, LeadCreateState
         ),
       );
     } else {
-      context.go('/leads');
+      context.go(RouteNames.leadListPath);
     }
   }
 

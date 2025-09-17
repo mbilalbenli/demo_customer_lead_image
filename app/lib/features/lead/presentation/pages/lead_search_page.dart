@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../app/router/route_names.dart';
 import '../../../../core/base/base_page.dart';
 import '../states/lead_search_state.dart';
 import '../providers/lead_providers.dart';
@@ -100,7 +101,7 @@ class _LeadSearchPageState extends BasePageState<LeadSearchPage, LeadSearchState
               // Back button
               IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => context.go('/leads'),
+                onPressed: () => context.go(RouteNames.leadListPath),
               ),
 
               // Search field
@@ -296,10 +297,10 @@ class _LeadSearchPageState extends BasePageState<LeadSearchPage, LeadSearchState
       )).toList(),
       isLoading: state.isLoadingMore,
       onLeadTap: (lead) {
-        context.go('/leads/${lead.id}');
+        context.go(RouteNames.getLeadDetailPath(lead.id));
       },
       onLeadImagesTap: (lead) {
-        context.go('/leads/${lead.id}/images');
+        context.go(RouteNames.getLeadDetailPath(lead.id));
       },
     );
   }
@@ -348,11 +349,17 @@ class _LeadSearchPageState extends BasePageState<LeadSearchPage, LeadSearchState
 
   LeadListStatus _convertLeadStatus(LeadStatus status) {
     switch (status) {
-      case LeadStatus.active:
+      case LeadStatus.newLead:
         return LeadListStatus.active;
-      case LeadStatus.inactive:
+      case LeadStatus.contacted:
         return LeadListStatus.inactive;
-      case LeadStatus.converted:
+      case LeadStatus.qualified:
+        return LeadListStatus.active; // Map qualified to active for now
+      case LeadStatus.proposal:
+        return LeadListStatus.active; // Map proposal to active for now
+      case LeadStatus.negotiation:
+        return LeadListStatus.active; // Map negotiation to active for now
+      case LeadStatus.closed:
         return LeadListStatus.converted;
       case LeadStatus.lost:
         return LeadListStatus.lost;

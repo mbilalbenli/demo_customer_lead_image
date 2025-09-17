@@ -27,8 +27,7 @@ yarn-error.log*
 # Temporary files
 tmp/
 temp/
-.tmp/
-
+.tmp/w
 # OS files
 .DS_Store
 Thumbs.db
@@ -45,3 +44,5 @@ plan.md
 missing_things_plan.md
 EXECUTION_ORDER.md
 
+app/screenshot2.png
+app/screenshot3.png

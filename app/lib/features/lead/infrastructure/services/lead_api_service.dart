@@ -22,8 +22,8 @@ class LeadApiService {
         },
       );
 
-      if (response.data != null && response.data!['leads'] != null) {
-        final leadsList = (response.data!['leads'] as List)
+      if (response.data != null && response.data!['items'] != null) {
+        final leadsList = (response.data!['items'] as List)
             .map((json) => LeadModel.fromJson(json as Map<String, dynamic>))
             .toList();
         AppLogger.info('Fetched ${leadsList.length} leads');
@@ -43,8 +43,8 @@ class LeadApiService {
         ApiEndpoints.getLeadById(id),
       );
 
-      if (response.data != null && response.data!['lead'] != null) {
-        final lead = LeadModel.fromJson(response.data!['lead'] as Map<String, dynamic>);
+      if (response.data != null) {
+        final lead = LeadModel.fromJson(response.data!);
         AppLogger.info('Fetched lead: ${lead.customerName}');
         return lead;
       }
@@ -60,11 +60,11 @@ class LeadApiService {
       AppLogger.info('Creating new lead: ${lead.customerName}');
       final response = await _dioClient.post<Map<String, dynamic>>(
         ApiEndpoints.leads,
-        data: lead.toJson(),
+        data: lead.toApiJson(),
       );
 
-      if (response.data != null && response.data!['lead'] != null) {
-        final createdLead = LeadModel.fromJson(response.data!['lead'] as Map<String, dynamic>);
+      if (response.data != null) {
+        final createdLead = LeadModel.fromJson(response.data!);
         AppLogger.info('Created lead with id: ${createdLead.id}');
         return createdLead;
       }
@@ -80,11 +80,11 @@ class LeadApiService {
       AppLogger.info('Updating lead with id: $id');
       final response = await _dioClient.put<Map<String, dynamic>>(
         ApiEndpoints.getLeadById(id),
-        data: lead.toJson(),
+        data: lead.toApiJson(),
       );
 
-      if (response.data != null && response.data!['lead'] != null) {
-        final updatedLead = LeadModel.fromJson(response.data!['lead'] as Map<String, dynamic>);
+      if (response.data != null) {
+        final updatedLead = LeadModel.fromJson(response.data!);
         AppLogger.info('Updated lead: ${updatedLead.customerName}');
         return updatedLead;
       }
@@ -119,7 +119,7 @@ class LeadApiService {
       final response = await _dioClient.get<Map<String, dynamic>>(
         ApiEndpoints.searchLeads,
         queryParameters: {
-          'query': query,
+          'searchTerm': query,
           if (status != null) 'status': status,
           if (skip != null) 'skip': skip,
           if (take != null) 'take': take,

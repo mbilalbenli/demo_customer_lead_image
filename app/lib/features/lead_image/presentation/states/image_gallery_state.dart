@@ -49,6 +49,8 @@ abstract class ImageGalleryState with _$ImageGalleryState implements BaseState {
 
   bool get isNearLimit => currentCount >= (maxCount - 2);
 
+  int get maxImages => maxCount;
+
   String get limitStatusMessage {
     if (isAtLimit) {
       return 'Image limit reached. Delete an image to add more.';

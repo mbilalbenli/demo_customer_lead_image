@@ -24,14 +24,15 @@ class LeadEditViewModel extends BaseViewModel<LeadEditState> {
           email: 'john@example.com',
           phone: '+1 234 567 8900',
           description: 'Tech Corp - Important client',
-          status: LeadStatus.converted,
+          status: LeadStatus.closed,
           imageCount: 5,
         );
       },
       operationName: 'Loading lead',
       onSuccess: (lead) {
         // Extract company and notes from description
-        final parts = lead.description.split(' - ');
+        final description = lead.description ?? '';
+        final parts = description.split(' - ');
         final company = parts.isNotEmpty ? parts.first : '';
         final notes = parts.length > 1 ? parts.sublist(1).join(' - ') : '';
 

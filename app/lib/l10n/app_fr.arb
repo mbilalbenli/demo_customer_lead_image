@@ -132,4 +132,13 @@
   "retrying": "Nouvelle tentative...",
   "maxRetriesReached": "Maximum de tentatives atteint",
   "dismiss": "Ignorer"
+  ,
+  "customerLeads": "Prospects clients",
+  "@customerLeads": {"description": "Titre de la liste des prospects"},
+  "searchLeadsPlaceholder": "Rechercher des prospects…",
+  "@searchLeadsPlaceholder": {"description": "Placeholder du champ de recherche"},
+  "emptyNoLeadsMessage": "Appuyez sur + pour créer votre premier prospect",
+  "@emptyNoLeadsMessage": {"description": "Texte d'aide pour l'état vide"},
+  "addLead": "Ajouter un prospect",
+  "@addLead": {"description": "Libellé du bouton d'ajout de prospect"}
 }

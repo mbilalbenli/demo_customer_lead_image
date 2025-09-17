@@ -68,7 +68,7 @@ class LeadInfoCardMolecule extends StatelessWidget {
               ),
             ],
 
-            if (lead.description.isNotEmpty) ...[
+            if (lead.description != null && lead.description!.isNotEmpty) ...[
               const SizedBox(height: 16),
               const Divider(),
               const SizedBox(height: 16),
@@ -99,7 +99,7 @@ class LeadInfoCardMolecule extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  lead.description,
+                  lead.description ?? '',
                   style: theme.textTheme.bodyMedium,
                 ),
               ),

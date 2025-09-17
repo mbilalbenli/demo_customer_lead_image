@@ -89,7 +89,7 @@ class ImageCountAnnouncements {
     final l10n = AppLocalizations.of(context);
     final available = ImageConstants.maxImagesPerLead - currentCount;
 
-    final message = l10n?.slotsAvailable(available) ?? '$available slots available';
+    final message = l10n?.slotsAvailable(available, ImageConstants.maxImagesPerLead) ?? '$available slots available';
     SemanticsService.announce(message, TextDirection.ltr);
   }
 

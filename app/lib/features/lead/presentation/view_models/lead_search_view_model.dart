@@ -118,7 +118,7 @@ class LeadSearchViewModel extends BaseViewModel<LeadSearchState> {
         email: 'john@example.com',
         phone: '+1 234 567 8900',
         description: 'Tech Corp - Important client',
-        status: LeadStatus.converted,
+        status: LeadStatus.closed,
         imageCount: 5,
       ),
       LeadEntity.create(
@@ -127,7 +127,7 @@ class LeadSearchViewModel extends BaseViewModel<LeadSearchState> {
         email: 'jane@example.com',
         phone: '+1 234 567 8901',
         description: 'Design Studio - Creative project',
-        status: LeadStatus.active,
+        status: LeadStatus.newLead,
         imageCount: 3,
       ),
       LeadEntity.create(
@@ -136,7 +136,7 @@ class LeadSearchViewModel extends BaseViewModel<LeadSearchState> {
         email: 'mike@example.com',
         phone: '+1 234 567 8902',
         description: 'Startup Inc - New opportunity',
-        status: LeadStatus.inactive,
+        status: LeadStatus.contacted,
         imageCount: 0,
       ),
     ];
@@ -144,20 +144,20 @@ class LeadSearchViewModel extends BaseViewModel<LeadSearchState> {
     return allLeads.where((lead) {
       final matchesQuery = lead.customerName.value.toLowerCase().contains(query.toLowerCase()) ||
           lead.email.value.toLowerCase().contains(query.toLowerCase()) ||
-          lead.description.toLowerCase().contains(query.toLowerCase());
+          (lead.description?.toLowerCase().contains(query.toLowerCase()) ?? false);
 
       if (filters.isEmpty) return matchesQuery;
 
       final matchesFilters = filters.every((filter) {
         switch (filter.toLowerCase()) {
           case 'active':
-            return lead.status == LeadStatus.active;
+            return lead.status == LeadStatus.newLead;
           case 'inactive':
-            return lead.status == LeadStatus.inactive;
+            return lead.status == LeadStatus.contacted;
           case 'lost':
             return lead.status == LeadStatus.lost;
           case 'converted':
-            return lead.status == LeadStatus.converted;
+            return lead.status == LeadStatus.closed;
           case 'has images':
             return lead.imageCount > 0;
           case 'no images':

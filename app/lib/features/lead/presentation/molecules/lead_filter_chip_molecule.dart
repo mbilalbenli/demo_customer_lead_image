@@ -128,12 +128,18 @@ class LeadFilterChipMolecule extends StatelessWidget {
 
   static String _getStatusLabel(LeadStatus status) {
     switch (status) {
-      case LeadStatus.active:
-        return 'Active';
-      case LeadStatus.inactive:
-        return 'Inactive';
-      case LeadStatus.converted:
-        return 'Converted';
+      case LeadStatus.newLead:
+        return 'New';
+      case LeadStatus.contacted:
+        return 'Contacted';
+      case LeadStatus.qualified:
+        return 'Qualified';
+      case LeadStatus.proposal:
+        return 'Proposal';
+      case LeadStatus.negotiation:
+        return 'Negotiation';
+      case LeadStatus.closed:
+        return 'Closed';
       case LeadStatus.lost:
         return 'Lost';
     }
@@ -141,11 +147,17 @@ class LeadFilterChipMolecule extends StatelessWidget {
 
   static IconData _getStatusIcon(LeadStatus status) {
     switch (status) {
-      case LeadStatus.active:
+      case LeadStatus.newLead:
         return Icons.verified;
-      case LeadStatus.inactive:
+      case LeadStatus.contacted:
         return Icons.pause_circle;
-      case LeadStatus.converted:
+      case LeadStatus.qualified:
+        return Icons.star;
+      case LeadStatus.proposal:
+        return Icons.description;
+      case LeadStatus.negotiation:
+        return Icons.handshake;
+      case LeadStatus.closed:
         return Icons.check_circle;
       case LeadStatus.lost:
         return Icons.cancel;

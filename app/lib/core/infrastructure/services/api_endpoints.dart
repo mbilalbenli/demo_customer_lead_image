@@ -1,7 +1,10 @@
 class ApiEndpoints {
   ApiEndpoints._();
 
-  static const String baseUrl = 'http://localhost:5000';
+  // Use 10.0.2.2 for Android emulator to access host machine
+  // Use localhost for iOS simulator
+  // For real device, use your machine's IP address
+  static const String baseUrl = 'http://10.0.2.2:5000';
   static const String apiVersion = '/api';
   static const String baseApiUrl = '$baseUrl$apiVersion';
 
@@ -9,20 +12,28 @@ class ApiEndpoints {
   static const String leadById = '/leads/{id}';
   static const String searchLeads = '/leads/search';
 
-  static const String leadImages = '/lead-images';
-  static const String leadImagesByLeadId = '/lead-images/lead/{leadId}';
-  static const String leadImageById = '/lead-images/{id}';
-  static const String uploadImage = '/lead-images/upload';
-  static const String imageCount = '/lead-images/lead/{leadId}/count';
-  static const String replaceImage = '/lead-images/{id}/replace';
+  // Lead images (nested under lead)
+  static const String leadImagesByLeadId = '/leads/{leadId}/images';
+  static const String leadImageById = '/leads/{leadId}/images/{imageId}';
+  static const String uploadImageForLead = '/leads/{leadId}/images';
+  static const String batchUploadImagesForLead = '/leads/{leadId}/images/batch';
+  static const String validateImageForLead = '/leads/{leadId}/images/validate';
+  static const String imageCountForLead = '/leads/{leadId}/images/count';
+  static const String replaceImageForLead = '/leads/{leadId}/images/{imageId}';
 
   static String getLeadById(String id) => leadById.replaceAll('{id}', id);
   static String getImagesByLeadId(String leadId) =>
       leadImagesByLeadId.replaceAll('{leadId}', leadId);
-  static String getImageById(String id) =>
-      leadImageById.replaceAll('{id}', id);
   static String getImageCount(String leadId) =>
-      imageCount.replaceAll('{leadId}', leadId);
-  static String getReplaceImage(String id) =>
-      replaceImage.replaceAll('{id}', id);
+      imageCountForLead.replaceAll('{leadId}', leadId);
+  static String postUploadImage(String leadId) =>
+      uploadImageForLead.replaceAll('{leadId}', leadId);
+  static String postBatchUploadImages(String leadId) =>
+      batchUploadImagesForLead.replaceAll('{leadId}', leadId);
+  static String postValidateImage(String leadId) =>
+      validateImageForLead.replaceAll('{leadId}', leadId);
+  static String putReplaceImage(String leadId, String imageId) =>
+      replaceImageForLead.replaceAll('{leadId}', leadId).replaceAll('{imageId}', imageId);
+  static String deleteImagePath(String leadId, String imageId) =>
+      leadImageById.replaceAll('{leadId}', leadId).replaceAll('{imageId}', imageId);
 }

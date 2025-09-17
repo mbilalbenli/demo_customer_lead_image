@@ -195,6 +195,26 @@
     "description": "Leads section title"
   },
 
+  "customerLeads": "Customer Leads",
+  "@customerLeads": {
+    "description": "Lead list page title per wireframe"
+  },
+
+  "searchLeadsPlaceholder": "Search leads...",
+  "@searchLeadsPlaceholder": {
+    "description": "Search field placeholder for lead list"
+  },
+
+  "emptyNoLeadsMessage": "Tap + to create your first customer lead",
+  "@emptyNoLeadsMessage": {
+    "description": "Helper text for empty state on lead list"
+  },
+
+  "addLead": "Add Lead",
+  "@addLead": {
+    "description": "Add lead CTA label"
+  },
+
   "leadManagement": "Lead Management",
   "@leadManagement": {
     "description": "Lead management page title"
@@ -767,5 +787,203 @@
   "dismiss": "Dismiss",
   "@dismiss": {
     "description": "Dismiss button text"
+  },
+
+  "imageLimitManager": "Image Limit Manager",
+  "@imageLimitManager": {
+    "description": "Image limit manager title"
+  },
+
+  "maximumCapacityReached": "Maximum capacity reached",
+  "@maximumCapacityReached": {
+    "description": "Maximum capacity reached message"
+  },
+
+  "slotsAvailable": "{count} of {max} slots available",
+  "@slotsAvailable": {
+    "description": "Slots available message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+
+  "storageLabel": "Storage: {size}",
+  "@storageLabel": {
+    "description": "Storage label",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+
+  "averagePerImage": "Avg: {size}/image",
+  "@averagePerImage": {
+    "description": "Average size per image",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+
+  "overview": "Overview",
+  "@overview": {
+    "description": "Overview tab"
+  },
+
+  "manage": "Manage",
+  "@manage": {
+    "description": "Manage tab"
+  },
+
+  "storage": "Storage",
+  "@storage": {
+    "description": "Storage tab"
+  },
+
+  "noImagesYet": "No Images Yet",
+  "@noImagesYet": {
+    "description": "No images message"
+  },
+
+  "addFirstImage": "Add your first image to get started",
+  "@addFirstImage": {
+    "description": "Add first image message"
+  },
+
+  "addImage": "Add Image",
+  "@addImage": {
+    "description": "Add image button"
+  },
+
+  "limitReached": "Limit Reached",
+  "@limitReached": {
+    "description": "Limit reached message"
+  },
+
+  "imageSlots": "Image Slots",
+  "@imageSlots": {
+    "description": "Image slots label"
+  },
+
+  "noImagesToManage": "No Images to Manage",
+  "@noImagesToManage": {
+    "description": "No images to manage message"
+  },
+
+  "addImagesToManage": "Add images to manage them here",
+  "@addImagesToManage": {
+    "description": "Add images to manage message"
+  },
+
+  "selectImageToReplace": "Select image to replace",
+  "@selectImageToReplace": {
+    "description": "Select image to replace message"
+  },
+
+  "imagesCount": "{count} images",
+  "@imagesCount": {
+    "description": "Images count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "deleteImage": "Delete Image",
+  "@deleteImage": {
+    "description": "Delete image title"
+  },
+
+  "deleteImageConfirmation": "Delete \"{fileName}\"?",
+  "@deleteImageConfirmation": {
+    "description": "Delete image confirmation",
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "setAsMainImage": "Set as main image",
+  "@setAsMainImage": {
+    "description": "Set as main image action"
+  },
+
+  "imageReplacementInitiated": "Image replacement initiated",
+  "@imageReplacementInitiated": {
+    "description": "Image replacement initiated message"
+  },
+
+  "storageOverview": "Storage Overview",
+  "@storageOverview": {
+    "description": "Storage overview title"
+  },
+
+  "totalStorageUsed": "Total Storage Used",
+  "@totalStorageUsed": {
+    "description": "Total storage used label"
+  },
+
+  "largestImage": "Largest Image",
+  "@largestImage": {
+    "description": "Largest image label"
+  },
+
+  "smallestImage": "Smallest Image",
+  "@smallestImage": {
+    "description": "Smallest image label"
+  },
+
+  "storageDistribution": "Storage Distribution",
+  "@storageDistribution": {
+    "description": "Storage distribution title"
+  },
+
+  "andMoreImages": "... and {count} more images",
+  "@andMoreImages": {
+    "description": "And more images message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "recommendations": "Recommendations",
+  "@recommendations": {
+    "description": "Recommendations title"
+  },
+
+  "considerCompressing": "Consider compressing images to reduce storage usage",
+  "@considerCompressing": {
+    "description": "Consider compressing recommendation"
+  },
+
+  "someLargerThanAverage": "Some images are significantly larger than average",
+  "@someLargerThanAverage": {
+    "description": "Some images larger than average"
+  },
+
+  "approachingImageLimit": "You are approaching the image limit",
+  "@approachingImageLimit": {
+    "description": "Approaching image limit warning"
+  },
+
+  "storageOptimal": "Storage usage is optimal",
+  "@storageOptimal": {
+    "description": "Storage optimal message"
+  },
+
+  "manageStorageSettings": "Manage Storage Settings",
+  "@manageStorageSettings": {
+    "description": "Manage storage settings button"
   }
 }

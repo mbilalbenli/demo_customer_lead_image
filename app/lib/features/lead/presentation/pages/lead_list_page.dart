@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../app/router/route_names.dart';
 import '../../../../core/base/base_page.dart';
 import '../providers/lead_providers.dart';
 import '../states/lead_list_state.dart';
 import '../organisms/lead_list_organism.dart';
-import '../atoms/empty_state_atom.dart';
+import '../../../../core/widgets/molecules/app_empty_state_molecule.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../core/widgets/organisms/app_navigation_drawer_organism.dart';
 import '../../domain/entities/lead_entity.dart' as domain;
 
 class LeadListPage extends BasePage<LeadListState> {
@@ -24,48 +27,39 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
 
   @override
   PreferredSizeWidget buildAppBar(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(leadListViewModelProvider);
+    final l10n = AppLocalizations.of(context);
     return AppBar(
-      title: Text(state.title),
+      // When drawer is provided, Scaffold shows hamburger automatically
+      title: Text(l10n?.customerLeads ?? 'Customer Leads'),
       backgroundColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-      centerTitle: true,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
-            context.go('/leads/search');
-          },
-        ),
-        IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            context.go('/leads/create');
-          },
-        ),
-        IconButton(
-          icon: const Icon(Icons.refresh),
-          onPressed: () {
-            ref.read(leadListViewModelProvider.notifier).fetchLeads(refresh: true);
-          },
-        ),
-      ],
+      centerTitle: false,
+      // Simplified: remove duplicate search/add from AppBar
+      actions: const [],
     );
   }
 
   @override
   Widget? buildFloatingActionButton(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(leadListViewModelProvider);
+    // Hide FAB on empty state to avoid duplication with centered CTA
+    if (!state.isBusy && state.leads.isEmpty) return null;
+
     return FloatingActionButton(
-      onPressed: () {
-        context.go('/leads/create');
-      },
+      onPressed: () => context.go(RouteNames.leadCreatePath),
       backgroundColor: Theme.of(context).colorScheme.primary,
       child: const Icon(Icons.add),
     );
   }
 
   @override
+  Widget? buildDrawer(BuildContext context, WidgetRef ref) {
+    return const AppNavigationDrawerOrganism();
+  }
+
+  @override
   Widget buildPage(BuildContext context, WidgetRef ref) {
     final state = ref.watch(leadListViewModelProvider);
+    final l10n = AppLocalizations.of(context);
 
     if (state.errorMessage != null) {
       return Center(
@@ -97,8 +91,9 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              enabled: !state.isBusy,
               decoration: InputDecoration(
-                hintText: 'Search leads...',
+                hintText: l10n?.searchLeadsPlaceholder ?? 'Search leads...',
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -111,11 +106,14 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
               },
             ),
           ),
-          const Expanded(
-            child: EmptyStateAtom(
+          Expanded(
+            child: AppEmptyStateMolecule(
               icon: Icons.people_outline,
-              title: 'No Leads Found',
-              subtitle: 'Start by adding your first lead',
+              title: l10n?.noLeadsFound ?? 'No leads found',
+              // Simplified copy: avoid referring to + FAB here
+              message: 'Create your first customer lead',
+              actionText: l10n?.addLead ?? l10n?.createLead ?? 'Add Lead',
+              onAction: () => context.go(RouteNames.leadCreatePath),
             ),
           ),
         ],
@@ -129,7 +127,7 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
           padding: const EdgeInsets.all(16.0),
           child: TextField(
             decoration: InputDecoration(
-              hintText: 'Search leads...',
+              hintText: l10n?.searchLeadsPlaceholder ?? 'Search leads...',
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
@@ -152,10 +150,10 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
               leads: state.leads.map((lead) => _convertToLeadItemData(lead)).toList(),
               isLoading: state.isLoadingMore,
               onLeadTap: (lead) {
-                context.go('/leads/${lead.id}');
+                context.go(RouteNames.getLeadDetailPath(lead.id));
               },
               onLeadImagesTap: (lead) {
-                context.go('/leads/${lead.id}/images');
+                context.go(RouteNames.getLeadDetailPath(lead.id));
               },
             ),
           ),
@@ -178,11 +176,17 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
 
   LeadListStatus _convertLeadStatus(domain.LeadStatus status) {
     switch (status) {
-      case domain.LeadStatus.active:
+      case domain.LeadStatus.newLead:
         return LeadListStatus.active;
-      case domain.LeadStatus.inactive:
+      case domain.LeadStatus.contacted:
         return LeadListStatus.inactive;
-      case domain.LeadStatus.converted:
+      case domain.LeadStatus.qualified:
+        return LeadListStatus.active; // Map qualified to active for now
+      case domain.LeadStatus.proposal:
+        return LeadListStatus.active; // Map proposal to active for now
+      case domain.LeadStatus.negotiation:
+        return LeadListStatus.active; // Map negotiation to active for now
+      case domain.LeadStatus.closed:
         return LeadListStatus.converted;
       case domain.LeadStatus.lost:
         return LeadListStatus.lost;

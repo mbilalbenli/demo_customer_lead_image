@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/molecules/app_limit_indicator_molecule.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../molecules/lead_info_card_molecule.dart';
 import '../molecules/lead_action_bar_molecule.dart';
 import '../atoms/lead_status_badge_atom.dart';
@@ -30,6 +31,7 @@ class LeadDetailOrganism extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -73,7 +75,7 @@ class LeadDetailOrganism extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          // Image Storage Status
+          // Images section with limit indicator and actions
           Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -88,11 +90,18 @@ class LeadDetailOrganism extends StatelessWidget {
                         size: 20,
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        'Image Storage',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Text(
+                          '${l10n?.images ?? 'Images'} (${lead.imageCount}/$maxImageCount)',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        tooltip: l10n?.addImage ?? 'Add Image',
+                        onPressed: lead.imageCount < maxImageCount ? onAddImage : null,
                       ),
                     ],
                   ),
@@ -100,6 +109,7 @@ class LeadDetailOrganism extends StatelessWidget {
                   AppLimitIndicatorMolecule.images(
                     current: lead.imageCount,
                     max: maxImageCount,
+                    style: LimitIndicatorStyle.progress,
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -108,7 +118,7 @@ class LeadDetailOrganism extends StatelessWidget {
                         child: OutlinedButton.icon(
                           onPressed: lead.imageCount > 0 ? onViewImages : null,
                           icon: const Icon(Icons.visibility),
-                          label: Text('View Images (${lead.imageCount})'),
+                          label: Text(l10n?.viewImageGallery ?? 'View All Images'),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -116,7 +126,7 @@ class LeadDetailOrganism extends StatelessWidget {
                         child: ElevatedButton.icon(
                           onPressed: lead.imageCount < maxImageCount ? onAddImage : null,
                           icon: const Icon(Icons.add_a_photo),
-                          label: const Text('Add Image'),
+                          label: Text(l10n?.addImage ?? 'Add Image'),
                         ),
                       ),
                     ],

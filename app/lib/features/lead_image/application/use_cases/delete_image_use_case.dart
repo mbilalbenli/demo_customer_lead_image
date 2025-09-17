@@ -6,7 +6,10 @@ class DeleteImageUseCase {
 
   DeleteImageUseCase(this._repository);
 
-  Future<Either<Exception, void>> execute(String imageId) async {
-    return await _repository.deleteImage(imageId);
+  Future<Either<Exception, void>> execute({
+    required String leadId,
+    required String imageId,
+  }) async {
+    return await _repository.deleteImage(leadId: leadId, imageId: imageId);
   }
 }

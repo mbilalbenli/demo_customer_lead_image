@@ -75,6 +75,7 @@ class ImageRemoteDataSourceImpl implements ImageRemoteDataSource {
         leadId: leadId,
         base64ImageData: base64Data,
         fileName: fileName,
+        contentType: contentType,
         description: null,
       );
     } on ApiException catch (e) {
@@ -128,7 +129,7 @@ class ImageRemoteDataSourceImpl implements ImageRemoteDataSource {
   @override
   Future<void> deleteImage(String leadId, String imageId) async {
     try {
-      await _apiService.deleteImage(imageId);
+      await _apiService.deleteImage(leadId, imageId);
     } on ApiException catch (e) {
       AppLogger.error('Failed to delete image: ${e.message}');
       throw Exception(e.message);

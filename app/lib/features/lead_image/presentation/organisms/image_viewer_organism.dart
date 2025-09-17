@@ -57,8 +57,11 @@ class _ImageViewerOrganismState extends State<ImageViewerOrganism>
   @override
   void initState() {
     super.initState();
-    _currentIndex = widget.initialIndex;
-    _pageController = PageController(initialPage: widget.initialIndex);
+    // Clamp initial index in case images are not yet loaded
+    _currentIndex = (widget.images.isEmpty)
+        ? 0
+        : widget.initialIndex.clamp(0, widget.images.length - 1);
+    _pageController = PageController(initialPage: _currentIndex);
     _transformationController = TransformationController();
     _animationController = AnimationController(
       vsync: this,
@@ -73,6 +76,20 @@ class _ImageViewerOrganismState extends State<ImageViewerOrganism>
     _transformationController.dispose();
     _animationController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant ImageViewerOrganism oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // If images list changed and current index is out of bounds, clamp it
+    if (widget.images.isEmpty) {
+      _currentIndex = 0;
+    } else if (_currentIndex >= widget.images.length) {
+      setState(() {
+        _currentIndex = widget.images.length - 1;
+        _pageController.jumpToPage(_currentIndex);
+      });
+    }
   }
 
   void _handleDoubleTap() {
@@ -127,11 +144,41 @@ class _ImageViewerOrganismState extends State<ImageViewerOrganism>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    if (widget.images.isEmpty) {
+      // Graceful empty state
+      return Scaffold(
+        backgroundColor: colorScheme.scrim,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.photo_library_outlined, size: 64, color: colorScheme.onInverseSurface.withValues(alpha: 0.6)),
+                    const SizedBox(height: 12),
+                    Text('No images', style: TextStyle(color: colorScheme.onInverseSurface.withValues(alpha: 0.9))),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  onPressed: widget.onClose ?? () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close),
+                  color: colorScheme.onInverseSurface,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     final currentImage = widget.images[_currentIndex];
     final isAtLimit = widget.images.length >= widget.maxImages;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: colorScheme.scrim,
       body: Stack(
         children: [
           // Main image viewer
@@ -174,8 +221,8 @@ class _ImageViewerOrganismState extends State<ImageViewerOrganism>
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withValues(alpha: 0.7),
-                    Colors.transparent,
+                    colorScheme.scrim.withValues(alpha: 0.7),
+                    colorScheme.scrim.withValues(alpha: 0),
                   ],
                   stops: const [0.0, 1.0],
                 ),
@@ -194,7 +241,7 @@ class _ImageViewerOrganismState extends State<ImageViewerOrganism>
                           IconButton(
                             onPressed: widget.onClose ?? () => Navigator.of(context).pop(),
                             icon: const Icon(Icons.close),
-                            color: Colors.white,
+                            color: colorScheme.onInverseSurface,
                           ),
                           // Position indicator
                           ImagePositionIndicatorAtom(
@@ -205,7 +252,7 @@ class _ImageViewerOrganismState extends State<ImageViewerOrganism>
                           ),
                           // More options
                           PopupMenuButton<String>(
-                            icon: const Icon(Icons.more_vert, color: Colors.white),
+                            icon: Icon(Icons.more_vert, color: colorScheme.onInverseSurface),
                             color: colorScheme.surface,
                             itemBuilder: (context) => [
                               if (widget.onSetAsMain != null && !currentImage.isMain)

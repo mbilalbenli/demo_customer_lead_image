@@ -157,11 +157,11 @@ class LeadListOrganism extends StatelessWidget {
   LeadStatus _convertListStatusToLeadStatus(LeadListStatus status) {
     switch (status) {
       case LeadListStatus.active:
-        return LeadStatus.active;
+        return LeadStatus.newLead;
       case LeadListStatus.inactive:
-        return LeadStatus.inactive;
+        return LeadStatus.contacted;
       case LeadListStatus.converted:
-        return LeadStatus.converted;
+        return LeadStatus.closed;
       case LeadListStatus.lost:
         return LeadStatus.lost;
     }
@@ -249,11 +249,11 @@ class LeadGridOrganism extends StatelessWidget {
   LeadStatus _convertListStatusToLeadStatus(LeadListStatus status) {
     switch (status) {
       case LeadListStatus.active:
-        return LeadStatus.active;
+        return LeadStatus.newLead;
       case LeadListStatus.inactive:
-        return LeadStatus.inactive;
+        return LeadStatus.contacted;
       case LeadListStatus.converted:
-        return LeadStatus.converted;
+        return LeadStatus.closed;
       case LeadListStatus.lost:
         return LeadStatus.lost;
     }

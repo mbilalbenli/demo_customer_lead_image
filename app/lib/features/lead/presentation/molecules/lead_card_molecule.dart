@@ -4,6 +4,7 @@ import '../atoms/lead_status_chip_atom.dart';
 import '../atoms/lead_info_text_atom.dart';
 import '../atoms/lead_image_count_badge_atom.dart';
 import '../../../../core/widgets/atoms/app_divider_atom.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/lead_entity.dart';
 
 /// A feature-specific molecule for displaying lead information in a card
@@ -143,19 +144,20 @@ class LeadCardMolecule extends StatelessWidget {
                 AppDividerAtom.subtle(),
                 const SizedBox(height: 8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Images',
+                      (AppLocalizations.of(context)?.images ?? 'Images'),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
                     ),
+                    const Spacer(),
                     LeadImageCountBadgeAtom(
                       currentCount: imageCount,
                       onTap: onImagesTap,
                       style: BadgeStyle.compact,
                     ),
+                    const Icon(Icons.chevron_right, size: 20),
                   ],
                 ),
               ],
