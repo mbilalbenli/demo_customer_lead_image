@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../features/splash/presentation/pages/splash_page.dart';
 import '../../features/lead/lead_route.dart';
 import 'route_names.dart';
 import 'guards/auth_guard.dart';
@@ -9,16 +8,9 @@ import 'guards/auth_guard.dart';
 class AppRoutes {
   static GoRouter getRouter(WidgetRef ref) {
     return GoRouter(
-      initialLocation: RouteNames.splashPath,
+      initialLocation: RouteNames.leadListPath,
       debugLogDiagnostics: true,
       routes: [
-        // Splash route
-        GoRoute(
-          path: RouteNames.splashPath,
-          name: RouteNames.splash,
-          builder: (context, state) => const SplashPage(),
-        ),
-
         // Lead routes (includes nested image routes under lead detail)
         ...LeadRoute.getRoutes(ref),
 
@@ -45,7 +37,6 @@ class AppRoutes {
       redirect: (context, state) async {
         // Check authentication for protected routes
         final publicRoutes = [
-          RouteNames.splashPath,
           RouteNames.errorPath,
         ];
 

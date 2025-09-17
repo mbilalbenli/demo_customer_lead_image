@@ -8,12 +8,6 @@ import '../infrastructure/network/api_client.dart';
 import '../infrastructure/network/dio_client.dart';
 import '../utils/logger_service.dart';
 import '../utils/constants.dart';
-import '../../features/splash/data/datasources/health_check_remote_datasource.dart';
-import '../../features/splash/data/repositories/health_check_repository_impl.dart';
-import '../../features/splash/domain/repositories/health_check_repository.dart';
-import '../../features/splash/domain/usecases/check_system_health_usecase.dart';
-import '../../features/splash/domain/usecases/check_liveness_usecase.dart';
-import '../../features/splash/domain/usecases/check_readiness_usecase.dart';
 
 // Feature injectors
 import 'feature_injectors/lead_injector.dart';
@@ -80,33 +74,8 @@ Future<void> _initInfrastructure() async {
 }
 
 Future<void> _initFeatures() async {
-  await _initSplashFeature();
-
   // Initialize features using feature-specific injectors
   LeadInjector.initialize(sl);
   LeadImageInjector.initialize(sl);
   Base64ProcessorInjector.initialize(sl);
-}
-
-Future<void> _initSplashFeature() async {
-  // Data source
-  sl.registerLazySingleton<HealthCheckRemoteDataSource>(
-    () => HealthCheckRemoteDataSourceImpl(apiClient: sl<ApiClient>()),
-  );
-
-  // Repository
-  sl.registerLazySingleton<HealthCheckRepository>(
-    () => HealthCheckRepositoryImpl(remote: sl<HealthCheckRemoteDataSource>()),
-  );
-
-  // Use cases
-  sl.registerLazySingleton<CheckSystemHealthUseCase>(
-    () => CheckSystemHealthUseCase(repository: sl<HealthCheckRepository>()),
-  );
-  sl.registerLazySingleton<CheckLivenessUseCase>(
-    () => CheckLivenessUseCase(repository: sl<HealthCheckRepository>()),
-  );
-  sl.registerLazySingleton<CheckReadinessUseCase>(
-    () => CheckReadinessUseCase(repository: sl<HealthCheckRepository>()),
-  );
 }

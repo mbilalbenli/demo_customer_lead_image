@@ -21,7 +21,7 @@ class AuthGuard {
       return null; // No redirect needed
     } catch (e) {
       AppLogger.error('Error in auth guard', e);
-      return '/'; // Redirect to splash on error
+      return '/leads'; // Redirect to lead list on error
     }
   }
 

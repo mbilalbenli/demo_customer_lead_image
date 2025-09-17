@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import '../molecules/image_viewer_controls_molecule.dart';
 import '../molecules/image_metadata_card_molecule.dart';
 import '../atoms/image_position_indicator_atom.dart';
@@ -424,13 +425,48 @@ class _ImageViewerOrganismState extends State<ImageViewerOrganism>
     }
 
     if (image.base64Data != null) {
-      // Base64 image display would go here
-      return Container(
-        color: Colors.grey[900],
-        child: const Center(
-          child: Icon(Icons.image, size: 100, color: Colors.white30),
-        ),
-      );
+      try {
+        final String raw = image.base64Data!;
+        // Handle both raw base64 and full data URI formats
+        final bytes = raw.contains(',')
+            ? Uri.parse(raw).data!.contentAsBytes()
+            : base64Decode(raw);
+        return Image.memory(
+          bytes,
+          fit: BoxFit.contain,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              color: Colors.grey[900],
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.broken_image, size: 100, color: Colors.white30),
+                  SizedBox(height: 16),
+                  Text(
+                    'Failed to load image',
+                    style: TextStyle(color: Colors.white54),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      } catch (e) {
+        return Container(
+          color: Colors.grey[900],
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.broken_image, size: 100, color: Colors.white30),
+              SizedBox(height: 16),
+              Text(
+                'Failed to decode base64 image',
+                style: TextStyle(color: Colors.white54),
+              ),
+            ],
+          ),
+        );
+      }
     }
 
     if (image.url != null) {
