@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../features/lead_image/domain/services/base64_validator.dart';
+import '../../security/base64_validator.dart';
 import '../../infrastructure/services/permission_service.dart';
 import '../../infrastructure/services/base64_media_service.dart';
 import '../../infrastructure/storage/base64_cache_manager.dart';
