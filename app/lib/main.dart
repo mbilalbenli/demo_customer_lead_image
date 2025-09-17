@@ -35,7 +35,7 @@ class MyApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('en', 'US')],
-      routerConfig: AppRouter.router,
+      routerConfig: AppRouter.getRouter(ref),
     );
   }
 }

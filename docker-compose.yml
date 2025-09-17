@@ -6,10 +6,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: demo_db
+      # Optimize for large Base64 data storage
+      POSTGRES_INITDB_ARGS: "--data-checksums"
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Custom PostgreSQL configuration for Base64 optimization
+      - ./deployment/postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -17,6 +22,15 @@ services:
       retries: 5
     networks:
       - demo_network
+    # Resource limits for image processing
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1.0"
+        reservations:
+          memory: 1G
+          cpus: "0.5"
 
   backend:
     build:
@@ -28,6 +42,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PostgreSQL=Host=postgres;Port=5432;Database=demo_db;Username=postgres;Password=postgres
+      # Base64 image handling configuration
+      - ASPNETCORE_Kestrel__Limits__MaxRequestBodySize=62914560  # 60MB for 10 images × 5MB + overhead
+      - ASPNETCORE_Kestrel__Limits__RequestHeadersTimeout=00:05:00  # 5 minutes for large uploads
+      - ASPNETCORE_Kestrel__Limits__KeepAliveTimeout=00:10:00
+      # Memory optimization for Base64 processing
+      - DOTNET_GCHeapHardLimit=0x80000000  # 2GB heap limit
+      - DOTNET_gcServer=1
+      - DOTNET_GCConcurrent=1
     depends_on:
       postgres:
         condition: service_healthy
@@ -39,9 +61,29 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    # Resource limits for Base64 processing
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: "2.0"
+        reservations:
+          memory: 2G
+          cpus: "1.0"
+    # Volumes for temporary Base64 processing
+    volumes:
+      - temp_storage:/tmp
+      - ./deployment/backend/appsettings.Production.json:/app/appsettings.Production.json:ro
 
 volumes:
   postgres_data:
+    driver: local
+  temp_storage:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=1g,uid=1000
 
 networks:
   demo_network:

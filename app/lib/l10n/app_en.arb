@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "System Monitor",
+  "appTitle": "Customer Lead Manager",
   "@appTitle": {
     "description": "Application title"
   },
@@ -188,5 +188,584 @@
   "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel button"
+  },
+
+  "leads": "Leads",
+  "@leads": {
+    "description": "Leads section title"
+  },
+
+  "leadManagement": "Lead Management",
+  "@leadManagement": {
+    "description": "Lead management page title"
+  },
+
+  "createLead": "Create Lead",
+  "@createLead": {
+    "description": "Create lead button text"
+  },
+
+  "editLead": "Edit Lead",
+  "@editLead": {
+    "description": "Edit lead button text"
+  },
+
+  "deleteLead": "Delete Lead",
+  "@deleteLead": {
+    "description": "Delete lead button text"
+  },
+
+  "leadDetails": "Lead Details",
+  "@leadDetails": {
+    "description": "Lead details page title"
+  },
+
+  "leadName": "Lead Name",
+  "@leadName": {
+    "description": "Lead name field label"
+  },
+
+  "customerName": "Customer Name",
+  "@customerName": {
+    "description": "Customer name field label"
+  },
+
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone field label"
+  },
+
+  "status": "Status",
+  "@status": {
+    "description": "Status field label"
+  },
+
+  "images": "Images",
+  "@images": {
+    "description": "Images section title"
+  },
+
+  "imageManagement": "Image Management",
+  "@imageManagement": {
+    "description": "Image management page title"
+  },
+
+  "addImage": "Add Image",
+  "@addImage": {
+    "description": "Add image button text"
+  },
+
+  "addImages": "Add Images",
+  "@addImages": {
+    "description": "Add multiple images button text"
+  },
+
+  "uploadImage": "Upload Image",
+  "@uploadImage": {
+    "description": "Upload image button text"
+  },
+
+  "uploadImages": "Upload Images",
+  "@uploadImages": {
+    "description": "Upload multiple images button text"
+  },
+
+  "deleteImage": "Delete Image",
+  "@deleteImage": {
+    "description": "Delete image button text"
+  },
+
+  "replaceImage": "Replace Image",
+  "@replaceImage": {
+    "description": "Replace image button text"
+  },
+
+  "viewImage": "View Image",
+  "@viewImage": {
+    "description": "View image button text"
+  },
+
+  "imageGallery": "Image Gallery",
+  "@imageGallery": {
+    "description": "Image gallery page title"
+  },
+
+  "viewImageGallery": "View Image Gallery",
+  "@viewImageGallery": {
+    "description": "View image gallery button text"
+  },
+
+  "imageViewer": "Image Viewer",
+  "@imageViewer": {
+    "description": "Image viewer page title"
+  },
+
+  "captureImage": "Capture Image",
+  "@captureImage": {
+    "description": "Capture image button text"
+  },
+
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Take photo button text"
+  },
+
+  "selectFromGallery": "Select from Gallery",
+  "@selectFromGallery": {
+    "description": "Select from gallery button text"
+  },
+
+  "imageLimitReached": "Image Limit Reached",
+  "@imageLimitReached": {
+    "description": "Image limit reached title"
+  },
+
+  "imageLimitReachedMessage": "You have reached the maximum of {maxCount} images for this lead. You currently have {currentCount} images.",
+  "@imageLimitReachedMessage": {
+    "description": "Image limit reached message",
+    "placeholders": {
+      "maxCount": {
+        "type": "int"
+      },
+      "currentCount": {
+        "type": "int"
+      }
+    }
+  },
+
+  "yourOptions": "Your Options",
+  "@yourOptions": {
+    "description": "Your options title"
+  },
+
+  "replaceExistingImage": "Replace an existing image",
+  "@replaceExistingImage": {
+    "description": "Replace existing image option"
+  },
+
+  "deleteImageToMakeSpace": "Delete an image to make space",
+  "@deleteImageToMakeSpace": {
+    "description": "Delete image to make space option"
+  },
+
+  "cancelUpload": "Cancel upload",
+  "@cancelUpload": {
+    "description": "Cancel upload option"
+  },
+
+  "whatWouldYouLikeToDo": "What would you like to do?",
+  "@whatWouldYouLikeToDo": {
+    "description": "What would you like to do question"
+  },
+
+  "nearImageLimit": "Only {slotsRemaining} image slots remaining",
+  "@nearImageLimit": {
+    "description": "Near image limit warning",
+    "placeholders": {
+      "slotsRemaining": {
+        "type": "int"
+      }
+    }
+  },
+
+  "gotIt": "Got It",
+  "@gotIt": {
+    "description": "Got it acknowledgment button"
+  },
+
+  "imageTooLarge": "Image Too Large",
+  "@imageTooLarge": {
+    "description": "Image too large title"
+  },
+
+  "imageTooLargeMessage": "Image is {sizeInMB}MB but max size is {maxSizeInMB}MB",
+  "@imageTooLargeMessage": {
+    "description": "Image too large message",
+    "placeholders": {
+      "sizeInMB": {
+        "type": "String"
+      },
+      "maxSizeInMB": {
+        "type": "String"
+      }
+    }
+  },
+
+  "compressImageSuggestion": "We can compress the image for you",
+  "@compressImageSuggestion": {
+    "description": "Compress image suggestion"
+  },
+
+  "compressAndUpload": "Compress & Upload",
+  "@compressAndUpload": {
+    "description": "Compress and upload button text"
+  },
+
+  "retryingUpload": "Retrying Upload",
+  "@retryingUpload": {
+    "description": "Retrying upload status"
+  },
+
+  "uploadFailed": "Upload Failed",
+  "@uploadFailed": {
+    "description": "Upload failed status"
+  },
+
+  "retryUpload": "Retry Upload",
+  "@retryUpload": {
+    "description": "Retry upload button text"
+  },
+
+  "retryAllFailed": "Retry All Failed",
+  "@retryAllFailed": {
+    "description": "Retry all failed uploads button text"
+  },
+
+  "failedUploadsCount": "{count} failed uploads",
+  "@failedUploadsCount": {
+    "description": "Failed uploads count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "uploadProgress": "Upload Progress",
+  "@uploadProgress": {
+    "description": "Upload progress title"
+  },
+
+  "uploading": "Uploading...",
+  "@uploading": {
+    "description": "Uploading status"
+  },
+
+  "uploadComplete": "Upload Complete",
+  "@uploadComplete": {
+    "description": "Upload complete status"
+  },
+
+  "uploadCancelled": "Upload Cancelled",
+  "@uploadCancelled": {
+    "description": "Upload cancelled status"
+  },
+
+  "networkError": "Network Error",
+  "@networkError": {
+    "description": "Network error message"
+  },
+
+  "serverError": "Server Error",
+  "@serverError": {
+    "description": "Server error message"
+  },
+
+  "unknownError": "Unknown Error",
+  "@unknownError": {
+    "description": "Unknown error message"
+  },
+
+  "search": "Search",
+  "@search": {
+    "description": "Search button or field label"
+  },
+
+  "searchLeads": "Search Leads",
+  "@searchLeads": {
+    "description": "Search leads placeholder"
+  },
+
+  "noLeadsFound": "No leads found",
+  "@noLeadsFound": {
+    "description": "No leads found message"
+  },
+
+  "noImagesFound": "No images found",
+  "@noImagesFound": {
+    "description": "No images found message"
+  },
+
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+
+  "update": "Update",
+  "@update": {
+    "description": "Update button text"
+  },
+
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button text"
+  },
+
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button text"
+  },
+
+  "confirmDelete": "Confirm Delete",
+  "@confirmDelete": {
+    "description": "Confirm delete title"
+  },
+
+  "deleteConfirmationMessage": "Are you sure you want to delete this item? This action cannot be undone.",
+  "@deleteConfirmationMessage": {
+    "description": "Delete confirmation message"
+  },
+
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes button text"
+  },
+
+  "no": "No",
+  "@no": {
+    "description": "No button text"
+  },
+
+  "back": "Back",
+  "@back": {
+    "description": "Back button text"
+  },
+
+  "next": "Next",
+  "@next": {
+    "description": "Next button text"
+  },
+
+  "previous": "Previous",
+  "@previous": {
+    "description": "Previous button text"
+  },
+
+  "done": "Done",
+  "@done": {
+    "description": "Done button text"
+  },
+
+  "skip": "Skip",
+  "@skip": {
+    "description": "Skip button text"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings page title"
+  },
+
+  "about": "About",
+  "@about": {
+    "description": "About page title"
+  },
+
+  "help": "Help",
+  "@help": {
+    "description": "Help page title"
+  },
+
+  "version": "Version",
+  "@version": {
+    "description": "Version label"
+  },
+
+  "buildNumber": "Build Number",
+  "@buildNumber": {
+    "description": "Build number label"
+  },
+
+  "developer": "Developer",
+  "@developer": {
+    "description": "Developer label"
+  },
+
+  "offlineMode": "Offline Mode",
+  "@offlineMode": {
+    "description": "Offline mode indicator"
+  },
+
+  "onlineMode": "Online Mode",
+  "@onlineMode": {
+    "description": "Online mode indicator"
+  },
+
+  "syncData": "Sync Data",
+  "@syncData": {
+    "description": "Sync data button text"
+  },
+
+  "lastSync": "Last Sync: {time}",
+  "@lastSync": {
+    "description": "Last sync time",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+
+  "imageLimitInfo": "Image Limit: {current} of {max}",
+  "@imageLimitInfo": {
+    "description": "Image limit information",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+
+  "imagesSyncPending": "{count} images pending sync",
+  "@imagesSyncPending": {
+    "description": "Images sync pending count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "storageUsed": "Storage Used: {used} of {total}",
+  "@storageUsed": {
+    "description": "Storage usage information",
+    "placeholders": {
+      "used": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+
+  "cacheCleared": "Cache cleared successfully",
+  "@cacheCleared": {
+    "description": "Cache cleared confirmation"
+  },
+
+  "clearCache": "Clear Cache",
+  "@clearCache": {
+    "description": "Clear cache button text"
+  },
+
+  "maximumImagesReached": "Maximum 10 images reached. Delete one to continue.",
+  "@maximumImagesReached": {
+    "description": "Error message when maximum images reached"
+  },
+
+  "deleteImageToAddMore": "Delete an image to add more",
+  "@deleteImageToAddMore": {
+    "description": "Hint message to delete image to add more"
+  },
+
+  "slotsAvailable": "{count} slots available",
+  "@slotsAvailable": {
+    "description": "Number of slots available for images",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "replaceImagePrompt": "Would you like to replace an existing image?",
+  "@replaceImagePrompt": {
+    "description": "Prompt to replace existing image"
+  },
+
+  "replaceImageHint": "Select an existing image to replace",
+  "@replaceImageHint": {
+    "description": "Hint for replacing image"
+  },
+
+  "deleteImageHint": "Remove an image to make space",
+  "@deleteImageHint": {
+    "description": "Hint for deleting image"
+  },
+
+  "imageCountAnnouncement": "Image {current} of {total}",
+  "@imageCountAnnouncement": {
+    "description": "Screen reader announcement for image count",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+
+  "imageLimitStatus": "{current} of {max} images used",
+  "@imageLimitStatus": {
+    "description": "Image limit status for screen readers",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+
+  "imageAddButtonAccessibility": "Add image. {available} slots remaining out of {max}",
+  "@imageAddButtonAccessibility": {
+    "description": "Accessibility label for add image button",
+    "placeholders": {
+      "available": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+
+  "imageAddButtonDisabledAccessibility": "Cannot add image. Limit of {max} images reached",
+  "@imageAddButtonDisabledAccessibility": {
+    "description": "Accessibility label for disabled add image button",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+
+  "imageGalleryAccessibility": "Image gallery with {count} images. Maximum {max} images allowed",
+  "@imageGalleryAccessibility": {
+    "description": "Accessibility description for image gallery",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+
+  "retrying": "Retrying...",
+  "@retrying": {
+    "description": "Retrying status message"
+  },
+
+  "maxRetriesReached": "Max retries reached",
+  "@maxRetriesReached": {
+    "description": "Max retries reached message"
+  },
+
+  "dismiss": "Dismiss",
+  "@dismiss": {
+    "description": "Dismiss button text"
   }
 }

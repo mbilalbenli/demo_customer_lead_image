@@ -32,6 +32,8 @@ var config = TypeAdapterConfig.GlobalSettings;
 // Scan both API (host) and Application assemblies so mapping configurations in Application are loaded
 config.Scan(Assembly.GetExecutingAssembly());
 config.Scan(typeof(CreateLeadCommand).Assembly);
+// Configure custom mappings AFTER scanning to ensure they override defaults
+Infrastructure.Persistence.MappingConfiguration.Configure();
 builder.Services.AddSingleton(config);
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 

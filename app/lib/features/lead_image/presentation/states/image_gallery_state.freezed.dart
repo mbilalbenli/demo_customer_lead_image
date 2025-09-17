@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ImageGalleryState {
 
- CoreState get core; String get leadId; List<LeadImageEntity> get images; int get currentCount; int get maxCount; int get selectedIndex; bool get isUploading; bool get isDeleting; double? get uploadProgress; String? get errorMessage; bool get showLimitWarning; LeadImageEntity? get imageBeingReplaced;
+ CoreState get core; String get leadId; List<LeadImageEntity> get images; int get currentCount; int get maxCount; int get selectedIndex; bool get isUploading; bool get isDeleting; double? get uploadProgress; String? get errorMessage; bool get showLimitWarning; LeadImageEntity? get imageBeingReplaced; ImageAction get lastAction;
 /// Create a copy of ImageGalleryState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ImageGalleryStateCopyWith<ImageGalleryState> get copyWith => _$ImageGalleryStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImageGalleryState&&(identical(other.core, core) || other.core == core)&&(identical(other.leadId, leadId) || other.leadId == leadId)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.currentCount, currentCount) || other.currentCount == currentCount)&&(identical(other.maxCount, maxCount) || other.maxCount == maxCount)&&(identical(other.selectedIndex, selectedIndex) || other.selectedIndex == selectedIndex)&&(identical(other.isUploading, isUploading) || other.isUploading == isUploading)&&(identical(other.isDeleting, isDeleting) || other.isDeleting == isDeleting)&&(identical(other.uploadProgress, uploadProgress) || other.uploadProgress == uploadProgress)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.showLimitWarning, showLimitWarning) || other.showLimitWarning == showLimitWarning)&&(identical(other.imageBeingReplaced, imageBeingReplaced) || other.imageBeingReplaced == imageBeingReplaced));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImageGalleryState&&(identical(other.core, core) || other.core == core)&&(identical(other.leadId, leadId) || other.leadId == leadId)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.currentCount, currentCount) || other.currentCount == currentCount)&&(identical(other.maxCount, maxCount) || other.maxCount == maxCount)&&(identical(other.selectedIndex, selectedIndex) || other.selectedIndex == selectedIndex)&&(identical(other.isUploading, isUploading) || other.isUploading == isUploading)&&(identical(other.isDeleting, isDeleting) || other.isDeleting == isDeleting)&&(identical(other.uploadProgress, uploadProgress) || other.uploadProgress == uploadProgress)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.showLimitWarning, showLimitWarning) || other.showLimitWarning == showLimitWarning)&&(identical(other.imageBeingReplaced, imageBeingReplaced) || other.imageBeingReplaced == imageBeingReplaced)&&(identical(other.lastAction, lastAction) || other.lastAction == lastAction));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,core,leadId,const DeepCollectionEquality().hash(images),currentCount,maxCount,selectedIndex,isUploading,isDeleting,uploadProgress,errorMessage,showLimitWarning,imageBeingReplaced);
+int get hashCode => Object.hash(runtimeType,core,leadId,const DeepCollectionEquality().hash(images),currentCount,maxCount,selectedIndex,isUploading,isDeleting,uploadProgress,errorMessage,showLimitWarning,imageBeingReplaced,lastAction);
 
 @override
 String toString() {
-  return 'ImageGalleryState(core: $core, leadId: $leadId, images: $images, currentCount: $currentCount, maxCount: $maxCount, selectedIndex: $selectedIndex, isUploading: $isUploading, isDeleting: $isDeleting, uploadProgress: $uploadProgress, errorMessage: $errorMessage, showLimitWarning: $showLimitWarning, imageBeingReplaced: $imageBeingReplaced)';
+  return 'ImageGalleryState(core: $core, leadId: $leadId, images: $images, currentCount: $currentCount, maxCount: $maxCount, selectedIndex: $selectedIndex, isUploading: $isUploading, isDeleting: $isDeleting, uploadProgress: $uploadProgress, errorMessage: $errorMessage, showLimitWarning: $showLimitWarning, imageBeingReplaced: $imageBeingReplaced, lastAction: $lastAction)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ImageGalleryStateCopyWith<$Res>  {
   factory $ImageGalleryStateCopyWith(ImageGalleryState value, $Res Function(ImageGalleryState) _then) = _$ImageGalleryStateCopyWithImpl;
 @useResult
 $Res call({
- CoreState core, String leadId, List<LeadImageEntity> images, int currentCount, int maxCount, int selectedIndex, bool isUploading, bool isDeleting, double? uploadProgress, String? errorMessage, bool showLimitWarning, LeadImageEntity? imageBeingReplaced
+ CoreState core, String leadId, List<LeadImageEntity> images, int currentCount, int maxCount, int selectedIndex, bool isUploading, bool isDeleting, double? uploadProgress, String? errorMessage, bool showLimitWarning, LeadImageEntity? imageBeingReplaced, ImageAction lastAction
 });
 
 
@@ -62,7 +62,7 @@ class _$ImageGalleryStateCopyWithImpl<$Res>
 
 /// Create a copy of ImageGalleryState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? leadId = null,Object? images = null,Object? currentCount = null,Object? maxCount = null,Object? selectedIndex = null,Object? isUploading = null,Object? isDeleting = null,Object? uploadProgress = freezed,Object? errorMessage = freezed,Object? showLimitWarning = null,Object? imageBeingReplaced = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? leadId = null,Object? images = null,Object? currentCount = null,Object? maxCount = null,Object? selectedIndex = null,Object? isUploading = null,Object? isDeleting = null,Object? uploadProgress = freezed,Object? errorMessage = freezed,Object? showLimitWarning = null,Object? imageBeingReplaced = freezed,Object? lastAction = null,}) {
   return _then(_self.copyWith(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as CoreState,leadId: null == leadId ? _self.leadId : leadId // ignore: cast_nullable_to_non_nullable
@@ -76,7 +76,8 @@ as bool,uploadProgress: freezed == uploadProgress ? _self.uploadProgress : uploa
 as double?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,showLimitWarning: null == showLimitWarning ? _self.showLimitWarning : showLimitWarning // ignore: cast_nullable_to_non_nullable
 as bool,imageBeingReplaced: freezed == imageBeingReplaced ? _self.imageBeingReplaced : imageBeingReplaced // ignore: cast_nullable_to_non_nullable
-as LeadImageEntity?,
+as LeadImageEntity?,lastAction: null == lastAction ? _self.lastAction : lastAction // ignore: cast_nullable_to_non_nullable
+as ImageAction,
   ));
 }
 /// Create a copy of ImageGalleryState
@@ -182,10 +183,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CoreState core,  String leadId,  List<LeadImageEntity> images,  int currentCount,  int maxCount,  int selectedIndex,  bool isUploading,  bool isDeleting,  double? uploadProgress,  String? errorMessage,  bool showLimitWarning,  LeadImageEntity? imageBeingReplaced)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CoreState core,  String leadId,  List<LeadImageEntity> images,  int currentCount,  int maxCount,  int selectedIndex,  bool isUploading,  bool isDeleting,  double? uploadProgress,  String? errorMessage,  bool showLimitWarning,  LeadImageEntity? imageBeingReplaced,  ImageAction lastAction)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ImageGalleryState() when $default != null:
-return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.maxCount,_that.selectedIndex,_that.isUploading,_that.isDeleting,_that.uploadProgress,_that.errorMessage,_that.showLimitWarning,_that.imageBeingReplaced);case _:
+return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.maxCount,_that.selectedIndex,_that.isUploading,_that.isDeleting,_that.uploadProgress,_that.errorMessage,_that.showLimitWarning,_that.imageBeingReplaced,_that.lastAction);case _:
   return orElse();
 
 }
@@ -203,10 +204,10 @@ return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.ma
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CoreState core,  String leadId,  List<LeadImageEntity> images,  int currentCount,  int maxCount,  int selectedIndex,  bool isUploading,  bool isDeleting,  double? uploadProgress,  String? errorMessage,  bool showLimitWarning,  LeadImageEntity? imageBeingReplaced)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CoreState core,  String leadId,  List<LeadImageEntity> images,  int currentCount,  int maxCount,  int selectedIndex,  bool isUploading,  bool isDeleting,  double? uploadProgress,  String? errorMessage,  bool showLimitWarning,  LeadImageEntity? imageBeingReplaced,  ImageAction lastAction)  $default,) {final _that = this;
 switch (_that) {
 case _ImageGalleryState():
-return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.maxCount,_that.selectedIndex,_that.isUploading,_that.isDeleting,_that.uploadProgress,_that.errorMessage,_that.showLimitWarning,_that.imageBeingReplaced);case _:
+return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.maxCount,_that.selectedIndex,_that.isUploading,_that.isDeleting,_that.uploadProgress,_that.errorMessage,_that.showLimitWarning,_that.imageBeingReplaced,_that.lastAction);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -223,10 +224,10 @@ return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.ma
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CoreState core,  String leadId,  List<LeadImageEntity> images,  int currentCount,  int maxCount,  int selectedIndex,  bool isUploading,  bool isDeleting,  double? uploadProgress,  String? errorMessage,  bool showLimitWarning,  LeadImageEntity? imageBeingReplaced)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CoreState core,  String leadId,  List<LeadImageEntity> images,  int currentCount,  int maxCount,  int selectedIndex,  bool isUploading,  bool isDeleting,  double? uploadProgress,  String? errorMessage,  bool showLimitWarning,  LeadImageEntity? imageBeingReplaced,  ImageAction lastAction)?  $default,) {final _that = this;
 switch (_that) {
 case _ImageGalleryState() when $default != null:
-return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.maxCount,_that.selectedIndex,_that.isUploading,_that.isDeleting,_that.uploadProgress,_that.errorMessage,_that.showLimitWarning,_that.imageBeingReplaced);case _:
+return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.maxCount,_that.selectedIndex,_that.isUploading,_that.isDeleting,_that.uploadProgress,_that.errorMessage,_that.showLimitWarning,_that.imageBeingReplaced,_that.lastAction);case _:
   return null;
 
 }
@@ -238,7 +239,7 @@ return $default(_that.core,_that.leadId,_that.images,_that.currentCount,_that.ma
 
 
 class _ImageGalleryState extends ImageGalleryState {
-  const _ImageGalleryState({this.core = const CoreState(), required this.leadId, final  List<LeadImageEntity> images = const [], this.currentCount = 0, this.maxCount = 10, this.selectedIndex = 0, this.isUploading = false, this.isDeleting = false, this.uploadProgress, this.errorMessage, this.showLimitWarning = false, this.imageBeingReplaced}): _images = images,super._();
+  const _ImageGalleryState({this.core = const CoreState(), required this.leadId, final  List<LeadImageEntity> images = const [], this.currentCount = 0, this.maxCount = 10, this.selectedIndex = 0, this.isUploading = false, this.isDeleting = false, this.uploadProgress, this.errorMessage, this.showLimitWarning = false, this.imageBeingReplaced, this.lastAction = ImageAction.none}): _images = images,super._();
   
 
 @override@JsonKey() final  CoreState core;
@@ -259,6 +260,7 @@ class _ImageGalleryState extends ImageGalleryState {
 @override final  String? errorMessage;
 @override@JsonKey() final  bool showLimitWarning;
 @override final  LeadImageEntity? imageBeingReplaced;
+@override@JsonKey() final  ImageAction lastAction;
 
 /// Create a copy of ImageGalleryState
 /// with the given fields replaced by the non-null parameter values.
@@ -270,16 +272,16 @@ _$ImageGalleryStateCopyWith<_ImageGalleryState> get copyWith => __$ImageGalleryS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImageGalleryState&&(identical(other.core, core) || other.core == core)&&(identical(other.leadId, leadId) || other.leadId == leadId)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.currentCount, currentCount) || other.currentCount == currentCount)&&(identical(other.maxCount, maxCount) || other.maxCount == maxCount)&&(identical(other.selectedIndex, selectedIndex) || other.selectedIndex == selectedIndex)&&(identical(other.isUploading, isUploading) || other.isUploading == isUploading)&&(identical(other.isDeleting, isDeleting) || other.isDeleting == isDeleting)&&(identical(other.uploadProgress, uploadProgress) || other.uploadProgress == uploadProgress)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.showLimitWarning, showLimitWarning) || other.showLimitWarning == showLimitWarning)&&(identical(other.imageBeingReplaced, imageBeingReplaced) || other.imageBeingReplaced == imageBeingReplaced));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ImageGalleryState&&(identical(other.core, core) || other.core == core)&&(identical(other.leadId, leadId) || other.leadId == leadId)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.currentCount, currentCount) || other.currentCount == currentCount)&&(identical(other.maxCount, maxCount) || other.maxCount == maxCount)&&(identical(other.selectedIndex, selectedIndex) || other.selectedIndex == selectedIndex)&&(identical(other.isUploading, isUploading) || other.isUploading == isUploading)&&(identical(other.isDeleting, isDeleting) || other.isDeleting == isDeleting)&&(identical(other.uploadProgress, uploadProgress) || other.uploadProgress == uploadProgress)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage)&&(identical(other.showLimitWarning, showLimitWarning) || other.showLimitWarning == showLimitWarning)&&(identical(other.imageBeingReplaced, imageBeingReplaced) || other.imageBeingReplaced == imageBeingReplaced)&&(identical(other.lastAction, lastAction) || other.lastAction == lastAction));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,core,leadId,const DeepCollectionEquality().hash(_images),currentCount,maxCount,selectedIndex,isUploading,isDeleting,uploadProgress,errorMessage,showLimitWarning,imageBeingReplaced);
+int get hashCode => Object.hash(runtimeType,core,leadId,const DeepCollectionEquality().hash(_images),currentCount,maxCount,selectedIndex,isUploading,isDeleting,uploadProgress,errorMessage,showLimitWarning,imageBeingReplaced,lastAction);
 
 @override
 String toString() {
-  return 'ImageGalleryState(core: $core, leadId: $leadId, images: $images, currentCount: $currentCount, maxCount: $maxCount, selectedIndex: $selectedIndex, isUploading: $isUploading, isDeleting: $isDeleting, uploadProgress: $uploadProgress, errorMessage: $errorMessage, showLimitWarning: $showLimitWarning, imageBeingReplaced: $imageBeingReplaced)';
+  return 'ImageGalleryState(core: $core, leadId: $leadId, images: $images, currentCount: $currentCount, maxCount: $maxCount, selectedIndex: $selectedIndex, isUploading: $isUploading, isDeleting: $isDeleting, uploadProgress: $uploadProgress, errorMessage: $errorMessage, showLimitWarning: $showLimitWarning, imageBeingReplaced: $imageBeingReplaced, lastAction: $lastAction)';
 }
 
 
@@ -290,7 +292,7 @@ abstract mixin class _$ImageGalleryStateCopyWith<$Res> implements $ImageGalleryS
   factory _$ImageGalleryStateCopyWith(_ImageGalleryState value, $Res Function(_ImageGalleryState) _then) = __$ImageGalleryStateCopyWithImpl;
 @override @useResult
 $Res call({
- CoreState core, String leadId, List<LeadImageEntity> images, int currentCount, int maxCount, int selectedIndex, bool isUploading, bool isDeleting, double? uploadProgress, String? errorMessage, bool showLimitWarning, LeadImageEntity? imageBeingReplaced
+ CoreState core, String leadId, List<LeadImageEntity> images, int currentCount, int maxCount, int selectedIndex, bool isUploading, bool isDeleting, double? uploadProgress, String? errorMessage, bool showLimitWarning, LeadImageEntity? imageBeingReplaced, ImageAction lastAction
 });
 
 
@@ -307,7 +309,7 @@ class __$ImageGalleryStateCopyWithImpl<$Res>
 
 /// Create a copy of ImageGalleryState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? core = null,Object? leadId = null,Object? images = null,Object? currentCount = null,Object? maxCount = null,Object? selectedIndex = null,Object? isUploading = null,Object? isDeleting = null,Object? uploadProgress = freezed,Object? errorMessage = freezed,Object? showLimitWarning = null,Object? imageBeingReplaced = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? core = null,Object? leadId = null,Object? images = null,Object? currentCount = null,Object? maxCount = null,Object? selectedIndex = null,Object? isUploading = null,Object? isDeleting = null,Object? uploadProgress = freezed,Object? errorMessage = freezed,Object? showLimitWarning = null,Object? imageBeingReplaced = freezed,Object? lastAction = null,}) {
   return _then(_ImageGalleryState(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as CoreState,leadId: null == leadId ? _self.leadId : leadId // ignore: cast_nullable_to_non_nullable
@@ -321,7 +323,8 @@ as bool,uploadProgress: freezed == uploadProgress ? _self.uploadProgress : uploa
 as double?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,showLimitWarning: null == showLimitWarning ? _self.showLimitWarning : showLimitWarning // ignore: cast_nullable_to_non_nullable
 as bool,imageBeingReplaced: freezed == imageBeingReplaced ? _self.imageBeingReplaced : imageBeingReplaced // ignore: cast_nullable_to_non_nullable
-as LeadImageEntity?,
+as LeadImageEntity?,lastAction: null == lastAction ? _self.lastAction : lastAction // ignore: cast_nullable_to_non_nullable
+as ImageAction,
   ));
 }
 

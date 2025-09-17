@@ -40,6 +40,9 @@ abstract class BasePageState<P extends BasePage<T>, T extends BaseState> extends
   /// Optional: Override to provide custom AppBar
   PreferredSizeWidget? buildAppBar(BuildContext context, WidgetRef ref) => null;
 
+  /// Optional: Override to provide custom FloatingActionButton
+  Widget? buildFloatingActionButton(BuildContext context, WidgetRef ref) => null;
+
   /// Optional: Override to change content placement
   ContentPlacement get contentPlacement => ContentPlacement.center;
 
@@ -91,6 +94,7 @@ abstract class BasePageState<P extends BasePage<T>, T extends BaseState> extends
           ],
         ),
       ),
+      floatingActionButton: buildFloatingActionButton(context, ref),
     );
   }
 

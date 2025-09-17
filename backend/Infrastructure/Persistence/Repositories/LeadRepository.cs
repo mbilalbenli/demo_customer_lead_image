@@ -49,7 +49,10 @@ public class LeadRepository : ILeadRepository
         var document = lead.Adapt<LeadDocument>();
         _session.Store(document);
         await _session.SaveChangesAsync(cancellationToken);
-        return document.Adapt<Lead>();
+
+        // Return the original lead as it already has all the data
+        // The document was just for persistence
+        return lead;
     }
 
     public async Task UpdateAsync(Lead lead, CancellationToken cancellationToken = default)

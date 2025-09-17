@@ -15,6 +15,8 @@ class AppButtonAtom extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final double? borderRadius;
+  final String? semanticLabel;
+  final String? tooltip;
 
   const AppButtonAtom({
     super.key,
@@ -30,6 +32,8 @@ class AppButtonAtom extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.borderRadius,
+    this.semanticLabel,
+    this.tooltip,
   });
 
   /// Primary button factory
@@ -39,6 +43,8 @@ class AppButtonAtom extends StatelessWidget {
     required VoidCallback? onPressed,
     bool isLoading = false,
     IconData? icon,
+    String? semanticLabel,
+    String? tooltip,
   }) {
     return AppButtonAtom(
       key: key,

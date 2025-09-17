@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/base/base_state.dart';
 import '../../domain/entities/lead_image_entity.dart';
+import '../providers/image_limit_providers.dart';
 
 part 'image_gallery_state.freezed.dart';
 
@@ -22,6 +23,7 @@ abstract class ImageGalleryState with _$ImageGalleryState implements BaseState {
     String? errorMessage,
     @Default(false) bool showLimitWarning,
     LeadImageEntity? imageBeingReplaced,
+    @Default(ImageAction.none) ImageAction lastAction,
   }) = _ImageGalleryState;
 
   @override

@@ -291,7 +291,6 @@ class _ImageLimitManagementOrganismState
   Widget _buildManageTab(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final isAtLimit = widget.images.length >= widget.maxImages;
 
     if (widget.images.isEmpty) {
       return const Center(

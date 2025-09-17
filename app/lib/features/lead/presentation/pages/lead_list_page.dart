@@ -31,12 +31,35 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
       centerTitle: true,
       actions: [
         IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+            context.go('/leads/search');
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () {
+            context.go('/leads/create');
+          },
+        ),
+        IconButton(
           icon: const Icon(Icons.refresh),
           onPressed: () {
             ref.read(leadListViewModelProvider.notifier).fetchLeads(refresh: true);
           },
         ),
       ],
+    );
+  }
+
+  @override
+  Widget? buildFloatingActionButton(BuildContext context, WidgetRef ref) {
+    return FloatingActionButton(
+      onPressed: () {
+        context.go('/leads/create');
+      },
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      child: const Icon(Icons.add),
     );
   }
 
@@ -68,10 +91,34 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState> {
     }
 
     if (state.leads.isEmpty && !state.isBusy) {
-      return const EmptyStateAtom(
-        icon: Icons.people_outline,
-        title: 'No Leads Found',
-        subtitle: 'Start by adding your first lead',
+      return Column(
+        children: [
+          // Search bar always visible
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search leads...',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Theme.of(context).colorScheme.surface,
+              ),
+              onChanged: (value) {
+                ref.read(leadListViewModelProvider.notifier).searchLeads(value);
+              },
+            ),
+          ),
+          const Expanded(
+            child: EmptyStateAtom(
+              icon: Icons.people_outline,
+              title: 'No Leads Found',
+              subtitle: 'Start by adding your first lead',
+            ),
+          ),
+        ],
       );
     }
 

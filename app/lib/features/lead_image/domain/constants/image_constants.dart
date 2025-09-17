@@ -6,6 +6,7 @@ class ImageConstants {
   static const int thumbnailSize = 150;
   static const int compressionQuality = 85;
   static const int maxCacheSizeMB = 50;
+  static const int compressionThreshold = 1048576; // 1MB - compress if larger than this
 
   const ImageConstants._();
 }
