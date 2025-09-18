@@ -10,7 +10,6 @@ class ApiEndpoints {
 
   static const String leads = '/leads';
   static const String leadById = '/leads/{id}';
-  static const String searchLeads = '/leads/search';
 
   // Lead images (nested under lead)
   static const String leadImagesByLeadId = '/leads/{leadId}/images';

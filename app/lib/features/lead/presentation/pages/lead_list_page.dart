@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../drawers/create_lead_drawer.dart';
 import '../../../../app/router/route_names.dart';
 import '../../../../core/base/base_page.dart';
 import '../providers/lead_providers.dart';
@@ -16,7 +17,7 @@ class LeadListPage extends BasePage<LeadListState> {
     wrapWithScroll: false,
   );
 
-  @override
+  @override 
   ConsumerState<LeadListPage> createState() => _LeadListPageState();
 }
 
@@ -43,6 +44,7 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState>
     );
     _searchAnimationController.forward();
   }
+
 
   @override
   void dispose() {
@@ -112,13 +114,32 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState>
 
   @override
   Widget? buildFloatingActionButton(BuildContext context, WidgetRef ref) {
-    // Create flow removed in simplified app
-    return null;
+    return Builder(
+      builder: (ctx) => FloatingActionButton(
+        onPressed: () {
+          HapticFeedback.lightImpact();
+          // Open the bottom sheet instead of drawer
+          showModalBottomSheet(
+            context: ctx,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => CreateLeadDrawer(
+              onCreated: () async {
+                await ref.read(leadListViewModelProvider.notifier).fetchLeads(refresh: true);
+                if (context.mounted) Navigator.pop(context);
+              },
+            ),
+          );
+        },
+        tooltip: 'Add Lead',
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 
   @override
-  Widget? buildDrawer(BuildContext context, WidgetRef ref) {
-    return null; // Drawer removed
+  Widget? buildEndDrawer(BuildContext context, WidgetRef ref) {
+    return null; // No longer using end drawer
   }
 
   @override
@@ -161,7 +182,7 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState>
                 controller: _searchController,
                 focusNode: _searchFocusNode,
                 decoration: InputDecoration(
-                  hintText: l10n?.searchLeadsPlaceholder ?? 'Search leads...',
+                  hintText: l10n?.search ?? 'Search',
                   prefixIcon: Icon(
                     Icons.search_rounded,
                     color: theme.colorScheme.onSurfaceVariant,
@@ -307,7 +328,7 @@ class _LeadListPageState extends BasePageState<LeadListPage, LeadListState>
             focusNode: _searchFocusNode,
             enabled: !state.isBusy,
             decoration: InputDecoration(
-              hintText: l10n?.searchLeadsPlaceholder ?? 'Search leads...',
+              hintText: l10n?.search ?? 'Search',
               prefixIcon: Icon(
                 Icons.search_rounded,
                 color: theme.colorScheme.onSurfaceVariant,

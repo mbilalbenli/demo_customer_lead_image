@@ -31,6 +31,8 @@ abstract class BasePage<T extends BaseState> extends ConsumerStatefulWidget {
 }
 
 abstract class BasePageState<P extends BasePage<T>, T extends BaseState> extends ConsumerState<P> {
+  // Scaffold key to allow opening drawers from children (e.g., FAB)
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   /// Must be implemented to provide the view model provider
   ProviderListenable<T> get vmProvider;
 
@@ -86,6 +88,7 @@ abstract class BasePageState<P extends BasePage<T>, T extends BaseState> extends
     content = _applyContentPlacement(content);
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: appBar,
       body: SafeArea(
         child: Stack(

@@ -54,4 +54,24 @@ class LeadApiService {
       rethrow;
     }
   }
+
+  Future<LeadModel> createLead(LeadModel lead) async {
+    try {
+      AppLogger.info('Creating new lead: \\${lead.customerName}');
+      final response = await _dioClient.post<Map<String, dynamic>>(
+        ApiEndpoints.leads,
+        data: lead.toApiJson(),
+      );
+
+      if (response.data != null) {
+        final created = LeadModel.fromJson(response.data!);
+        AppLogger.info('Created lead with id: \\${created.id}');
+        return created;
+      }
+      throw Exception('Failed to create lead');
+    } catch (e) {
+      AppLogger.error('Error creating lead: ' + e.toString());
+      rethrow;
+    }
+  }
 }

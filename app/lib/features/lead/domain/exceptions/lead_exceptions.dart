@@ -34,3 +34,13 @@ class LeadSearchException extends LeadException {
           code: 'LEAD_SEARCH_FAILED',
         );
 }
+
+/// Exception thrown when lead creation fails
+class LeadCreationException extends LeadException {
+  const LeadCreationException({
+    required super.message,
+    super.originalError,
+  }) : super(
+          code: 'LEAD_CREATION_FAILED',
+        );
+}

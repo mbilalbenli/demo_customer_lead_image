@@ -127,20 +127,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get customerLeads => 'Prospects clients';
 
   @override
-  String get searchLeadsPlaceholder => 'Rechercher des prospects…';
-
-  @override
   String get emptyNoLeadsMessage =>
       'Appuyez sur + pour créer votre premier prospect';
 
   @override
-  String get addLead => 'Ajouter un prospect';
-
-  @override
   String get leadManagement => 'Gestion des Prospects';
-
-  @override
-  String get createLead => 'Créer un Prospect';
 
   @override
   String get editLead => 'Modifier le Prospect';
@@ -298,9 +289,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get search => 'Rechercher';
-
-  @override
-  String get searchLeads => 'Rechercher des Prospects';
 
   @override
   String get noLeadsFound => 'Aucun prospect trouvé';

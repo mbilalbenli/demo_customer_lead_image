@@ -128,19 +128,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get customerLeads => 'Clientes potenciales';
 
   @override
-  String get searchLeadsPlaceholder => 'Buscar leads...';
-
-  @override
   String get emptyNoLeadsMessage => 'Pulsa + para crear tu primer lead';
 
   @override
-  String get addLead => 'Añadir lead';
-
-  @override
   String get leadManagement => 'Gestión de Clientes Potenciales';
-
-  @override
-  String get createLead => 'Crear Cliente Potencial';
 
   @override
   String get editLead => 'Editar Cliente Potencial';
@@ -296,9 +287,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get search => 'Buscar';
-
-  @override
-  String get searchLeads => 'Buscar Clientes Potenciales';
 
   @override
   String get noLeadsFound => 'No se encontraron clientes potenciales';

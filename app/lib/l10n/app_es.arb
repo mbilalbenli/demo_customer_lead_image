@@ -135,10 +135,7 @@
   ,
   "customerLeads": "Clientes potenciales",
   "@customerLeads": {"description": "Título de la lista de leads"},
-  "searchLeadsPlaceholder": "Buscar leads...",
-  "@searchLeadsPlaceholder": {"description": "Placeholder del campo de búsqueda de leads"},
   "emptyNoLeadsMessage": "Pulsa + para crear tu primer lead",
-  "@emptyNoLeadsMessage": {"description": "Texto del estado vacío de la lista de leads"},
-  "addLead": "Añadir lead",
-  "@addLead": {"description": "Botón para añadir lead"}
+  "@emptyNoLeadsMessage": {"description": "Texto del estado vacío de la lista de leads"}
+  
 }

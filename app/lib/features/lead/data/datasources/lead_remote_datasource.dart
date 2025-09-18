@@ -7,6 +7,7 @@ import '../../domain/exceptions/lead_exceptions.dart';
 abstract class LeadRemoteDataSource {
   Future<LeadModel> getLeadById(String id);
   Future<List<LeadModel>> getLeadsList({int page = 1, int pageSize = 20});
+  Future<LeadModel> createLead(LeadModel lead);
 }
 
 class LeadRemoteDataSourceImpl implements LeadRemoteDataSource {
@@ -58,6 +59,20 @@ class LeadRemoteDataSourceImpl implements LeadRemoteDataSource {
         message: 'Failed to fetch leads',
         originalError: e,
       );
+    }
+  }
+
+  @override
+  Future<LeadModel> createLead(LeadModel lead) async {
+    try {
+      return await _apiService.createLead(lead);
+    } on ApiException catch (e) {
+      AppLogger.error('Failed to create lead: \\${e.message}');
+      throw LeadCreationException(message: e.message, originalError: e);
+    } catch (e) {
+      if (e is LeadException) rethrow;
+      AppLogger.error('Unexpected error creating lead: ' + e.toString());
+      throw LeadCreationException(message: 'Failed to create lead', originalError: e);
     }
   }
 }

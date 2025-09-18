@@ -8,4 +8,11 @@ abstract class LeadRepository {
     int page = 1,
     int pageSize = 20,
   });
+
+  Future<Either<Exception, LeadEntity>> createLead({
+    required String name,
+    required String email,
+    required String phone,
+    String? description,
+  });
 }

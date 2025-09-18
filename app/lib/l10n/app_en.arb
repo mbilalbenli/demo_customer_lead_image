@@ -200,30 +200,18 @@
     "description": "Lead list page title per wireframe"
   },
 
-  "searchLeadsPlaceholder": "Search leads...",
-  "@searchLeadsPlaceholder": {
-    "description": "Search field placeholder for lead list"
-  },
 
   "emptyNoLeadsMessage": "Tap + to create your first customer lead",
   "@emptyNoLeadsMessage": {
     "description": "Helper text for empty state on lead list"
   },
 
-  "addLead": "Add Lead",
-  "@addLead": {
-    "description": "Add lead CTA label"
-  },
 
   "leadManagement": "Lead Management",
   "@leadManagement": {
     "description": "Lead management page title"
   },
 
-  "createLead": "Create Lead",
-  "@createLead": {
-    "description": "Create lead button text"
-  },
 
   "editLead": "Edit Lead",
   "@editLead": {
@@ -496,10 +484,7 @@
     "description": "Search button or field label"
   },
 
-  "searchLeads": "Search Leads",
-  "@searchLeads": {
-    "description": "Search leads placeholder"
-  },
+  
 
   "noLeadsFound": "No leads found",
   "@noLeadsFound": {

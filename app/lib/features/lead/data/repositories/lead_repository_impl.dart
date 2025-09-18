@@ -4,6 +4,7 @@ import '../../domain/entities/lead_entity.dart';
 import '../../domain/repositories/lead_repository.dart';
 import '../datasources/lead_remote_datasource.dart';
 import '../datasources/lead_local_datasource.dart';
+import '../models/lead_model.dart';
 import '../../../../core/utils/app_logger.dart';
 
 class LeadRepositoryImpl implements LeadRepository {
@@ -81,5 +82,35 @@ class LeadRepositoryImpl implements LeadRepository {
       return Left(Exception(e.toString()));
     }
   }
-}
 
+  @override
+  Future<Either<Exception, LeadEntity>> createLead({
+    required String name,
+    required String email,
+    required String phone,
+    String? description,
+  }) async {
+    try {
+      final model = LeadModel(
+        id: '',
+        customerName: name,
+        email: email,
+        phone: phone,
+        description: description ?? '',
+        status: LeadStatus.newLead,
+        imageCount: 0,
+        availableImageSlots: 10,
+        canAddMoreImages: true,
+        createdAt: DateTime.now(),
+      );
+
+      final created = await _remoteDataSource.createLead(model);
+      // Cache created lead
+      await _localDataSource.cacheLead(created);
+      return Right(created.toEntity());
+    } catch (e) {
+      AppLogger.error('Failed to create lead', e);
+      return Left(Exception(e.toString()));
+    }
+  }
+}

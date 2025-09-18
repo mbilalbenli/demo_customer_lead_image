@@ -322,35 +322,17 @@ abstract class AppLocalizations {
   /// **'Customer Leads'**
   String get customerLeads;
 
-  /// Search field placeholder for lead list
-  ///
-  /// In en, this message translates to:
-  /// **'Search leads...'**
-  String get searchLeadsPlaceholder;
-
   /// Helper text for empty state on lead list
   ///
   /// In en, this message translates to:
   /// **'Tap + to create your first customer lead'**
   String get emptyNoLeadsMessage;
 
-  /// Add lead CTA label
-  ///
-  /// In en, this message translates to:
-  /// **'Add Lead'**
-  String get addLead;
-
   /// Lead management page title
   ///
   /// In en, this message translates to:
   /// **'Lead Management'**
   String get leadManagement;
-
-  /// Create lead button text
-  ///
-  /// In en, this message translates to:
-  /// **'Create Lead'**
-  String get createLead;
 
   /// Edit lead button text
   ///
@@ -645,12 +627,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search'**
   String get search;
-
-  /// Search leads placeholder
-  ///
-  /// In en, this message translates to:
-  /// **'Search Leads'**
-  String get searchLeads;
 
   /// No leads found message
   ///
